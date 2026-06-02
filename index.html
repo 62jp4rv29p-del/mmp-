@@ -24,6 +24,154 @@ body {
 .page.active { display: flex; }
 
 /* ══════════════════════
+   登录 / 注册页
+══════════════════════ */
+#login-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 40px 28px 60px;
+  gap: 0;
+}
+.login-logo { font-size: 38px; font-weight: 900; color: #C0392B; letter-spacing: 4px; margin-bottom: 6px; text-align: center; }
+.login-sub  { font-size: 14px; color: #B08070; letter-spacing: 1px; margin-bottom: 36px; text-align: center; }
+.login-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 24px 32px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(192,57,43,0.08);
+  border: 1.5px solid #F0DDD0;
+}
+.login-card h2 { font-size: 20px; font-weight: 800; color: #3D2B1F; margin-bottom: 20px; }
+.role-tabs {
+  display: flex; gap: 10px; margin-bottom: 20px;
+}
+.role-tab {
+  flex: 1; padding: 12px 8px; border-radius: 14px;
+  border: 2px solid #F0DDD0; background: #FAF7F2;
+  font-size: 16px; font-weight: 700; color: #9B7B6E;
+  cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.role-tab.active {
+  border-color: #E67E22;
+  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
+  color: #C0392B;
+}
+.form-field { margin-bottom: 14px; }
+.form-field label { font-size: 14px; color: #9B7B6E; display: block; margin-bottom: 6px; }
+.form-input {
+  width: 100%; background: #FAF7F2;
+  border: 1.5px solid #F0DDD0; border-radius: 14px;
+  padding: 14px 16px; font-size: 18px; color: #3D2B1F;
+  outline: none; font-family: inherit; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: #E67E22; }
+.login-btn {
+  width: 100%; background: linear-gradient(135deg, #F0884A, #C0392B);
+  color: #fff; font-size: 20px; font-weight: 800;
+  border: none; border-radius: 50px; padding: 16px;
+  cursor: pointer; margin-top: 8px;
+  box-shadow: 0 4px 18px rgba(192,57,43,0.28);
+  transition: all 0.2s; letter-spacing: 1px;
+}
+.login-btn:active { transform: scale(0.98); }
+.login-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+.login-err { font-size: 14px; color: #C0392B; text-align: center; margin-top: 10px; min-height: 20px; }
+
+/* ══════════════════════
+   子女主页（已登录）
+══════════════════════ */
+#child-home-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  padding-bottom: 48px;
+}
+.home-top {
+  background: linear-gradient(135deg, #E8824A, #C0392B);
+  padding: 18px 20px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.home-top-title { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 2px; }
+.home-top-user  { font-size: 14px; color: rgba(255,255,255,0.85); }
+.home-section { margin: 20px 20px 0; }
+.home-section-title { font-size: 18px; font-weight: 800; color: #5A3828; margin-bottom: 12px; }
+.invite-box {
+  background: #fff; border: 1.5px solid #F0DDD0; border-radius: 20px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 2px 12px rgba(192,57,43,0.06);
+}
+.invite-code-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+}
+.invite-code-num {
+  font-size: 38px; font-weight: 900; color: #C0392B;
+  letter-spacing: 8px; flex: 1;
+}
+.copy-btn {
+  background: #FFF0E6; border: 1.5px solid #F5CBA7;
+  border-radius: 12px; padding: 10px 16px;
+  font-size: 15px; font-weight: 700; color: #C0392B;
+  cursor: pointer; white-space: nowrap; transition: all 0.2s;
+}
+.copy-btn:active { transform: scale(0.95); }
+.invite-hint { font-size: 13px; color: #B08070; line-height: 1.6; }
+.bound-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #E8F8E8; border: 1.5px solid #A8D8A8;
+  border-radius: 20px; padding: 6px 14px;
+  font-size: 14px; font-weight: 700; color: #2E7D32;
+  margin-top: 10px;
+}
+.home-care-btn {
+  display: block; margin: 20px 20px 0;
+  width: calc(100% - 40px);
+  background: linear-gradient(135deg, #F0884A, #C0392B);
+  color: #fff; font-size: 22px; font-weight: 800;
+  border: none; border-radius: 50px; padding: 18px;
+  cursor: pointer; box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  letter-spacing: 1px; transition: all 0.2s;
+}
+.home-care-btn:active { transform: scale(0.98); }
+
+/* ══════════════════════
+   父母绑定页
+══════════════════════ */
+#parent-bind-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  align-items: center; justify-content: center;
+  padding: 40px 28px 60px;
+}
+.bind-card {
+  background: #fff; border-radius: 24px; padding: 32px 24px;
+  width: 100%; box-shadow: 0 4px 24px rgba(192,57,43,0.08);
+  border: 1.5px solid #F0DDD0; text-align: center;
+}
+.bind-icon { font-size: 52px; margin-bottom: 14px; }
+.bind-title { font-size: 22px; font-weight: 800; color: #3D2B1F; margin-bottom: 8px; }
+.bind-hint { font-size: 16px; color: #9B7B6E; margin-bottom: 24px; line-height: 1.6; }
+.code-inputs {
+  display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;
+}
+.code-digit {
+  width: 46px; height: 58px; border-radius: 14px;
+  border: 2px solid #F0DDD0; background: #FAF7F2;
+  font-size: 28px; font-weight: 900; color: #C0392B;
+  text-align: center; outline: none; font-family: inherit;
+  transition: border-color 0.2s; caret-color: #E67E22;
+}
+.code-digit:focus { border-color: #E67E22; background: #FFF9F5; }
+.bind-btn {
+  width: 100%; background: linear-gradient(135deg, #F0884A, #C0392B);
+  color: #fff; font-size: 20px; font-weight: 800;
+  border: none; border-radius: 50px; padding: 16px;
+  cursor: pointer; box-shadow: 0 4px 18px rgba(192,57,43,0.28);
+  transition: all 0.2s; letter-spacing: 1px;
+}
+.bind-btn:active { transform: scale(0.98); }
+.bind-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+.bind-err { font-size: 14px; color: #C0392B; text-align: center; margin-top: 10px; min-height: 20px; }
+
+/* ══════════════════════
    角色选择页
 ══════════════════════ */
 #role-page {
@@ -353,13 +501,343 @@ body {
   font-size: 12px; color: #C4A899;
   text-align: center; padding: 6px 0 0;
 }
+
+/* ══════════════════════
+   子女发送页
+══════════════════════ */
+#child-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  padding-bottom: 48px;
+}
+.child-top {
+  background: linear-gradient(135deg, #E8824A, #C0392B);
+  padding: 14px 16px 14px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 2px 12px rgba(192,57,43,0.2);
+}
+.child-top-title {
+  flex: 1; font-size: 20px; font-weight: 800; color: #fff;
+  text-align: center;
+}
+.child-section {
+  margin: 20px 20px 0;
+}
+.child-section-label {
+  font-size: 16px; font-weight: 700; color: #8B6B5E;
+  margin-bottom: 12px;
+}
+.tpl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.tpl-card {
+  background: #fff;
+  border: 2px solid #F0DDD0;
+  border-radius: 16px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tpl-card:active { transform: scale(0.95); }
+.tpl-card.selected {
+  border-color: #E67E22;
+  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
+  box-shadow: 0 4px 16px rgba(230,126,34,0.18);
+}
+.tpl-icon { font-size: 28px; margin-bottom: 6px; }
+.tpl-name { font-size: 13px; font-weight: 700; color: #5A3828; }
+
+.care-textarea {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid #F0DDD0;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 19px;
+  color: #3D2B1F;
+  line-height: 1.7;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  min-height: 130px;
+  transition: border-color 0.2s;
+}
+.care-textarea:focus { border-color: #E67E22; }
+.care-textarea::placeholder { color: #C4A899; }
+
+.ai-gen-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: #FFF0E6;
+  border: 1.5px solid #F5CBA7;
+  border-radius: 50px;
+  padding: 10px 18px;
+  font-size: 15px; font-weight: 700; color: #C0392B;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.ai-gen-btn:active { transform: scale(0.96); }
+.ai-gen-btn.loading { opacity: 0.6; pointer-events: none; }
+
+.child-send-btn {
+  display: block;
+  margin: 28px 20px 0;
+  width: calc(100% - 40px);
+  background: linear-gradient(135deg, #F0884A, #C0392B);
+  color: #fff;
+  font-size: 22px; font-weight: 800;
+  border: none; border-radius: 50px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.child-send-btn:active { transform: scale(0.98); }
+.child-send-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+
+/* ══════════════════════
+   父母卡片展示页
+══════════════════════ */
+#parent-card-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px 48px;
+  gap: 0;
+}
+.card-from {
+  font-size: 16px; color: #B08070;
+  margin-bottom: 10px; text-align: center;
+  letter-spacing: 1px;
+}
+.care-card {
+  background: linear-gradient(145deg, #FFF9F3, #FFF3E6);
+  border: 2px solid #F5CBA7;
+  border-radius: 24px;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(192,57,43,0.1);
+  width: 100%;
+  max-width: 380px;
+  margin-bottom: 28px;
+}
+.care-card-icon { font-size: 48px; margin-bottom: 16px; }
+.care-card-text {
+  font-size: 22px; line-height: 1.8; color: #3D2B1F;
+  font-weight: 500;
+  white-space: pre-line;
+}
+.care-card-sig {
+  margin-top: 20px; font-size: 16px; color: #B08070;
+}
+
+.card-play-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: #FFF0E6;
+  border: 2px solid #F5CBA7;
+  border-radius: 50px;
+  padding: 16px 32px;
+  font-size: 20px; font-weight: 800; color: #C0392B;
+  cursor: pointer;
+  margin-bottom: 14px;
+  transition: all 0.2s;
+  width: 100%; max-width: 320px;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-play-btn:active { transform: scale(0.97); }
+
+.card-chat-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #F0884A, #C0392B);
+  border: none;
+  border-radius: 50px;
+  padding: 16px 32px;
+  font-size: 20px; font-weight: 800; color: #fff;
+  cursor: pointer;
+  box-shadow: 0 5px 22px rgba(192,57,43,0.28);
+  transition: all 0.2s;
+  width: 100%; max-width: 320px;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-chat-btn:active { transform: scale(0.97); }
+
+.card-ai-note {
+  font-size: 12px; color: #C4A899;
+  margin-top: 20px; text-align: center; line-height: 1.6;
+}
 </style>
 </head>
 <body>
 
+<!-- ══ 登录/注册页 ══ -->
+<div id="login-page" class="page active">
+  <div class="login-logo">亲语</div>
+  <div class="login-sub">不在身边，也让父母感受到你的爱</div>
+  <div class="login-card">
+    <h2>登录 / 注册</h2>
+    <div class="role-tabs">
+      <div class="role-tab active" id="tab-child" onclick="switchRole('child')">👨‍💼 我是子女</div>
+      <div class="role-tab" id="tab-parent" onclick="switchRole('parent')">👴 我是父母</div>
+    </div>
+    <div class="form-field">
+      <label>手机号</label>
+      <input class="form-input" id="loginPhone" type="tel" maxlength="11" placeholder="请输入手机号" oninput="checkLoginForm()">
+    </div>
+    <div class="form-field">
+      <label>您的称呼</label>
+      <input class="form-input" id="loginName" type="text" placeholder="比如：小明、爸爸" oninput="checkLoginForm()">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()" disabled>进入亲语</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- ══ 子女主页 ══ -->
+<div id="child-home-page" class="page">
+  <div class="home-top">
+    <div class="home-top-title">亲语</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="home-top-user" id="childHomeName"></div>
+      <button onclick="doLogout()" style="
+        background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);
+        border-radius:20px;padding:5px 12px;font-size:13px;color:#fff;cursor:pointer;
+      ">退出</button>
+    </div>
+  </div>
+  <div class="home-section">
+    <div class="home-section-title">邀请父母绑定</div>
+    <div class="invite-box">
+      <div class="invite-code-row">
+        <div class="invite-code-num" id="inviteCodeDisplay">——</div>
+        <button class="copy-btn" onclick="copyInviteCode()">复制</button>
+      </div>
+      <div class="invite-hint">把这个6位数字告诉父母，让他们在「我是父母」里输入，完成绑定</div>
+      <div id="boundBadge" style="display:none" class="bound-badge">✅ 已绑定，父母可以收到您的关怀</div>
+    </div>
+  </div>
+  <div class="home-section" id="crisisSection" style="display:none;">
+    <div class="home-section-title" style="color:#C0392B;">⚠️ 父母情绪预警</div>
+    <div style="background:#FFF3CD;border:1px solid #F5C518;border-radius:16px;padding:16px;">
+      <div id="crisisMsg" style="font-size:16px;color:#856404;line-height:1.7;"></div>
+      <div style="font-size:13px;color:#B08070;margin-top:8px;">建议尽快联系父母或发一条关怀</div>
+    </div>
+  </div>
+  <button class="home-care-btn" onclick="showPage('child-page')">💌 给爸妈发今日关怀</button>
+</div>
+
+<!-- ══ 父母绑定页 ══ -->
+<div id="parent-bind-page" class="page">
+  <div class="bind-card">
+    <div class="bind-icon">🏠</div>
+    <div class="bind-title">输入孩子的邀请码</div>
+    <div class="bind-hint" id="bindHint">让孩子打开亲语，把6位数字告诉您</div>
+    <div class="code-inputs" id="codeInputs">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,0)" onkeydown="codeBack(event,0)">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,1)" onkeydown="codeBack(event,1)">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,2)" onkeydown="codeBack(event,2)">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,3)" onkeydown="codeBack(event,3)">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,4)" onkeydown="codeBack(event,4)">
+      <input class="code-digit" maxlength="1" type="tel" oninput="codeInput(this,5)" onkeydown="codeBack(event,5)">
+    </div>
+    <button class="bind-btn" id="bindBtn" onclick="doBind()" disabled>确认绑定</button>
+    <div class="bind-err" id="bindErr"></div>
+  </div>
+</div>
+
+<!-- ══ 子女发送页 ══ -->
+<div id="child-page" class="page">
+  <div class="child-top">
+    <button class="back-btn" onclick="showPage('role-page')">←</button>
+    <div class="child-top-title">给爸妈发今日关怀 💌</div>
+    <div style="width:38px"></div>
+  </div>
+
+  <div class="child-section">
+    <div class="child-section-label">选一个今天的心情</div>
+    <div class="tpl-grid">
+      <div class="tpl-card" onclick="pickTpl(this,'busy')">
+        <div class="tpl-icon">💼</div>
+        <div class="tpl-name">上班忙碌</div>
+      </div>
+      <div class="tpl-card" onclick="pickTpl(this,'weather')">
+        <div class="tpl-icon">🌤️</div>
+        <div class="tpl-name">天气叮嘱</div>
+      </div>
+      <div class="tpl-card" onclick="pickTpl(this,'miss')">
+        <div class="tpl-icon">🤍</div>
+        <div class="tpl-name">想你了</div>
+      </div>
+      <div class="tpl-card" onclick="pickTpl(this,'meal')">
+        <div class="tpl-icon">🍚</div>
+        <div class="tpl-name">好好吃饭</div>
+      </div>
+      <div class="tpl-card" onclick="pickTpl(this,'health')">
+        <div class="tpl-icon">🌿</div>
+        <div class="tpl-name">注意健康</div>
+      </div>
+      <div class="tpl-card" onclick="pickTpl(this,'happy')">
+        <div class="tpl-icon">🎉</div>
+        <div class="tpl-name">开心事分享</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="child-section" style="margin-top:18px">
+    <div class="child-section-label">关怀内容（可以直接改）</div>
+    <textarea class="care-textarea" id="careText" placeholder="点上面的心情自动生成，或者自己写几句…"></textarea>
+    <button class="ai-gen-btn" id="aiGenBtn" onclick="genCare()" style="display:none">
+      <span id="aiGenIcon">✨</span>
+      <span id="aiGenLabel">AI 帮我润色一下</span>
+    </button>
+  </div>
+
+  <button class="child-send-btn" id="childSendBtn" onclick="sendCare()" disabled>
+    发给爸妈 💛
+  </button>
+</div>
+
+<!-- ══ 父母卡片展示页 ══ -->
+<div id="parent-card-page" class="page">
+  <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:0 4px 8px;">
+    <button onclick="showPage('role-page')" style="
+      background:#FFF0E6;border:1.5px solid #F5CBA7;border-radius:20px;
+      padding:8px 16px;font-size:15px;font-weight:700;color:#C0392B;cursor:pointer;
+    ">← 返回</button>
+    <button onclick="doLogout()" style="
+      background:transparent;border:1px solid #D4BEB8;border-radius:20px;
+      padding:8px 14px;font-size:13px;color:#B08070;cursor:pointer;
+    ">退出登录</button>
+  </div>
+  <div class="card-from" id="cardFrom">孩子给您发来了今日关怀 💌</div>
+  <div class="care-card" id="careCard">
+    <div class="care-card-icon" id="cardIcon">🤍</div>
+    <div class="care-card-text" id="cardText"></div>
+    <div class="care-card-sig" id="cardSig">—— 您的孩子</div>
+  </div>
+  <button class="card-play-btn" id="cardPlayBtn" onclick="playCard()">
+    🔊 听孩子说
+  </button>
+  <button class="card-chat-btn" onclick="goToChatFromCard()">
+    💬 去和孩子聊聊
+  </button>
+  <div class="card-ai-note">💡 以上内容由 AI 陪伴助手代为传达，不是真实的孩子发言</div>
+</div>
+
 <!-- ══ 角色选择页 ══ -->
 <div id="role-page" class="page active">
-  <div class="role-header">
+  <div class="role-header" style="position:relative;">
+    <button onclick="doLogout()" style="
+      position:absolute;right:20px;top:52px;
+      background:transparent;border:1px solid #D4BEB8;border-radius:20px;
+      padding:6px 14px;font-size:13px;color:#B08070;cursor:pointer;
+    ">退出</button>
     <div class="logo">亲语</div>
     <div class="logo-sub">不在身边，也让您感受到孩子的爱</div>
   </div>
@@ -479,6 +957,7 @@ body {
   <button class="start-btn" id="startBtn" onclick="startChat()" disabled>
     请先选一个性格 ↑
   </button>
+
 </div>
 
 <!-- ══ 聊天页 ══ -->
@@ -518,6 +997,9 @@ body {
   </div>
   <div class="no-speech" id="noSpeechTip" style="display:none;">
     您的浏览器不支持语音，请用 Chrome 打开
+  </div>
+  <div style="text-align:center;font-size:12px;color:#C4A899;padding:4px 16px 12px;line-height:1.5;">
+    💡 这是 AI 陪伴助手，不是真实的子女
   </div>
 </div>
 
@@ -830,7 +1312,20 @@ function startChat() {
   }, 300);
 }
 
-// ── 返回 ──
+// ── 退出登录 ──
+function doLogout() {
+  currentUser = null;
+  localStorage.removeItem('qinyu_user');
+  // 重置登录表单
+  document.getElementById('loginPhone').value = '';
+  document.getElementById('loginName').value = '';
+  document.getElementById('loginBtn').disabled = true;
+  document.getElementById('loginBtn').textContent = '进入亲语';
+  document.getElementById('loginErr').textContent = '';
+  showPage('login-page');
+}
+
+// ── 返回（聊天页） ──
 function goBack() {
   document.getElementById('chat-page').classList.remove('active');
   document.getElementById('role-page').classList.add('active');
@@ -859,7 +1354,7 @@ async function send() {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ persona, messages: history })
+      body: JSON.stringify({ persona, messages: history, family_id: currentUser?.family_id || '' })
     });
     const data = await res.json();
     removeTyping(typingId);
@@ -875,6 +1370,7 @@ async function send() {
 
       if (crisis) {
         showCrisis();
+        recordCrisis(text);  // 把触发危机的父母原话存库
       }
 
       // 历史超过20条就裁剪，省token（保留最近16条）
@@ -950,9 +1446,21 @@ function showCrisis() {
   const msgs = document.getElementById('messages');
   const el = document.createElement('div');
   el.className = 'crisis-tip';
-  el.innerHTML = '⚠️ 如果您感到特别难受，请联系您的孩子或拨打心理援助热线：<strong>400-161-9995</strong>';
+  el.innerHTML = '⚠️ 如果您感到特别难受，请联系您的孩子，他们很想陪伴您。';
   msgs.appendChild(el);
   scrollBottom();
+}
+
+async function recordCrisis(triggerText) {
+  const familyId = currentUser?.family_id;
+  if (!familyId) return;
+  try {
+    await fetch('/api/crisis', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId, trigger_text: triggerText })
+    });
+  } catch(e) {}
 }
 
 function setSendState(enabled) {
@@ -971,6 +1479,410 @@ function escHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\n/g, '<br>');
+}
+
+// ══════════════════════════════════
+// 全局用户状态
+// ══════════════════════════════════
+let currentUser = null;  // { user_id, name, role, invite_code, family_id, bound }
+
+// 页面加载时恢复登录态
+(function restoreSession() {
+  const saved = localStorage.getItem('qinyu_user');
+  if (saved) {
+    try { currentUser = JSON.parse(saved); } catch(e) {}
+  }
+  if (currentUser) {
+    if (currentUser.role === 'child') {
+      enterChildHome();
+    } else {
+      enterParentHome();
+    }
+  }
+  // 否则停在登录页
+})();
+
+// ══════════════════════════════════
+// 页面切换通用方法
+// ══════════════════════════════════
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ══════════════════════════════════
+// 登录/注册
+// ══════════════════════════════════
+let loginRole = 'child';
+
+function switchRole(role) {
+  loginRole = role;
+  document.getElementById('tab-child').classList.toggle('active', role === 'child');
+  document.getElementById('tab-parent').classList.toggle('active', role === 'parent');
+  checkLoginForm();
+}
+
+function checkLoginForm() {
+  const phone = document.getElementById('loginPhone').value.trim();
+  const name  = document.getElementById('loginName').value.trim();
+  document.getElementById('loginBtn').disabled = !(phone.length >= 11 && name.length >= 1);
+}
+
+async function doLogin() {
+  const phone = document.getElementById('loginPhone').value.trim();
+  const name  = document.getElementById('loginName').value.trim();
+  const btn   = document.getElementById('loginBtn');
+  const err   = document.getElementById('loginErr');
+  err.textContent = '';
+  btn.disabled = true;
+  btn.textContent = '登录中…';
+
+  try {
+    const res  = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, name, role: loginRole })
+    });
+    const data = await res.json();
+    if (!res.ok) { err.textContent = data.error || '登录失败'; btn.disabled = false; btn.textContent = '进入亲语'; return; }
+
+    currentUser = data;
+    localStorage.setItem('qinyu_user', JSON.stringify(currentUser));
+
+    if (loginRole === 'child') {
+      enterChildHome();
+    } else {
+      enterParentHome();
+    }
+  } catch(e) {
+    err.textContent = '网络出错，请重试';
+    btn.disabled = false;
+    btn.textContent = '进入亲语';
+  }
+}
+
+// ══════════════════════════════════
+// 子女主页
+// ══════════════════════════════════
+function enterChildHome() {
+  document.getElementById('childHomeName').textContent = currentUser.name;
+  document.getElementById('inviteCodeDisplay').textContent = currentUser.invite_code || '……';
+  const badge = document.getElementById('boundBadge');
+  badge.style.display = currentUser.bound ? 'inline-flex' : 'none';
+  showPage('child-home-page');
+  loadCrisisAlerts();
+}
+
+async function loadCrisisAlerts() {
+  const familyId = currentUser?.family_id;
+  if (!familyId) return;
+  try {
+    const res  = await fetch('/api/crisis_alerts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId })
+    });
+    const data = await res.json();
+    if (data.alerts && data.alerts.length > 0) {
+      const latest = data.alerts[0];
+      const time   = new Date(latest.created_at).toLocaleString('zh-CN', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      document.getElementById('crisisMsg').textContent = `${time} 父母说：「${latest.trigger_text}」`;
+      document.getElementById('crisisSection').style.display = 'block';
+    }
+  } catch(e) {}
+}
+
+function copyInviteCode() {
+  const code = currentUser?.invite_code || '';
+  if (!code) return;
+  navigator.clipboard?.writeText(code).catch(() => {});
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = '已复制 ✓';
+  setTimeout(() => btn.textContent = '复制', 1500);
+}
+
+// ══════════════════════════════════
+// 父母端：绑定 + 拉关怀
+// ══════════════════════════════════
+function enterParentHome() {
+  if (!currentUser.bound) {
+    showPage('parent-bind-page');
+  } else {
+    // 已绑定 → 拉最新关怀，然后进角色选择
+    loadLatestCare();
+  }
+}
+
+// 6格邀请码输入控制
+function codeInput(el, idx) {
+  el.value = el.value.replace(/\D/g, '').slice(-1);
+  if (el.value && idx < 5) {
+    document.querySelectorAll('.code-digit')[idx + 1].focus();
+  }
+  const digits = [...document.querySelectorAll('.code-digit')].map(d => d.value);
+  document.getElementById('bindBtn').disabled = digits.some(d => !d);
+}
+
+function codeBack(e, idx) {
+  if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+    document.querySelectorAll('.code-digit')[idx - 1].focus();
+  }
+}
+
+async function doBind() {
+  const digits = [...document.querySelectorAll('.code-digit')].map(d => d.value);
+  const code   = digits.join('');
+  const btn    = document.getElementById('bindBtn');
+  const err    = document.getElementById('bindErr');
+  err.textContent = '';
+  btn.disabled = true;
+  btn.textContent = '绑定中…';
+
+  try {
+    const res  = await fetch('/api/bind', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ parent_id: currentUser.user_id, invite_code: code })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      err.textContent = data.error || '绑定失败';
+      btn.disabled = false; btn.textContent = '确认绑定'; return;
+    }
+
+    currentUser.bound     = true;
+    currentUser.family_id = data.family_id;
+    currentUser.child_name = data.child_name;
+    localStorage.setItem('qinyu_user', JSON.stringify(currentUser));
+
+    document.getElementById('bindHint').textContent = `✅ 已和「${data.child_name}」绑定成功！`;
+    document.getElementById('codeInputs').style.display = 'none';
+    btn.style.display = 'none';
+
+    setTimeout(() => loadLatestCare(), 1200);
+  } catch(e) {
+    err.textContent = '网络出错，请重试';
+    btn.disabled = false; btn.textContent = '确认绑定';
+  }
+}
+
+async function loadLatestCare() {
+  if (!currentUser?.family_id) {
+    // 无关怀，直接进角色选择
+    showPage('role-page'); return;
+  }
+  try {
+    const res  = await fetch('/api/latest_care', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: currentUser.family_id })
+    });
+    const data = await res.json();
+    if (data.card) {
+      const tplIcons = { busy:'💼', weather:'🌤️', miss:'🤍', meal:'🍚', health:'🌿', happy:'🎉' };
+      document.getElementById('cardIcon').textContent = tplIcons[data.card.template] || '💌';
+      document.getElementById('cardText').textContent = data.card.content;
+      document.getElementById('cardFrom').textContent =
+        `${currentUser.child_name || '孩子'} 给您发来了今日关怀 💌`;
+      window._careCardText = data.card.content;
+      window._careCardAudio = null;
+      showPage('parent-card-page');
+    } else {
+      showPage('role-page');
+    }
+  } catch(e) {
+    showPage('role-page');
+  }
+}
+
+// ══════════════════════════════════
+// 子女发送页
+// ══════════════════════════════════
+const TPL_DEFAULTS = {
+  busy:    '今天工作有点忙，但一直想着您呢。\n爸妈，你们在家好好的，我这边一切都好，不用挂心我。',
+  weather: '听说那边天气有变化，记得多穿件衣服哦。\n身体是最重要的，爸妈照顾好自己，我才能安心。',
+  miss:    '今天突然很想你们。\n虽然不在身边，但心里一直都有你们。等有空了我一定回去陪你们。',
+  meal:    '爸妈，按时吃饭啊，别等太晚。\n吃好了才有精神，我在外面也会好好吃饭的，你们放心。',
+  health:  '最近注意多喝水，早睡早起。\n您的身体就是我最大的安心，保重哦！',
+  happy:   '今天有件开心的事想跟你们分享——\n感觉生活越来越好啦，有你们在就是我最大的底气。',
+};
+
+const TPL_ICONS = {
+  busy:'💼', weather:'🌤️', miss:'🤍', meal:'🍚', health:'🌿', happy:'🎉'
+};
+
+let currentTpl = null;
+
+function pickTpl(el, key) {
+  document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  currentTpl = key;
+  const ta = document.getElementById('careText');
+  ta.value = TPL_DEFAULTS[key] || '';
+  document.getElementById('aiGenBtn').style.display = 'flex';
+  updateChildSendBtn();
+}
+
+function updateChildSendBtn() {
+  const text = document.getElementById('careText').value.trim();
+  document.getElementById('childSendBtn').disabled = !text;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('careText');
+  if (ta) ta.addEventListener('input', updateChildSendBtn);
+});
+
+async function genCare() {
+  const ta = document.getElementById('careText');
+  const currentText = ta.value.trim();
+  if (!currentText) return;
+
+  const btn = document.getElementById('aiGenBtn');
+  const icon = document.getElementById('aiGenIcon');
+  const label = document.getElementById('aiGenLabel');
+  btn.classList.add('loading');
+  icon.textContent = '⏳';
+  label.textContent = 'AI 润色中…';
+
+  try {
+    const res = await fetch('/api/care', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ template: currentTpl, text: currentText })
+    });
+    const data = await res.json();
+    if (data.text) {
+      ta.value = data.text;
+      updateChildSendBtn();
+    }
+  } catch(e) {
+    console.warn('AI 生成失败', e);
+  }
+
+  btn.classList.remove('loading');
+  icon.textContent = '✨';
+  label.textContent = 'AI 帮我润色一下';
+}
+
+// 发送关怀 → 存数据库 → 跳转到成功页
+async function sendCare() {
+  const text = document.getElementById('careText').value.trim();
+  if (!text) return;
+
+  const btn = document.getElementById('childSendBtn');
+  btn.disabled = true;
+  btn.textContent = '发送中…';
+
+  try {
+    if (currentUser?.family_id) {
+      await fetch('/api/send_care', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          family_id: currentUser.family_id,
+          child_id:  currentUser.user_id,
+          template:  currentTpl,
+          content:   text,
+        })
+      });
+    }
+  } catch(e) {
+    console.warn('存关怀失败', e);
+  }
+
+  const icon = TPL_ICONS[currentTpl] || '💌';
+  document.getElementById('cardIcon').textContent = icon;
+  document.getElementById('cardText').textContent = text;
+  document.getElementById('cardFrom').textContent = '您刚刚发出的今日关怀 💌';
+  window._careCardText = text;
+  window._careCardAudio = null;
+
+  btn.textContent = '发给爸妈 💛';
+  // 显示发送成功提示，然后返回子女主页
+  btn.textContent = '✅ 已发送！';
+  btn.style.background = 'linear-gradient(135deg,#52c41a,#389e0d)';
+  setTimeout(() => {
+    btn.textContent = '发给爸妈 💛';
+    btn.style.background = '';
+    showPage('child-home-page');
+  }, 1800);
+}
+
+// ══════════════════════════════════
+// 父母卡片页
+// ══════════════════════════════════
+async function playCard() {
+  const text = window._careCardText;
+  if (!text) return;
+
+  const btn = document.getElementById('cardPlayBtn');
+
+  // 如果已在播放则停止
+  if (window._careCardAudio) {
+    window._careCardAudio.pause();
+    window._careCardAudio = null;
+    btn.textContent = '🔊 听孩子说';
+    return;
+  }
+
+  btn.textContent = '⏳ 正在准备…';
+  btn.style.pointerEvents = 'none';
+
+  try {
+    const res = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, persona: 'warmth' })
+    });
+    if (!res.ok) throw new Error('TTS 失败');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    window._careCardAudio = audio;
+    btn.textContent = '⏹ 停止播放';
+    btn.style.pointerEvents = '';
+    audio.play();
+    audio.onended = () => {
+      window._careCardAudio = null;
+      URL.revokeObjectURL(url);
+      btn.textContent = '🔊 听孩子说';
+    };
+    audio.onerror = () => {
+      window._careCardAudio = null;
+      btn.textContent = '🔊 听孩子说';
+      btn.style.pointerEvents = '';
+    };
+  } catch(e) {
+    btn.textContent = '🔊 听孩子说';
+    btn.style.pointerEvents = '';
+    console.warn('卡片朗读失败', e);
+  }
+}
+
+// 从卡片页进入 AI 对话（使用默认暖心宝贝，或已选的角色）
+function goToChatFromCard() {
+  if (!persona) {
+    // 未选角色则先选暖心宝贝
+    persona = 'warmth';
+    personaName = '暖心宝贝';
+    personaAvatarKey = 'warmth';
+    personaEmoji = '🤗';
+  }
+  document.getElementById('chatName').textContent = personaName;
+  const emoEl = document.getElementById('chatEmo');
+  emoEl.innerHTML = AVATAR_SVGS[personaAvatarKey] || personaEmoji;
+  emoEl.style.overflow = 'hidden';
+
+  showPage('chat-page');
+  history = [];
+  document.getElementById('messages').innerHTML = '';
+  addTime();
+  initSpeech();
+  initLive2D(persona);
+  document.getElementById('ttsToggle').classList.add('tts-on');
+  setTimeout(() => document.getElementById('msgInput').focus(), 300);
 }
 </script>
 </body>
