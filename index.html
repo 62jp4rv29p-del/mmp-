@@ -1069,7 +1069,7 @@ async function initLive2D(personaKey) {
 
 function startIdleMotion() {
   if (!l2dModel) return;
-  try { l2dModel.motion('idle'); } catch(e) {}
+  try { l2dModel.motion('Idle'); } catch(e) {}
 }
 
 // 说话：让模型嘴巴动（拨动 MouthOpenY 参数）
@@ -1087,7 +1087,7 @@ function setAvatarTalking(on) {
         l2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', v);
       } catch(e) { clearInterval(l2dTalkTimer); }
     }, 60);
-    try { l2dModel.motion('talk'); } catch(e) {}
+    try { l2dModel.motion('TapBody'); } catch(e) {}
   } else {
     try {
       l2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
@@ -1101,7 +1101,7 @@ function setAvatarThinking(on) {
   showBubble(on ? '想一想…' : null);
   if (!l2dModel) return;
   try {
-    if (on) { l2dModel.motion('flick_head'); }
+    if (on) { l2dModel.motion('TapBody'); }
     else { startIdleMotion(); }
   } catch(e) {}
 }
