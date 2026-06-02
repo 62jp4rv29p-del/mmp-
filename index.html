@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>亲语 · 让父母每天都感受到你的爱</title>
+<script src="/lib/live2d-cubism2.min.js"></script>
+<script src="/lib/pixi.min.js"></script>
+<script src="/lib/live2dcubismcore.min.js"></script>
+<script src="/lib/pixi-live2d-full.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+  background: #FAF7F2;
+  color: #3D2B1F;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── 页面切换 ── */
+.page { display: none; min-height: 100vh; flex-direction: column; }
+.page.active { display: flex; }
+
+/* ══════════════════════
+   角色选择页
+══════════════════════ */
+#role-page {
+  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  padding-bottom: 48px;
+}
+
+.role-header {
+  text-align: center;
+  padding: 52px 24px 24px;
+}
+.logo {
+  font-size: 32px; font-weight: 900;
+  color: #C0392B; letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+.logo-sub {
+  font-size: 14px; color: #B08070; letter-spacing: 1px;
+}
+.role-tagline {
+  margin: 20px 24px;
+  text-align: center;
+  font-size: 20px; color: #5A3828; line-height: 1.7;
+  background: #FFF9F5;
+  border: 1.5px solid #F5CBA7;
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+
+.role-label {
+  text-align: center;
+  font-size: 17px; color: #8B6B5E;
+  margin: 24px 0 16px;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 0 20px;
+}
+
+.role-card {
+  background: #fff;
+  border: 2px solid #F0DDD0;
+  border-radius: 22px;
+  padding: 24px 14px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 10px rgba(192,57,43,0.05);
+  -webkit-tap-highlight-color: transparent;
+}
+.role-card:active { transform: scale(0.97); }
+.role-card.selected {
+  border-color: #E67E22;
+  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
+  box-shadow: 0 6px 24px rgba(230,126,34,0.18);
+  transform: translateY(-3px);
+}
+.role-avatar { margin-bottom: 8px; display: flex; justify-content: center; }
+.role-avatar svg { border-radius: 50%; }
+.role-card .name { font-size: 20px; font-weight: 800; color: #3D2B1F; margin-bottom: 6px; }
+.role-card .tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 700;
+  background: #FDE8D8; color: #C0392B;
+  padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
+}
+.role-card.selected .tag { background: #FFF0E0; color: #E67E22; }
+.role-card .desc { font-size: 14px; color: #9B7B6E; line-height: 1.6; }
+
+.start-btn {
+  display: block;
+  margin: 28px 20px 0;
+  width: calc(100% - 40px);
+  background: linear-gradient(135deg, #F0884A, #C0392B);
+  color: #fff;
+  font-size: 22px; font-weight: 800;
+  border: none; border-radius: 50px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  letter-spacing: 1px;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.start-btn:active { transform: scale(0.98); }
+.start-btn:disabled {
+  background: #D4BEB8;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ══════════════════════
+   聊天页
+══════════════════════ */
+#chat-page { background: #FAF7F2; }
+
+.chat-top {
+  background: linear-gradient(135deg, #E8824A, #C0392B);
+  padding: 14px 16px 12px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(192,57,43,0.2);
+}
+.back-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  border: none; color: #fff; font-size: 18px;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chat-info { flex: 1; }
+.chat-name { font-size: 20px; font-weight: 800; color: #fff; }
+.chat-status { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.chat-emo {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+
+/* ══ Live2D 虚拟形象区 ══ */
+.avatar-stage {
+  background: linear-gradient(180deg, #FFF5EE 0%, #FAF7F2 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid #F0DDD0;
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+#live2d-canvas {
+  width: 100%; height: 100%;
+  display: block;
+  position: absolute; top: 0; left: 0;
+}
+/* 状态气泡 */
+.avatar-bubble {
+  position: absolute;
+  top: 10px; right: 14px;
+  background: #fff;
+  border: 1.5px solid #F5CBA7;
+  border-radius: 14px 14px 14px 4px;
+  padding: 6px 12px;
+  font-size: 13px; color: #C0392B; font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+}
+.avatar-bubble.show { opacity: 1; }
+/* 加载占位 */
+.avatar-loading {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #B08070;
+  background: linear-gradient(180deg, #FFF5EE, #FAF7F2);
+}
+@keyframes l2d-spin {
+  to { transform: rotate(360deg); }
+}
+.avatar-loading-dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 3px solid #F5CBA7;
+  border-top-color: #E67E22;
+  animation: l2d-spin 0.8s linear infinite;
+  margin-right: 10px;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 14px 12px;
+  display: flex; flex-direction: column; gap: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.msg-time {
+  font-size: 12px; color: #C4A899;
+  text-align: center; padding: 4px 0;
+}
+
+.msg-row { display: flex; align-items: flex-end; gap: 9px; }
+.msg-row.me { flex-direction: row-reverse; }
+
+.msg-ava {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+  background: #F5CBA7;
+}
+.msg-row.me .msg-ava { background: #FDDCBD; }
+
+.bubble {
+  max-width: 74%;
+  padding: 13px 17px;
+  border-radius: 20px;
+  font-size: 19px; line-height: 1.65;
+}
+.msg-row:not(.me) .bubble {
+  background: #fff;
+  color: #3D2B1F;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.msg-row.me .bubble {
+  background: linear-gradient(135deg, #F0884A, #D44B2A);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+}
+
+/* 打字中动画 */
+.typing-bubble {
+  background: #fff;
+  border-radius: 20px;
+  border-bottom-left-radius: 5px;
+  padding: 14px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex; gap: 5px; align-items: center;
+}
+.typing-bubble span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #D4B8B0;
+  animation: bounce 1.2s infinite;
+  display: inline-block;
+}
+.typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+.typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+/* 危机提示 */
+.crisis-tip {
+  background: #FFF3CD;
+  border: 1px solid #F5C518;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px; color: #856404;
+  line-height: 1.6;
+  margin: 0 4px;
+}
+
+.input-area {
+  background: #fff;
+  border-top: 1px solid #F0DDD0;
+  padding: 12px 14px 28px;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.msg-input {
+  flex: 1;
+  background: #FAF7F2;
+  border: 1.5px solid #F0DDD0;
+  border-radius: 50px;
+  padding: 13px 18px;
+  font-size: 19px; color: #3D2B1F;
+  outline: none; font-family: inherit;
+  transition: border-color 0.2s;
+}
+.msg-input:focus { border-color: #E67E22; }
+.msg-input::placeholder { color: #C4A899; }
+.send-btn {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: linear-gradient(135deg, #F0884A, #C0392B);
+  border: none; color: #fff; font-size: 20px;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  box-shadow: 0 3px 12px rgba(192,57,43,0.28);
+  flex-shrink: 0; transition: all 0.2s;
+}
+.send-btn:active { transform: scale(0.93); }
+.send-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+
+/* 语音按钮 */
+.mic-btn {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: #FFF0E6;
+  border: 2px solid #F0DDD0;
+  color: #C0392B; font-size: 22px;
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+}
+.mic-btn:active { transform: scale(0.93); }
+.mic-btn.recording {
+  background: #C0392B;
+  border-color: #C0392B;
+  color: #fff;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(192,57,43,0); }
+}
+
+/* 朗读开关 */
+.tts-toggle {
+  position: absolute; right: 14px; top: 14px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: rgba(255,255,255,0.85);
+  cursor: pointer; user-select: none;
+}
+.tts-toggle input { display: none; }
+.tts-dot {
+  width: 32px; height: 18px; border-radius: 9px;
+  background: rgba(255,255,255,0.3);
+  position: relative; transition: background 0.2s;
+}
+.tts-dot::after {
+  content: ''; position: absolute;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; top: 2px; left: 2px;
+  transition: left 0.2s;
+}
+.tts-on .tts-dot { background: rgba(255,255,255,0.6); }
+.tts-on .tts-dot::after { left: 16px; }
+
+/* 不支持提示 */
+.no-speech {
+  font-size: 12px; color: #C4A899;
+  text-align: center; padding: 6px 0 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ 角色选择页 ══ -->
+<div id="role-page" class="page active">
+  <div class="role-header">
+    <div class="logo">亲语</div>
+    <div class="logo-sub">不在身边，也让您感受到孩子的爱</div>
+  </div>
+
+  <div class="role-tagline">
+    选一个最像您孩子的性格<br>让 AI 每天陪您聊聊天 💛
+  </div>
+
+  <div class="role-label">点一下您喜欢的性格</div>
+
+  <div class="role-grid">
+    <div class="role-card" onclick="pick(this,'warmth','暖心宝贝','warmth')">
+      <div class="role-avatar warmth-av">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
+          <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
+          <ellipse cx="30" cy="26" rx="13" ry="14" fill="#FDDBB4"/>
+          <path d="M 8 28 Q 10 8 30 6 Q 50 8 52 28 Q 44 16 30 16 Q 16 16 8 28Z" fill="#4A2C0A"/>
+          <ellipse cx="22" cy="32" rx="4" ry="4.5" fill="#fff"/>
+          <ellipse cx="38" cy="32" rx="4" ry="4.5" fill="#fff"/>
+          <circle cx="23" cy="33" r="2.5" fill="#3D1A00"/>
+          <circle cx="39" cy="33" r="2.5" fill="#3D1A00"/>
+          <ellipse cx="18" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
+          <ellipse cx="42" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
+          <path d="M 24 42 Q 30 46 36 42" stroke="#D44B2A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M 12 28 Q 14 18 30 16 Q 46 18 48 28 Q 44 20 30 20 Q 16 20 12 28Z" fill="#4A2C0A"/>
+          <ellipse cx="44" cy="20" rx="3" ry="2.5" fill="#FF6B9D" transform="rotate(-15,44,20)"/>
+        </svg>
+      </div>
+      <div class="name">暖心宝贝</div>
+      <div class="tag">体贴入微</div>
+      <div class="desc">说话轻柔，最懂您心里想什么</div>
+    </div>
+    <div class="role-card" onclick="pick(this,'funny','开心果','funny')">
+      <div class="role-avatar funny-av">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
+          <circle cx="30" cy="30" r="30" fill="#FDCF9A"/>
+          <!-- 头发 -->
+          <path d="M 10 32 Q 10 8 30 6 Q 50 8 50 32 Q 46 18 30 18 Q 14 18 10 32Z" fill="#3D1A00"/>
+          <!-- 刘海 -->
+          <path d="M 10 32 Q 14 20 30 20 Q 46 20 50 32 Q 44 24 30 24 Q 16 24 10 32Z" fill="#3D1A00"/>
+          <!-- 耳朵旁碎发 -->
+          <ellipse cx="11" cy="36" rx="4" ry="6" fill="#3D1A00"/>
+          <ellipse cx="49" cy="36" rx="4" ry="6" fill="#3D1A00"/>
+          <!-- 脸 -->
+          <ellipse cx="30" cy="36" rx="18" ry="19" fill="#FDCF9A"/>
+          <!-- 腮红 -->
+          <ellipse cx="17" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
+          <ellipse cx="43" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
+          <!-- 眉毛 -->
+          <path d="M 20 29 Q 25 26 30 29" stroke="#3D1A00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M 30 29 Q 35 26 40 29" stroke="#3D1A00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <!-- 眼睛 -->
+          <ellipse cx="22" cy="35" rx="4.5" ry="5" fill="#fff"/>
+          <ellipse cx="38" cy="35" rx="4.5" ry="5" fill="#fff"/>
+          <circle cx="23" cy="36" r="3" fill="#1A0A00"/>
+          <circle cx="39" cy="36" r="3" fill="#1A0A00"/>
+          <circle cx="24.5" cy="34.5" r="1.2" fill="#fff"/>
+          <circle cx="40.5" cy="34.5" r="1.2" fill="#fff"/>
+          <!-- 嘴巴（大笑） -->
+          <path d="M 22 45 Q 30 52 38 45" stroke="#D44B2A" stroke-width="2" fill="#FF9999" stroke-linecap="round"/>
+          <path d="M 24 45 Q 30 50 36 45" fill="#fff"/>
+          <!-- 发夹 -->
+          <ellipse cx="44" cy="22" rx="3.5" ry="2.5" fill="#FF6B9D" transform="rotate(-20,44,22)"/>
+        </svg>
+      </div>
+      <div class="name">开心果</div>
+      <div class="tag">爱开玩笑</div>
+      <div class="desc">总有趣事，每天都能让您笑</div>
+    </div>
+    <div class="role-card" onclick="pick(this,'steady','靠谱大孩','steady')">
+      <div class="role-avatar steady-av">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
+          <circle cx="30" cy="30" r="30" fill="#F0C490"/>
+          <rect x="14" y="14" width="32" height="28" rx="10" fill="#1A0F00"/>
+          <ellipse cx="30" cy="34" rx="14" ry="15" fill="#F0C490"/>
+          <rect x="22" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
+          <rect x="31" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
+          <ellipse cx="23" cy="33" rx="3.8" ry="3.5" fill="#fff"/>
+          <ellipse cx="37" cy="33" rx="3.8" ry="3.5" fill="#fff"/>
+          <circle cx="24" cy="33.5" r="2.2" fill="#1A0A00"/>
+          <circle cx="38" cy="33.5" r="2.2" fill="#1A0A00"/>
+          <ellipse cx="17" cy="37" rx="3.5" ry="2.5" fill="#E8A070" opacity="0.3"/>
+          <ellipse cx="43" cy="37" rx="3.5" ry="2.5" fill="#E8A070" opacity="0.3"/>
+          <path d="M 24 43 Q 30 47 36 43" stroke="#B85030" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="name">靠谱大孩</div>
+      <div class="tag">稳重踏实</div>
+      <div class="desc">说话让人放心，有事能商量</div>
+    </div>
+    <div class="role-card" onclick="pick(this,'chatterbox','小话痨','chatterbox')">
+      <div class="role-avatar chatterbox-av">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
+          <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
+          <path d="M 10 30 Q 10 10 30 8 Q 50 10 50 30 Q 46 18 30 18 Q 14 18 10 30Z" fill="#3D1A00"/>
+          <path d="M 10 30 Q 5 40 9 48 Q 12 52 14 46 Q 11 38 14 30Z" fill="#3D1A00"/>
+          <ellipse cx="8" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(-20,8,47)"/>
+          <path d="M 50 30 Q 55 40 51 48 Q 48 52 46 46 Q 49 38 46 30Z" fill="#3D1A00"/>
+          <ellipse cx="52" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(20,52,47)"/>
+          <ellipse cx="22" cy="33" rx="4.5" ry="5.5" fill="#fff"/>
+          <ellipse cx="38" cy="33" rx="4.5" ry="5.5" fill="#fff"/>
+          <circle cx="23" cy="34" r="3" fill="#2C0A00"/>
+          <circle cx="39" cy="34" r="3" fill="#2C0A00"/>
+          <circle cx="24.5" cy="32" r="1.3" fill="#fff"/>
+          <circle cx="40.5" cy="32" r="1.3" fill="#fff"/>
+          <ellipse cx="16" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
+          <ellipse cx="44" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
+          <path d="M 23 43 Q 30 48 37 43" stroke="#D44B2A" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="name">小话痨</div>
+      <div class="tag">停不下来</div>
+      <div class="desc">天天有话说，热热闹闹不孤单</div>
+    </div>
+  </div>
+
+  <button class="start-btn" id="startBtn" onclick="startChat()" disabled>
+    请先选一个性格 ↑
+  </button>
+</div>
+
+<!-- ══ 聊天页 ══ -->
+<div id="chat-page" class="page">
+  <div class="chat-top" style="position:relative;">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <div class="chat-info">
+      <div class="chat-name" id="chatName">暖心宝贝</div>
+      <div class="chat-status">✦ 在线 · 随时陪您</div>
+    </div>
+    <div class="chat-emo" id="chatEmo">🤗</div>
+    <!-- 朗读开关 -->
+    <label class="tts-toggle" id="ttsToggle" onclick="toggleTTS()">
+      <span id="ttsLabel">🔊 朗读</span>
+      <div class="tts-dot" id="ttsDot"></div>
+    </label>
+  </div>
+
+  <!-- ══ Live2D 虚拟形象舞台 ══ -->
+  <div class="avatar-stage" id="avatarStage">
+    <div class="avatar-loading" id="avatarLoading">
+      <div class="avatar-loading-dot"></div>少女正在赶来…
+    </div>
+    <canvas id="live2d-canvas"></canvas>
+    <div class="avatar-bubble" id="avatarBubble">在听呢～</div>
+  </div>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="input-area">
+    <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="按住说话">🎤</button>
+    <input class="msg-input" id="msgInput"
+      placeholder="跟孩子说说话…"
+      onkeydown="handleKey(event)"
+      autocomplete="off">
+    <button class="send-btn" id="sendBtn" onclick="send()">➤</button>
+  </div>
+  <div class="no-speech" id="noSpeechTip" style="display:none;">
+    您的浏览器不支持语音，请用 Chrome 打开
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════
+// Live2D 虚拟形象控制
+// ══════════════════════════════════
+
+// 4种性格对应的模型（jsDelivr CDN，全部200可用）
+// 4种性格对应不同模型，性别/声音全部匹配
+const L2D_MODELS = {
+  warmth:     '/models/Haru/Haru.model3.json',     // 暖心宝贝 → Haru   女生 → 晓晓女声
+  funny:      '/models/Mao/Mao.model3.json',        // 开心果   → Mao    女生 → 晓伊女声
+  steady:     '/models/Mark/Mark.model3.json',      // 靠谱大孩 → Mark   男生 → 云健男声
+  chatterbox: '/models/Hiyori/Hiyori.model3.json',  // 小话痨   → Hiyori 女生 → 晓萱女声
+};
+
+let l2dApp = null;
+let l2dModel = null;
+let l2dTalkTimer = null;
+
+async function initLive2D(personaKey) {
+  const canvas = document.getElementById('live2d-canvas');
+  const stageEl = document.getElementById('avatarStage');
+  const W = stageEl.clientWidth || 360;
+  const H = 320;
+  canvas.width  = W;
+  canvas.height = H;
+
+  if (l2dApp) { l2dApp.destroy(true); l2dApp = null; l2dModel = null; }
+
+  l2dApp = new PIXI.Application({
+    view: canvas,
+    width: W, height: H,
+    transparent: true,
+    antialias: true,
+    backgroundAlpha: 0,
+  });
+
+  const modelUrl = L2D_MODELS[personaKey] || L2D_MODELS.warmth;
+  try {
+    l2dModel = await PIXI.live2d.Live2DModel.from(modelUrl, { autoInteract: false });
+
+    // 根据模型原始尺寸自动计算缩放，让人物填满舞台高度的 95%
+    const modelW = l2dModel.width  || l2dModel.internalModel?.originalWidth  || 2048;
+    const modelH = l2dModel.height || l2dModel.internalModel?.originalHeight || 2048;
+    const scaleByH = (H * 0.95) / modelH;
+    const scaleByW = (W * 0.9)  / modelW;
+    const scale = Math.min(scaleByH, scaleByW);
+
+    l2dModel.scale.set(scale);
+    l2dModel.anchor.set(0.5, 0);
+    // 水平居中，顶部留一点空间
+    l2dModel.position.set(W / 2, H * 0.02);
+    l2dApp.stage.addChild(l2dModel);
+
+    const loading = document.getElementById('avatarLoading');
+    if (loading) loading.style.display = 'none';
+
+    startIdleMotion();
+  } catch(e) {
+    console.warn('Live2D 加载失败', e);
+    const loading = document.getElementById('avatarLoading');
+    if (loading) loading.innerHTML = '😊';
+  }
+}
+
+function startIdleMotion() {
+  if (!l2dModel) return;
+  try { l2dModel.motion('idle'); } catch(e) {}
+}
+
+// 说话：让模型嘴巴动（拨动 MouthOpenY 参数）
+function setAvatarTalking(on) {
+  showBubble(on ? '说话中…' : null);
+  if (!l2dModel) return;
+  clearInterval(l2dTalkTimer);
+  if (on) {
+    let v = 0, dir = 1;
+    l2dTalkTimer = setInterval(() => {
+      v += dir * 0.15;
+      if (v >= 1) dir = -1;
+      if (v <= 0) dir = 1;
+      try {
+        l2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', v);
+      } catch(e) { clearInterval(l2dTalkTimer); }
+    }, 60);
+    try { l2dModel.motion('talk'); } catch(e) {}
+  } else {
+    try {
+      l2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+      startIdleMotion();
+    } catch(e) {}
+  }
+}
+
+// 思考：让模型轻微点头
+function setAvatarThinking(on) {
+  showBubble(on ? '想一想…' : null);
+  if (!l2dModel) return;
+  try {
+    if (on) { l2dModel.motion('flick_head'); }
+    else { startIdleMotion(); }
+  } catch(e) {}
+}
+
+function showBubble(text) {
+  const b = document.getElementById('avatarBubble');
+  if (!b) return;
+  if (text) { b.textContent = text; b.classList.add('show'); }
+  else { b.classList.remove('show'); }
+}
+function hideBubble() { showBubble(null); }
+
+// ══════════════════════════════════
+
+// ── 状态 ──
+let persona = null;
+let personaName = '';
+let personaEmoji = '';   // 保留用于消息气泡
+let personaAvatarKey = '';
+let history = [];
+let sending = false;
+
+// 各角色的小头像 SVG（和选择页一致，用于顶部栏 + 消息气泡）
+const AVATAR_SVGS = {
+  warmth: `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
+    <path d="M 12 28 Q 14 8 30 6 Q 46 8 48 28 Q 44 16 30 16 Q 16 16 12 28Z" fill="#4A2C0A"/>
+    <ellipse cx="22" cy="32" rx="4" ry="4.5" fill="#fff"/><ellipse cx="38" cy="32" rx="4" ry="4.5" fill="#fff"/>
+    <circle cx="23" cy="33" r="2.5" fill="#3D1A00"/><circle cx="39" cy="33" r="2.5" fill="#3D1A00"/>
+    <ellipse cx="18" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
+    <ellipse cx="42" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
+    <path d="M 24 42 Q 30 46 36 42" stroke="#D44B2A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <ellipse cx="44" cy="18" rx="3" ry="2.5" fill="#FF6B9D" transform="rotate(-15,44,18)"/>
+  </svg>`,
+  funny: `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <circle cx="30" cy="30" r="30" fill="#FDCF9A"/>
+    <path d="M 10 32 Q 10 8 30 6 Q 50 8 50 32 Q 46 18 30 18 Q 14 18 10 32Z" fill="#3D1A00"/>
+    <ellipse cx="11" cy="36" rx="4" ry="6" fill="#3D1A00"/>
+    <ellipse cx="49" cy="36" rx="4" ry="6" fill="#3D1A00"/>
+    <ellipse cx="30" cy="36" rx="18" ry="19" fill="#FDCF9A"/>
+    <ellipse cx="17" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
+    <ellipse cx="43" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
+    <ellipse cx="22" cy="35" rx="4.5" ry="5" fill="#fff"/><ellipse cx="38" cy="35" rx="4.5" ry="5" fill="#fff"/>
+    <circle cx="23" cy="36" r="3" fill="#1A0A00"/><circle cx="39" cy="36" r="3" fill="#1A0A00"/>
+    <circle cx="24.5" cy="34.5" r="1.2" fill="#fff"/><circle cx="40.5" cy="34.5" r="1.2" fill="#fff"/>
+    <path d="M 22 45 Q 30 52 38 45" stroke="#D44B2A" stroke-width="2" fill="#FF9999" stroke-linecap="round"/>
+    <path d="M 24 45 Q 30 50 36 45" fill="#fff"/>
+    <ellipse cx="44" cy="22" rx="3.5" ry="2.5" fill="#FF6B9D" transform="rotate(-20,44,22)"/>
+  </svg>`,
+  steady: `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <circle cx="30" cy="30" r="30" fill="#F0C490"/>
+    <rect x="14" y="12" width="32" height="26" rx="10" fill="#1A0F00"/>
+    <ellipse cx="30" cy="34" rx="14" ry="15" fill="#F0C490"/>
+    <rect x="22" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
+    <rect x="31" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
+    <ellipse cx="23" cy="33" rx="3.8" ry="3.5" fill="#fff"/><ellipse cx="37" cy="33" rx="3.8" ry="3.5" fill="#fff"/>
+    <circle cx="24" cy="33.5" r="2.2" fill="#1A0A00"/><circle cx="38" cy="33.5" r="2.2" fill="#1A0A00"/>
+    <path d="M 24 43 Q 30 47 36 43" stroke="#B85030" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  chatterbox: `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
+    <path d="M 10 30 Q 10 10 30 8 Q 50 10 50 30 Q 46 18 30 18 Q 14 18 10 30Z" fill="#3D1A00"/>
+    <path d="M 10 30 Q 5 40 9 48 Q 12 52 14 46 Q 11 38 14 30Z" fill="#3D1A00"/>
+    <ellipse cx="8" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(-20,8,47)"/>
+    <path d="M 50 30 Q 55 40 51 48 Q 48 52 46 46 Q 49 38 46 30Z" fill="#3D1A00"/>
+    <ellipse cx="52" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(20,52,47)"/>
+    <ellipse cx="22" cy="33" rx="4.5" ry="5.5" fill="#fff"/><ellipse cx="38" cy="33" rx="4.5" ry="5.5" fill="#fff"/>
+    <circle cx="23" cy="34" r="3" fill="#2C0A00"/><circle cx="39" cy="34" r="3" fill="#2C0A00"/>
+    <circle cx="24.5" cy="32" r="1.3" fill="#fff"/><circle cx="40.5" cy="32" r="1.3" fill="#fff"/>
+    <ellipse cx="16" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
+    <ellipse cx="44" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
+    <path d="M 23 43 Q 30 48 37 43" stroke="#D44B2A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </svg>`
+};
+
+// ── 语音识别（STT） ──
+let recognition = null;
+let isRecording = false;
+
+function initSpeech() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    document.getElementById('noSpeechTip').style.display = 'block';
+    document.getElementById('micBtn').style.display = 'none';
+    return;
+  }
+  recognition = new SpeechRecognition();
+  recognition.lang = 'zh-CN';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onresult = (e) => {
+    const transcript = Array.from(e.results)
+      .map(r => r[0].transcript).join('');
+    document.getElementById('msgInput').value = transcript;
+    // 最终结果自动发送
+    if (e.results[e.results.length - 1].isFinal) {
+      stopMic();
+      setTimeout(() => send(), 300);
+    }
+  };
+
+  recognition.onerror = () => stopMic();
+  recognition.onend = () => stopMic();
+}
+
+function toggleMic() {
+  if (!recognition) {
+    document.getElementById('noSpeechTip').style.display = 'block';
+    return;
+  }
+  isRecording ? stopMic() : startMic();
+}
+
+function startMic() {
+  isRecording = true;
+  document.getElementById('micBtn').classList.add('recording');
+  document.getElementById('micBtn').title = '说完自动发送';
+  document.getElementById('msgInput').placeholder = '正在听…';
+  recognition.start();
+}
+
+function stopMic() {
+  isRecording = false;
+  const btn = document.getElementById('micBtn');
+  btn.classList.remove('recording');
+  btn.title = '按下说话';
+  document.getElementById('msgInput').placeholder = '跟孩子说说话…';
+  try { recognition.stop(); } catch(e) {}
+}
+
+// ── 语音朗读（TTS · Edge-TTS 后端） ──
+let ttsEnabled = true;
+let currentAudio = null;
+
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  const toggle = document.getElementById('ttsToggle');
+  const label = document.getElementById('ttsLabel');
+  if (ttsEnabled) {
+    toggle.classList.add('tts-on');
+    label.textContent = '🔊 朗读';
+  } else {
+    toggle.classList.remove('tts-on');
+    label.textContent = '🔇 静音';
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  }
+}
+
+async function speak(text) {
+  if (!ttsEnabled) return;
+  // 停掉上一句
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  try {
+    const res = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, persona })
+    });
+    if (!res.ok) return;
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    currentAudio = new Audio(url);
+    currentAudio.onplay  = () => setAvatarTalking(true);
+    currentAudio.onended = () => { setAvatarTalking(false); URL.revokeObjectURL(url); currentAudio = null; };
+    currentAudio.onerror = () => { setAvatarTalking(false); currentAudio = null; };
+    currentAudio.play();
+  } catch(e) {
+    console.warn('TTS 失败', e);
+  }
+}
+
+// ── 角色选择 ──
+function pick(el, key, name, avatarKey) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  persona = key;
+  personaName = name;
+  personaAvatarKey = avatarKey;
+  personaEmoji = { warmth:'🤗', funny:'😄', steady:'💪', chatterbox:'🗣️' }[key] || '😊';
+  const btn = document.getElementById('startBtn');
+  btn.disabled = false;
+  btn.textContent = `就选「${name}」陪我聊 ➜`;
+}
+
+// ── 进入聊天 ──
+function startChat() {
+  document.getElementById('chatName').textContent = personaName;
+  // 顶部头像换成对应 SVG
+  const emoEl = document.getElementById('chatEmo');
+  emoEl.innerHTML = AVATAR_SVGS[personaAvatarKey] || personaEmoji;
+  emoEl.style.overflow = 'hidden';
+  document.getElementById('role-page').classList.remove('active');
+  document.getElementById('chat-page').classList.add('active');
+
+  history = [];
+  const msgs = document.getElementById('messages');
+  msgs.innerHTML = '';
+
+  addTime();
+  initSpeech();
+  initLive2D(persona);
+
+  document.getElementById('ttsToggle').classList.add('tts-on');
+
+  setTimeout(() => {
+    document.getElementById('msgInput').focus();
+  }, 300);
+}
+
+// ── 返回 ──
+function goBack() {
+  document.getElementById('chat-page').classList.remove('active');
+  document.getElementById('role-page').classList.add('active');
+  history = [];
+}
+
+// ── 发送 ──
+async function send() {
+  if (sending) return;
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  appendMsg('me', text);
+  history.push({ role: 'user', content: text });
+
+  // 锁定发送
+  sending = true;
+  setSendState(false);
+
+  setAvatarThinking(true);
+  const typingId = showTyping();
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ persona, messages: history })
+    });
+    const data = await res.json();
+    removeTyping(typingId);
+    setAvatarThinking(false);
+
+    if (data.reply) {
+      const crisis = data.reply.includes('【请联系真实家人或专业人员】');
+      const cleanReply = data.reply.replace('【请联系真实家人或专业人员】', '').trim();
+
+      appendMsg('ai', cleanReply);
+      history.push({ role: 'assistant', content: cleanReply });
+      speak(cleanReply);
+
+      if (crisis) {
+        showCrisis();
+      }
+
+      // 历史超过20条就裁剪，省token（保留最近16条）
+      if (history.length > 20) {
+        history = history.slice(history.length - 16);
+      }
+    } else {
+      appendMsg('ai', '（网络有点慢，再说一遍试试？）');
+    }
+  } catch (e) {
+    removeTyping(typingId);
+    setAvatarThinking(false);
+    appendMsg('ai', '（信号不太好，稍后再试）');
+  }
+
+  sending = false;
+  setSendState(true);
+  document.getElementById('msgInput').focus();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    send();
+  }
+}
+
+// ── DOM 工具 ──
+function appendMsg(from, text) {
+  const msgs = document.getElementById('messages');
+  const row = document.createElement('div');
+  row.className = 'msg-row' + (from === 'me' ? ' me' : '');
+  const avaHtml = from === 'me'
+    ? '👴'
+    : (AVATAR_SVGS[personaAvatarKey] || personaEmoji);
+  row.innerHTML = `
+    <div class="msg-ava" style="overflow:hidden">${avaHtml}</div>
+    <div class="bubble">${escHtml(text)}</div>`;
+  msgs.appendChild(row);
+  scrollBottom();
+}
+
+function addTime() {
+  const msgs = document.getElementById('messages');
+  const now = new Date();
+  const t = document.createElement('div');
+  t.className = 'msg-time';
+  t.textContent = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+  msgs.appendChild(t);
+}
+
+function showTyping() {
+  const msgs = document.getElementById('messages');
+  const row = document.createElement('div');
+  const id = 'typing-' + Date.now();
+  row.id = id;
+  row.className = 'msg-row';
+  row.innerHTML = `
+    <div class="msg-ava" style="overflow:hidden">${AVATAR_SVGS[personaAvatarKey] || personaEmoji}</div>
+    <div class="typing-bubble">
+      <span></span><span></span><span></span>
+    </div>`;
+  msgs.appendChild(row);
+  scrollBottom();
+  return id;
+}
+
+function removeTyping(id) {
+  document.getElementById(id)?.remove();
+}
+
+function showCrisis() {
+  const msgs = document.getElementById('messages');
+  const el = document.createElement('div');
+  el.className = 'crisis-tip';
+  el.innerHTML = '⚠️ 如果您感到特别难受，请联系您的孩子或拨打心理援助热线：<strong>400-161-9995</strong>';
+  msgs.appendChild(el);
+  scrollBottom();
+}
+
+function setSendState(enabled) {
+  document.getElementById('sendBtn').disabled = !enabled;
+  document.getElementById('msgInput').disabled = !enabled;
+}
+
+function scrollBottom() {
+  const msgs = document.getElementById('messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function escHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\n/g, '<br>');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# 敏感信息
+.env
+.env.local
+.env.production
+
+# 系统文件
+.DS_Store
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 设计原型（不需要进版本库）
+design-A-warm.html
+design-B-spring.html
+design-C-night.html
+design-index.html
+live2d-test.html
+AI_PM_全套文档_关爱父母.html
