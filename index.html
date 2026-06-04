@@ -2868,7 +2868,7 @@ function submitQuickForm(type) {
                     document.querySelector('#modal-meal .qf-chip.selected[data-val*="胃口"]');
     const parts   = [];
     if (meals.length) parts.push(meals.filter(v => v.includes('餐')).join('、'));
-    if (note) parts.push(`吃了${note}`);
+    if (note) parts.push(note);
     const qualPart = [...document.querySelectorAll('#modal-meal .qf-chip.selected')]
       .map(c=>c.dataset.val).find(v => v.includes('胃口'));
     if (qualPart) parts.push(qualPart);
