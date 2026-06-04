@@ -2373,10 +2373,18 @@ function handleAvatarUpload(event) {
   event.target.value = '';
 }
 
-// 获取当前角色头像用于消息气泡（返回 CSS background 或 img src）
+// 角色头像图片
+const PERSONA_AVATAR_IMGS = {
+  warmth:     '/avatars/warmth.png',
+  funny:      '/avatars/funny.png',
+  steady:     '/avatars/steady.png',
+  chatterbox: '/avatars/chatterbox.png',
+};
+
+// 获取当前角色头像用于消息气泡（返回 img src）
 function getAvatarSrc(key) {
   if (key === 'custom' && customAvatarDataUrl) return customAvatarDataUrl;
-  return '';  // 无图片时用颜色渐变
+  return PERSONA_AVATAR_IMGS[key] || '';
 }
 
 // ── 父母主页：切换数字人 ──
@@ -2396,11 +2404,15 @@ function pickPersonaFromHome(el, key, name) {
     wrap.style.boxShadow = `0 0 0 3px ${cfg.glow}, 0 12px 40px ${cfg.glow}`;
   }
 
-  // 如果切换到「我的专属」且已上传，显示照片；否则显示剪影
+  // 更新大图区域：内置角色用真实头像图片，自定义用上传照片，否则显示剪影
   const bigPhoto = document.getElementById('ppBigPhoto');
   const bigSil = document.getElementById('ppBigSilhouette');
+  const personaImgSrc = PERSONA_AVATAR_IMGS[key];
   if (key === 'custom' && customAvatarDataUrl) {
     if (bigPhoto) { bigPhoto.src = customAvatarDataUrl; bigPhoto.style.display = 'block'; }
+    if (bigSil) bigSil.style.display = 'none';
+  } else if (personaImgSrc) {
+    if (bigPhoto) { bigPhoto.src = personaImgSrc; bigPhoto.style.display = 'block'; }
     if (bigSil) bigSil.style.display = 'none';
   } else {
     if (bigPhoto) bigPhoto.style.display = 'none';
@@ -3160,9 +3172,16 @@ function enterParentHome() {
   if (!currentUser.bound) {
     showPage('parent-bind-page');
   } else {
-    // 已绑定 → 更新父母主页的问候语，再拉关怀
+    // 已绑定 → 更新父母主页的问候语，初始化默认头像，再拉关怀
     const nameEl = document.getElementById('ppGreetName');
     if (nameEl) nameEl.textContent = (currentUser.name || '妈妈') + '～';
+    // 显示默认角色（暖心宝贝）的真实头像
+    const defaultKey = persona || 'warmth';
+    const bigPhoto = document.getElementById('ppBigPhoto');
+    const bigSil = document.getElementById('ppBigSilhouette');
+    const defaultSrc = PERSONA_AVATAR_IMGS[defaultKey];
+    if (bigPhoto && defaultSrc) { bigPhoto.src = defaultSrc; bigPhoto.style.display = 'block'; }
+    if (bigSil && defaultSrc) bigSil.style.display = 'none';
     loadLatestCare();
   }
 }
