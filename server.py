@@ -348,9 +348,12 @@ class Handler(BaseHTTPRequestHandler):
                 # 2. 最新健康报告（父母发的，排除子女自己）
                 reports = sb_get("care_cards",
                     f"family_id=eq.{family_id}&template=eq.health&child_id=neq.{child_id}&order=created_at.desc&limit=1&select=content,created_at")
-                # 3. 父母最近活跃时间（从 users 表拉）
-                parent_users = sb_get("users",
-                    f"family_id=eq.{family_id}&role=eq.parent&select=name,last_active_at")
+                # 3. 父母最近活跃时间（先从 families 拿 parent_id，再查 users）
+                fam_row = sb_get("families", f"id=eq.{family_id}&select=parent_id")
+                parent_users = []
+                if fam_row and fam_row[0].get("parent_id"):
+                    parent_users = sb_get("users",
+                        f"id=eq.{fam_row[0]['parent_id']}&select=name,last_active_at")
                 self._json(200, {
                     "mood":   moods[0] if moods else None,
                     "health": reports[0] if reports else None,
