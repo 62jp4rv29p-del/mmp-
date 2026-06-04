@@ -12,11 +12,30 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
-  background: #FAF7F2;
-  color: #3D2B1F;
+  background: #1A0A2E;
+  color: #2D1B4E;
   min-height: 100vh;
   max-width: 480px;
   margin: 0 auto;
+}
+
+/* 紫色主题变量 */
+:root {
+  --pur1: #9B59B6;
+  --pur2: #7B2FBE;
+  --pur3: #C39BD3;
+  --pur4: #F0E6FF;
+  --pur5: #E8D5FF;
+  --pink: #E91E8C;
+  --bg-deep: #1A0A2E;
+  --bg-mid: #2D1B4E;
+  --bg-card: rgba(255,255,255,0.12);
+  --bg-card2: rgba(255,255,255,0.08);
+  --text-light: rgba(255,255,255,0.95);
+  --text-sub: rgba(255,255,255,0.65);
+  --text-dim: rgba(255,255,255,0.4);
+  --border: rgba(255,255,255,0.15);
+  --shadow-pur: 0 8px 32px rgba(155,89,182,0.4);
 }
 
 /* ── 页面切换 ── */
@@ -27,108 +46,131 @@ body {
    登录 / 注册页
 ══════════════════════ */
 #login-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 50%, #1A0A2E 100%);
   align-items: center;
   justify-content: center;
   padding: 40px 28px 60px;
   gap: 0;
+  position: relative;
+  overflow: hidden;
 }
-.login-logo { font-size: 38px; font-weight: 900; color: #C0392B; letter-spacing: 4px; margin-bottom: 6px; text-align: center; }
-.login-sub  { font-size: 14px; color: #B08070; letter-spacing: 1px; margin-bottom: 36px; text-align: center; }
+#login-page::before {
+  content: '';
+  position: absolute; top: -80px; left: -80px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(155,89,182,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+#login-page::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(233,30,140,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.login-logo { font-size: 38px; font-weight: 900; color: #fff; letter-spacing: 4px; margin-bottom: 6px; text-align: center; text-shadow: 0 0 20px rgba(155,89,182,0.8); }
+.login-sub  { font-size: 14px; color: var(--text-sub); letter-spacing: 1px; margin-bottom: 36px; text-align: center; }
 .login-card {
-  background: #fff;
-  border-radius: 24px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
   padding: 28px 24px 32px;
   width: 100%;
-  box-shadow: 0 4px 24px rgba(192,57,43,0.08);
-  border: 1.5px solid #F0DDD0;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.2);
 }
-.login-card h2 { font-size: 20px; font-weight: 800; color: #3D2B1F; margin-bottom: 20px; }
+.login-card h2 { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 20px; }
 .role-tabs {
   display: flex; gap: 10px; margin-bottom: 20px;
 }
 .role-tab {
   flex: 1; padding: 12px 8px; border-radius: 14px;
-  border: 2px solid #F0DDD0; background: #FAF7F2;
-  font-size: 16px; font-weight: 700; color: #9B7B6E;
+  border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07);
+  font-size: 16px; font-weight: 700; color: var(--text-sub);
   cursor: pointer; text-align: center; transition: all 0.2s;
 }
 .role-tab.active {
-  border-color: #E67E22;
-  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
-  color: #C0392B;
+  border-color: var(--pur1);
+  background: rgba(155,89,182,0.3);
+  color: #fff;
 }
 .form-field { margin-bottom: 14px; }
-.form-field label { font-size: 14px; color: #9B7B6E; display: block; margin-bottom: 6px; }
+.form-field label { font-size: 14px; color: var(--text-sub); display: block; margin-bottom: 6px; }
 .form-input {
-  width: 100%; background: #FAF7F2;
-  border: 1.5px solid #F0DDD0; border-radius: 14px;
-  padding: 14px 16px; font-size: 18px; color: #3D2B1F;
+  width: 100%; background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.2); border-radius: 14px;
+  padding: 14px 16px; font-size: 18px; color: #fff;
   outline: none; font-family: inherit; transition: border-color 0.2s;
 }
-.form-input:focus { border-color: #E67E22; }
+.form-input::placeholder { color: var(--text-dim); }
+.form-input:focus { border-color: var(--pur1); background: rgba(155,89,182,0.15); }
 .login-btn {
-  width: 100%; background: linear-gradient(135deg, #F0884A, #C0392B);
+  width: 100%; background: linear-gradient(135deg, #9B59B6, #7B2FBE);
   color: #fff; font-size: 20px; font-weight: 800;
   border: none; border-radius: 50px; padding: 16px;
   cursor: pointer; margin-top: 8px;
-  box-shadow: 0 4px 18px rgba(192,57,43,0.28);
+  box-shadow: 0 4px 20px rgba(123,47,190,0.5);
   transition: all 0.2s; letter-spacing: 1px;
 }
 .login-btn:active { transform: scale(0.98); }
-.login-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
-.login-err { font-size: 14px; color: #C0392B; text-align: center; margin-top: 10px; min-height: 20px; }
+.login-btn:disabled { background: rgba(255,255,255,0.15); box-shadow: none; cursor: not-allowed; color: var(--text-dim); }
+.login-err { font-size: 14px; color: #FF6B9D; text-align: center; margin-top: 10px; min-height: 20px; }
 
 /* ══════════════════════
    子女主页（已登录）
 ══════════════════════ */
 #child-home-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 100%);
   padding-bottom: 48px;
 }
 .home-top {
-  background: linear-gradient(135deg, #E8824A, #C0392B);
+  background: linear-gradient(135deg, rgba(155,89,182,0.8), rgba(123,47,190,0.9));
+  backdrop-filter: blur(20px);
   padding: 18px 20px 16px;
   display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .home-top-title { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 2px; }
-.home-top-user  { font-size: 14px; color: rgba(255,255,255,0.85); }
+.home-top-user  { font-size: 14px; color: var(--text-sub); }
 .home-section { margin: 20px 20px 0; }
-.home-section-title { font-size: 18px; font-weight: 800; color: #5A3828; margin-bottom: 12px; }
+.home-section-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 12px; }
 .invite-box {
-  background: #fff; border: 1.5px solid #F0DDD0; border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
   padding: 20px 20px 16px;
-  box-shadow: 0 2px 12px rgba(192,57,43,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 .invite-code-row {
   display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
 }
 .invite-code-num {
-  font-size: 38px; font-weight: 900; color: #C0392B;
+  font-size: 38px; font-weight: 900; color: #E8B4FF;
   letter-spacing: 8px; flex: 1;
 }
 .copy-btn {
-  background: #FFF0E6; border: 1.5px solid #F5CBA7;
+  background: rgba(155,89,182,0.3); border: 1.5px solid rgba(155,89,182,0.6);
   border-radius: 12px; padding: 10px 16px;
-  font-size: 15px; font-weight: 700; color: #C0392B;
+  font-size: 15px; font-weight: 700; color: #E8B4FF;
   cursor: pointer; white-space: nowrap; transition: all 0.2s;
 }
 .copy-btn:active { transform: scale(0.95); }
-.invite-hint { font-size: 13px; color: #B08070; line-height: 1.6; }
+.invite-hint { font-size: 13px; color: var(--text-sub); line-height: 1.6; }
 .bound-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  background: #E8F8E8; border: 1.5px solid #A8D8A8;
+  background: rgba(46,125,50,0.3); border: 1.5px solid rgba(100,200,100,0.5);
   border-radius: 20px; padding: 6px 14px;
-  font-size: 14px; font-weight: 700; color: #2E7D32;
+  font-size: 14px; font-weight: 700; color: #A5D6A7;
   margin-top: 10px;
 }
 .home-care-btn {
   display: block; margin: 20px 20px 0;
   width: calc(100% - 40px);
-  background: linear-gradient(135deg, #F0884A, #C0392B);
+  background: linear-gradient(135deg, #9B59B6, #E91E8C);
   color: #fff; font-size: 22px; font-weight: 800;
   border: none; border-radius: 50px; padding: 18px;
-  cursor: pointer; box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  cursor: pointer; box-shadow: 0 6px 24px rgba(155,89,182,0.5);
   letter-spacing: 1px; transition: all 0.2s;
 }
 .home-care-btn:active { transform: scale(0.98); }
@@ -137,74 +179,87 @@ body {
    父母绑定页
 ══════════════════════ */
 #parent-bind-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 100%);
   align-items: center; justify-content: center;
   padding: 40px 28px 60px;
 }
 .bind-card {
-  background: #fff; border-radius: 24px; padding: 32px 24px;
-  width: 100%; box-shadow: 0 4px 24px rgba(192,57,43,0.08);
-  border: 1.5px solid #F0DDD0; text-align: center;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 28px; padding: 32px 24px;
+  width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.2); text-align: center;
 }
 .bind-icon { font-size: 52px; margin-bottom: 14px; }
-.bind-title { font-size: 22px; font-weight: 800; color: #3D2B1F; margin-bottom: 8px; }
-.bind-hint { font-size: 16px; color: #9B7B6E; margin-bottom: 24px; line-height: 1.6; }
+.bind-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.bind-hint { font-size: 16px; color: var(--text-sub); margin-bottom: 24px; line-height: 1.6; }
 .code-inputs {
   display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;
 }
 .code-digit {
   width: 46px; height: 58px; border-radius: 14px;
-  border: 2px solid #F0DDD0; background: #FAF7F2;
-  font-size: 28px; font-weight: 900; color: #C0392B;
+  border: 2px solid rgba(155,89,182,0.5); background: rgba(255,255,255,0.08);
+  font-size: 28px; font-weight: 900; color: #E8B4FF;
   text-align: center; outline: none; font-family: inherit;
-  transition: border-color 0.2s; caret-color: #E67E22;
+  transition: border-color 0.2s; caret-color: var(--pur1);
 }
-.code-digit:focus { border-color: #E67E22; background: #FFF9F5; }
+.code-digit:focus { border-color: var(--pur1); background: rgba(155,89,182,0.15); }
 .bind-btn {
-  width: 100%; background: linear-gradient(135deg, #F0884A, #C0392B);
+  width: 100%; background: linear-gradient(135deg, #9B59B6, #7B2FBE);
   color: #fff; font-size: 20px; font-weight: 800;
   border: none; border-radius: 50px; padding: 16px;
-  cursor: pointer; box-shadow: 0 4px 18px rgba(192,57,43,0.28);
+  cursor: pointer; box-shadow: 0 4px 20px rgba(123,47,190,0.5);
   transition: all 0.2s; letter-spacing: 1px;
 }
 .bind-btn:active { transform: scale(0.98); }
-.bind-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
-.bind-err { font-size: 14px; color: #C0392B; text-align: center; margin-top: 10px; min-height: 20px; }
+.bind-btn:disabled { background: rgba(255,255,255,0.15); box-shadow: none; cursor: not-allowed; color: var(--text-dim); }
+.bind-err { font-size: 14px; color: #FF6B9D; text-align: center; margin-top: 10px; min-height: 20px; }
 
 /* ══════════════════════
    角色选择页
 ══════════════════════ */
 #role-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 60%, #1A0A2E 100%);
   padding-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+#role-page::before {
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(155,89,182,0.2) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .role-header {
   text-align: center;
-  padding: 52px 24px 24px;
+  padding: 52px 24px 20px;
 }
 .logo {
   font-size: 32px; font-weight: 900;
-  color: #C0392B; letter-spacing: 4px;
+  color: #fff; letter-spacing: 4px;
   margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(155,89,182,0.8);
 }
 .logo-sub {
-  font-size: 14px; color: #B08070; letter-spacing: 1px;
+  font-size: 14px; color: var(--text-sub); letter-spacing: 1px;
 }
 .role-tagline {
-  margin: 20px 24px;
+  margin: 16px 24px;
   text-align: center;
-  font-size: 20px; color: #5A3828; line-height: 1.7;
-  background: #FFF9F5;
-  border: 1.5px solid #F5CBA7;
+  font-size: 18px; color: var(--text-sub); line-height: 1.7;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 14px 20px;
 }
 
 .role-label {
   text-align: center;
-  font-size: 17px; color: #8B6B5E;
-  margin: 24px 0 16px;
+  font-size: 16px; color: var(--text-sub);
+  margin: 20px 0 14px;
 }
 
 .role-grid {
@@ -215,147 +270,159 @@ body {
 }
 
 .role-card {
-  background: #fff;
-  border: 2px solid #F0DDD0;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 22px;
-  padding: 24px 14px 20px;
+  padding: 22px 14px 18px;
   text-align: center;
   cursor: pointer;
   transition: all 0.22s ease;
-  box-shadow: 0 2px 10px rgba(192,57,43,0.05);
   -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(10px);
 }
 .role-card:active { transform: scale(0.97); }
 .role-card.selected {
-  border-color: #E67E22;
-  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
-  box-shadow: 0 6px 24px rgba(230,126,34,0.18);
+  border-color: var(--pur1);
+  background: rgba(155,89,182,0.25);
+  box-shadow: 0 6px 24px rgba(155,89,182,0.4);
   transform: translateY(-3px);
 }
 .role-avatar { margin-bottom: 8px; display: flex; justify-content: center; }
 .role-avatar svg { border-radius: 50%; }
-.role-card .name { font-size: 20px; font-weight: 800; color: #3D2B1F; margin-bottom: 6px; }
+.role-card .name { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 6px; }
 .role-card .tag {
   display: inline-block;
   font-size: 12px; font-weight: 700;
-  background: #FDE8D8; color: #C0392B;
-  padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
+  background: rgba(155,89,182,0.3); color: #E8B4FF;
+  padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
 }
-.role-card.selected .tag { background: #FFF0E0; color: #E67E22; }
-.role-card .desc { font-size: 14px; color: #9B7B6E; line-height: 1.6; }
+.role-card.selected .tag { background: rgba(233,30,140,0.3); color: #FFB3D9; }
+.role-card .desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; }
 
 .start-btn {
   display: block;
-  margin: 28px 20px 0;
+  margin: 24px 20px 0;
   width: calc(100% - 40px);
-  background: linear-gradient(135deg, #F0884A, #C0392B);
+  background: linear-gradient(135deg, #9B59B6, #E91E8C);
   color: #fff;
-  font-size: 22px; font-weight: 800;
+  font-size: 20px; font-weight: 800;
   border: none; border-radius: 50px;
   padding: 18px;
   cursor: pointer;
-  box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  box-shadow: 0 6px 24px rgba(155,89,182,0.5);
   letter-spacing: 1px;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .start-btn:active { transform: scale(0.98); }
 .start-btn:disabled {
-  background: #D4BEB8;
+  background: rgba(255,255,255,0.12);
   box-shadow: none;
   cursor: not-allowed;
+  color: var(--text-dim);
 }
 
 /* ══════════════════════
-   聊天页
+   聊天页 — 紫色AI伴侣风
 ══════════════════════ */
-#chat-page { background: #FAF7F2; }
+#chat-page {
+  background: linear-gradient(180deg, #1A0A2E 0%, #2D1B4E 40%, #1A0A2E 100%);
+}
 
 .chat-top {
-  background: linear-gradient(135deg, #E8824A, #C0392B);
+  background: rgba(30,15,50,0.85);
+  backdrop-filter: blur(20px);
   padding: 14px 16px 12px;
   display: flex; align-items: center; gap: 12px;
   flex-shrink: 0;
-  box-shadow: 0 2px 12px rgba(192,57,43,0.2);
+  border-bottom: 1px solid rgba(155,89,182,0.3);
 }
 .back-btn {
   width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(255,255,255,0.22);
-  border: none; color: #fff; font-size: 18px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 18px;
   cursor: pointer; display: flex;
   align-items: center; justify-content: center;
   flex-shrink: 0;
 }
 .chat-info { flex: 1; }
 .chat-name { font-size: 20px; font-weight: 800; color: #fff; }
-.chat-status { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.chat-status { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
 .chat-emo {
   width: 46px; height: 46px; border-radius: 50%;
-  background: rgba(255,255,255,0.22);
+  background: rgba(155,89,182,0.3);
+  border: 2px solid rgba(155,89,182,0.5);
   display: flex; align-items: center; justify-content: center;
   font-size: 26px; flex-shrink: 0;
+  overflow: hidden;
 }
 
 /* ══ Live2D 虚拟形象区 ══ */
 .avatar-stage {
-  background: linear-gradient(180deg, #FFF5EE 0%, #FAF7F2 100%);
+  background: linear-gradient(180deg, rgba(45,27,78,0.6) 0%, rgba(26,10,46,0.4) 100%);
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   flex-shrink: 0;
-  border-bottom: 1px solid #F0DDD0;
   position: relative;
-  height: 320px;
+  height: 300px;
   overflow: hidden;
+}
+/* 星光背景装饰 */
+.avatar-stage::before {
+  content: '✦ ✧ ✦';
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  letter-spacing: 8px; pointer-events: none;
 }
 #live2d-canvas {
   width: 100%; height: 100%;
   display: block;
   position: absolute; top: 0; left: 0;
 }
-/* 状态气泡 */
 .avatar-bubble {
   position: absolute;
   top: 10px; right: 14px;
-  background: #fff;
-  border: 1.5px solid #F5CBA7;
+  background: rgba(155,89,182,0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 14px 14px 14px 4px;
   padding: 6px 12px;
-  font-size: 13px; color: #C0392B; font-weight: 600;
+  font-size: 13px; color: #fff; font-weight: 600;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(155,89,182,0.4);
   opacity: 0; transition: opacity 0.3s;
   pointer-events: none;
   z-index: 10;
 }
 .avatar-bubble.show { opacity: 1; }
-/* 加载占位 */
 .avatar-loading {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; color: #B08070;
-  background: linear-gradient(180deg, #FFF5EE, #FAF7F2);
+  font-size: 14px; color: var(--text-sub);
+  background: linear-gradient(180deg, rgba(45,27,78,0.8), rgba(26,10,46,0.8));
 }
 @keyframes l2d-spin {
   to { transform: rotate(360deg); }
 }
 .avatar-loading-dot {
   width: 24px; height: 24px; border-radius: 50%;
-  border: 3px solid #F5CBA7;
-  border-top-color: #E67E22;
+  border: 3px solid rgba(155,89,182,0.4);
+  border-top-color: var(--pur1);
   animation: l2d-spin 0.8s linear infinite;
   margin-right: 10px;
 }
 
+/* 聊天消息区 */
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: 18px 14px 12px;
+  padding: 16px 14px 10px;
   display: flex; flex-direction: column; gap: 14px;
   -webkit-overflow-scrolling: touch;
 }
 
 .msg-time {
-  font-size: 12px; color: #C4A899;
+  font-size: 12px; color: var(--text-dim);
   text-align: center; padding: 4px 0;
 }
 
@@ -366,40 +433,44 @@ body {
   width: 40px; height: 40px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; flex-shrink: 0;
-  background: #F5CBA7;
+  background: rgba(155,89,182,0.3);
+  border: 2px solid rgba(155,89,182,0.4);
+  overflow: hidden;
 }
-.msg-row.me .msg-ava { background: #FDDCBD; }
+.msg-row.me .msg-ava { background: rgba(233,30,140,0.2); border-color: rgba(233,30,140,0.4); }
 
 .bubble {
   max-width: 74%;
-  padding: 13px 17px;
+  padding: 12px 16px;
   border-radius: 20px;
-  font-size: 19px; line-height: 1.65;
+  font-size: 18px; line-height: 1.65;
 }
 .msg-row:not(.me) .bubble {
-  background: #fff;
-  color: #3D2B1F;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
   border-bottom-left-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .msg-row.me .bubble {
-  background: linear-gradient(135deg, #F0884A, #D44B2A);
+  background: linear-gradient(135deg, #9B59B6, #7B2FBE);
   color: #fff;
   border-bottom-right-radius: 5px;
+  box-shadow: 0 3px 12px rgba(123,47,190,0.4);
 }
 
-/* 打字中动画 */
 .typing-bubble {
-  background: #fff;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
   border-radius: 20px;
   border-bottom-left-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.15);
   padding: 14px 18px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   display: flex; gap: 5px; align-items: center;
 }
 .typing-bubble span {
   width: 8px; height: 8px; border-radius: 50%;
-  background: #D4B8B0;
+  background: rgba(155,89,182,0.8);
   animation: bounce 1.2s infinite;
   display: inline-block;
 }
@@ -410,81 +481,79 @@ body {
   30% { transform: translateY(-6px); }
 }
 
-/* 危机提示 */
 .crisis-tip {
-  background: #FFF3CD;
-  border: 1px solid #F5C518;
+  background: rgba(255,193,7,0.15);
+  border: 1px solid rgba(255,193,7,0.4);
   border-radius: 12px;
   padding: 12px 14px;
-  font-size: 14px; color: #856404;
+  font-size: 14px; color: #FFD54F;
   line-height: 1.6;
   margin: 0 4px;
 }
 
 .input-area {
-  background: #fff;
-  border-top: 1px solid #F0DDD0;
+  background: rgba(20,10,40,0.9);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(155,89,182,0.3);
   padding: 12px 14px 28px;
   display: flex; align-items: center; gap: 10px;
   flex-shrink: 0;
 }
 .msg-input {
   flex: 1;
-  background: #FAF7F2;
-  border: 1.5px solid #F0DDD0;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(155,89,182,0.4);
   border-radius: 50px;
-  padding: 13px 18px;
-  font-size: 19px; color: #3D2B1F;
+  padding: 12px 18px;
+  font-size: 18px; color: #fff;
   outline: none; font-family: inherit;
   transition: border-color 0.2s;
 }
-.msg-input:focus { border-color: #E67E22; }
-.msg-input::placeholder { color: #C4A899; }
+.msg-input::placeholder { color: var(--text-dim); }
+.msg-input:focus { border-color: var(--pur1); background: rgba(155,89,182,0.12); }
 .send-btn {
   width: 50px; height: 50px; border-radius: 50%;
-  background: linear-gradient(135deg, #F0884A, #C0392B);
+  background: linear-gradient(135deg, #9B59B6, #7B2FBE);
   border: none; color: #fff; font-size: 20px;
   cursor: pointer; display: flex;
   align-items: center; justify-content: center;
-  box-shadow: 0 3px 12px rgba(192,57,43,0.28);
+  box-shadow: 0 3px 14px rgba(123,47,190,0.5);
   flex-shrink: 0; transition: all 0.2s;
 }
 .send-btn:active { transform: scale(0.93); }
-.send-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+.send-btn:disabled { background: rgba(255,255,255,0.12); box-shadow: none; cursor: not-allowed; }
 
-/* 语音按钮 */
 .mic-btn {
   width: 50px; height: 50px; border-radius: 50%;
-  background: #FFF0E6;
-  border: 2px solid #F0DDD0;
-  color: #C0392B; font-size: 22px;
+  background: rgba(155,89,182,0.2);
+  border: 2px solid rgba(155,89,182,0.5);
+  color: #E8B4FF; font-size: 22px;
   cursor: pointer; display: flex;
   align-items: center; justify-content: center;
   flex-shrink: 0; transition: all 0.2s;
 }
 .mic-btn:active { transform: scale(0.93); }
 .mic-btn.recording {
-  background: #C0392B;
-  border-color: #C0392B;
+  background: #E91E8C;
+  border-color: #E91E8C;
   color: #fff;
   animation: pulse 1s infinite;
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(192,57,43,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(233,30,140,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(233,30,140,0); }
 }
 
-/* 朗读开关 */
 .tts-toggle {
   position: absolute; right: 14px; top: 14px;
   display: flex; align-items: center; gap: 6px;
-  font-size: 13px; color: rgba(255,255,255,0.85);
+  font-size: 13px; color: var(--text-sub);
   cursor: pointer; user-select: none;
 }
 .tts-toggle input { display: none; }
 .tts-dot {
   width: 32px; height: 18px; border-radius: 9px;
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.2);
   position: relative; transition: background 0.2s;
 }
 .tts-dot::after {
@@ -493,27 +562,28 @@ body {
   background: #fff; top: 2px; left: 2px;
   transition: left 0.2s;
 }
-.tts-on .tts-dot { background: rgba(255,255,255,0.6); }
+.tts-on .tts-dot { background: var(--pur1); }
 .tts-on .tts-dot::after { left: 16px; }
 
-/* 不支持提示 */
 .no-speech {
-  font-size: 12px; color: #C4A899;
+  font-size: 12px; color: var(--text-dim);
   text-align: center; padding: 6px 0 0;
+  background: rgba(20,10,40,0.9);
 }
 
 /* ══════════════════════
    子女发送页
 ══════════════════════ */
 #child-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 100%);
   padding-bottom: 48px;
 }
 .child-top {
-  background: linear-gradient(135deg, #E8824A, #C0392B);
+  background: rgba(30,15,50,0.85);
+  backdrop-filter: blur(20px);
   padding: 14px 16px 14px;
   display: flex; align-items: center; gap: 12px;
-  box-shadow: 0 2px 12px rgba(192,57,43,0.2);
+  border-bottom: 1px solid rgba(155,89,182,0.3);
 }
 .child-top-title {
   flex: 1; font-size: 20px; font-weight: 800; color: #fff;
@@ -523,7 +593,7 @@ body {
   margin: 20px 20px 0;
 }
 .child-section-label {
-  font-size: 16px; font-weight: 700; color: #8B6B5E;
+  font-size: 16px; font-weight: 700; color: var(--text-sub);
   margin-bottom: 12px;
 }
 .tpl-grid {
@@ -533,49 +603,51 @@ body {
   margin-bottom: 4px;
 }
 .tpl-card {
-  background: #fff;
-  border: 2px solid #F0DDD0;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 16px;
   padding: 14px 8px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(8px);
 }
 .tpl-card:active { transform: scale(0.95); }
 .tpl-card.selected {
-  border-color: #E67E22;
-  background: linear-gradient(145deg, #FFF8F3, #FFFAF7);
-  box-shadow: 0 4px 16px rgba(230,126,34,0.18);
+  border-color: var(--pur1);
+  background: rgba(155,89,182,0.25);
+  box-shadow: 0 4px 16px rgba(155,89,182,0.35);
 }
 .tpl-icon { font-size: 28px; margin-bottom: 6px; }
-.tpl-name { font-size: 13px; font-weight: 700; color: #5A3828; }
+.tpl-name { font-size: 13px; font-weight: 700; color: #fff; }
 
 .care-textarea {
   width: 100%;
-  background: #fff;
-  border: 1.5px solid #F0DDD0;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.15);
   border-radius: 16px;
   padding: 16px;
-  font-size: 19px;
-  color: #3D2B1F;
+  font-size: 18px;
+  color: #fff;
   line-height: 1.7;
   resize: none;
   outline: none;
   font-family: inherit;
   min-height: 130px;
   transition: border-color 0.2s;
+  backdrop-filter: blur(8px);
 }
-.care-textarea:focus { border-color: #E67E22; }
-.care-textarea::placeholder { color: #C4A899; }
+.care-textarea::placeholder { color: var(--text-dim); }
+.care-textarea:focus { border-color: var(--pur1); background: rgba(155,89,182,0.12); }
 
 .ai-gen-btn {
   display: flex; align-items: center; gap: 8px;
-  background: #FFF0E6;
-  border: 1.5px solid #F5CBA7;
+  background: rgba(155,89,182,0.2);
+  border: 1.5px solid rgba(155,89,182,0.5);
   border-radius: 50px;
   padding: 10px 18px;
-  font-size: 15px; font-weight: 700; color: #C0392B;
+  font-size: 15px; font-weight: 700; color: #E8B4FF;
   cursor: pointer;
   margin-top: 10px;
   transition: all 0.2s;
@@ -588,63 +660,64 @@ body {
   display: block;
   margin: 28px 20px 0;
   width: calc(100% - 40px);
-  background: linear-gradient(135deg, #F0884A, #C0392B);
+  background: linear-gradient(135deg, #9B59B6, #E91E8C);
   color: #fff;
   font-size: 22px; font-weight: 800;
   border: none; border-radius: 50px;
   padding: 18px;
   cursor: pointer;
-  box-shadow: 0 5px 22px rgba(192,57,43,0.3);
+  box-shadow: 0 6px 24px rgba(155,89,182,0.5);
   letter-spacing: 1px;
   transition: all 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .child-send-btn:active { transform: scale(0.98); }
-.child-send-btn:disabled { background: #D4BEB8; box-shadow: none; cursor: not-allowed; }
+.child-send-btn:disabled { background: rgba(255,255,255,0.12); box-shadow: none; cursor: not-allowed; color: var(--text-dim); }
 
 /* ══════════════════════
    父母卡片展示页
 ══════════════════════ */
 #parent-card-page {
-  background: linear-gradient(160deg, #FAF7F2 0%, #FDF0E8 100%);
+  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 50%, #1A0A2E 100%);
   align-items: center;
   justify-content: center;
   padding: 32px 24px 48px;
   gap: 0;
 }
 .card-from {
-  font-size: 16px; color: #B08070;
+  font-size: 16px; color: var(--text-sub);
   margin-bottom: 10px; text-align: center;
   letter-spacing: 1px;
 }
 .care-card {
-  background: linear-gradient(145deg, #FFF9F3, #FFF3E6);
-  border: 2px solid #F5CBA7;
-  border-radius: 24px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(155,89,182,0.4);
+  border-radius: 28px;
   padding: 32px 28px;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(192,57,43,0.1);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
   width: 100%;
   max-width: 380px;
   margin-bottom: 28px;
 }
 .care-card-icon { font-size: 48px; margin-bottom: 16px; }
 .care-card-text {
-  font-size: 22px; line-height: 1.8; color: #3D2B1F;
+  font-size: 20px; line-height: 1.8; color: #fff;
   font-weight: 500;
   white-space: pre-line;
 }
 .care-card-sig {
-  margin-top: 20px; font-size: 16px; color: #B08070;
+  margin-top: 20px; font-size: 16px; color: var(--text-sub);
 }
 
 .card-play-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  background: #FFF0E6;
-  border: 2px solid #F5CBA7;
+  background: rgba(155,89,182,0.2);
+  border: 2px solid rgba(155,89,182,0.5);
   border-radius: 50px;
   padding: 16px 32px;
-  font-size: 20px; font-weight: 800; color: #C0392B;
+  font-size: 20px; font-weight: 800; color: #E8B4FF;
   cursor: pointer;
   margin-bottom: 14px;
   transition: all 0.2s;
@@ -655,13 +728,13 @@ body {
 
 .card-chat-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  background: linear-gradient(135deg, #F0884A, #C0392B);
+  background: linear-gradient(135deg, #9B59B6, #E91E8C);
   border: none;
   border-radius: 50px;
   padding: 16px 32px;
   font-size: 20px; font-weight: 800; color: #fff;
   cursor: pointer;
-  box-shadow: 0 5px 22px rgba(192,57,43,0.28);
+  box-shadow: 0 6px 24px rgba(155,89,182,0.5);
   transition: all 0.2s;
   width: 100%; max-width: 320px;
   -webkit-tap-highlight-color: transparent;
@@ -669,9 +742,495 @@ body {
 .card-chat-btn:active { transform: scale(0.97); }
 
 .card-ai-note {
-  font-size: 12px; color: #C4A899;
+  font-size: 12px; color: var(--text-dim);
   margin-top: 20px; text-align: center; line-height: 1.6;
 }
+
+/* ══════════════════════
+   子女主页新版样式
+══════════════════════ */
+.ch-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 52px 20px 16px;
+  background: linear-gradient(180deg, rgba(40,20,70,0.9) 0%, transparent 100%);
+}
+.ch-greeting {
+  font-size: 26px; font-weight: 900; color: #fff;
+  margin-bottom: 4px;
+}
+.ch-sub { font-size: 14px; color: var(--text-sub); }
+.ch-icon-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 岛屿地图区域 */
+.ch-island-wrap {
+  padding: 0 0 16px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.ch-island {
+  position: relative;
+  margin: 0 16px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(100,60,180,0.3) 0%, rgba(60,20,120,0.5) 100%);
+  border: 1px solid rgba(155,89,182,0.3);
+  height: 200px;
+}
+.island-svg { width: 100%; height: 100%; display: block; }
+.island-member {
+  position: absolute;
+  display: flex; flex-direction: column; align-items: center;
+  transform: translate(-50%, -50%);
+}
+.member-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(155,89,182,0.4);
+  border: 2px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+}
+.member-avatar.self { border-color: #E91E8C; background: rgba(233,30,140,0.3); }
+.member-avatar.mom { border-color: #9B59B6; animation: float 3s ease-in-out infinite; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.member-label {
+  font-size: 11px; color: #fff; font-weight: 700;
+  margin-top: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+.member-status {
+  font-size: 10px; color: rgba(255,255,255,0.7);
+  background: rgba(155,89,182,0.6);
+  border-radius: 8px; padding: 1px 6px; margin-top: 2px;
+}
+
+/* 今日任务区 */
+.ch-task-section {
+  padding: 0 20px;
+  margin-bottom: 12px;
+}
+.ch-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.ch-section-title { font-size: 17px; font-weight: 800; color: #fff; }
+.ch-section-sub { font-size: 13px; color: var(--text-sub); }
+.ch-task-list { display: flex; flex-direction: column; gap: 10px; }
+.ch-task-item {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ch-task-item:active { transform: scale(0.98); }
+.ch-task-icon {
+  width: 44px; height: 44px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.ch-task-info { flex: 1; }
+.ch-task-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.ch-task-desc { font-size: 13px; color: var(--text-sub); }
+.ch-task-score {
+  font-size: 13px; font-weight: 800;
+  color: #E8B4FF;
+  background: rgba(155,89,182,0.2);
+  border-radius: 8px; padding: 3px 8px;
+  flex-shrink: 0;
+}
+.ch-task-arrow { font-size: 20px; color: var(--text-dim); margin-left: 4px; }
+
+/* 底部导航 */
+.ch-nav {
+  display: flex;
+  background: rgba(15,5,30,0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(155,89,182,0.25);
+  padding: 8px 0 20px;
+  margin-top: auto;
+}
+.ch-nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  color: var(--text-dim);
+  font-size: 11px; cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.2s;
+}
+.ch-nav-item.active { color: #C39BD3; }
+.ch-nav-item svg { flex-shrink: 0; }
+
+/* ══════════════════════
+   父母主页新版样式
+══════════════════════ */
+.pp-top {
+  display: flex; align-items: center; gap: 12px;
+  padding: 48px 16px 12px;
+  background: rgba(15,5,30,0.7);
+  backdrop-filter: blur(20px);
+}
+.pp-persona-row {
+  display: flex; gap: 12px; flex: 1;
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.pp-persona-row::-webkit-scrollbar { display: none; }
+.pp-persona-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  flex-shrink: 0; cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 14px;
+  border: 1.5px solid transparent;
+  transition: all 0.2s;
+}
+.pp-persona-item.active {
+  border-color: rgba(155,89,182,0.6);
+  background: rgba(155,89,182,0.2);
+}
+.pp-p-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(155,89,182,0.3);
+  border: 2px solid rgba(155,89,182,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.pp-persona-item.active .pp-p-avatar {
+  border-color: var(--pur1);
+  background: rgba(155,89,182,0.4);
+}
+.pp-p-name { font-size: 11px; color: var(--text-sub); white-space: nowrap; }
+.pp-persona-item.active .pp-p-name { color: #E8B4FF; }
+
+/* 数字人选择小头像 */
+.pp-p-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+
+/* ══ 父母状态卡 ══ */
+.status-card {
+  flex: 1; min-width: 80px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px; padding: 14px 10px;
+  text-align: center;
+}
+.status-card-icon { font-size: 26px; margin-bottom: 4px; }
+.status-card-label { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 3px; }
+.status-card-val { font-size: 13px; font-weight: 700; color: #fff; }
+
+/* ══ 功能图标网格 ══ */
+.fn-grid-wrap {
+  padding: 4px 20px 8px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.fn-grid-wrap::-webkit-scrollbar { display: none; }
+.fn-grid {
+  display: flex; gap: 16px;
+  padding: 4px 0;
+}
+.fn-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; flex-shrink: 0; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.fn-item:active .fn-icon-wrap { transform: scale(0.92); }
+.fn-icon-wrap {
+  width: 62px; height: 62px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: transform 0.15s;
+}
+.fn-label {
+  font-size: 12px; color: rgba(255,255,255,0.85);
+  font-weight: 500; white-space: nowrap;
+}
+
+/* ══ 弹层通用 ══ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  background: linear-gradient(160deg, #2D1B4E 0%, #1A0A2E 100%);
+  border: 1px solid rgba(155,89,182,0.3);
+  border-radius: 28px 28px 0 0;
+  padding: 12px 20px 36px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+}
+.modal-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.2); margin: 0 auto 16px;
+}
+.modal-title {
+  font-size: 20px; font-weight: 800; color: #fff;
+  margin-bottom: 4px;
+}
+.modal-sub {
+  font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 4px;
+}
+.modal-action-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, #9B59B6, #E91E8C);
+  color: #fff; font-size: 17px; font-weight: 700;
+  border: none; border-radius: 50px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(155,89,182,0.4);
+  margin-bottom: 10px;
+}
+.modal-cancel-btn {
+  width: 100%; padding: 13px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.6); font-size: 16px;
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; cursor: pointer;
+}
+
+/* ══ 情绪聊天 ══ */
+.mood-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px; padding: 18px 10px;
+  text-align: center; cursor: pointer;
+  transition: all 0.2s;
+}
+.mood-card:active { transform: scale(0.95); background: rgba(155,89,182,0.3); }
+.mood-label { font-size: 15px; color: #fff; font-weight: 600; margin-top: 8px; }
+
+/* ══ 关怀提醒 loading dots ══ */
+.tl-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(155,89,182,0.7);
+  animation: bounce 1.2s infinite;
+  display: inline-block;
+}
+.tl-dot:nth-child(2) { animation-delay: 0.2s; }
+.tl-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ══ 健康报告表单 ══ */
+.health-form { margin: 16px 0; }
+.hf-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.hf-label { font-size: 15px; color: rgba(255,255,255,0.85); }
+.hf-input-wrap { display: flex; align-items: center; gap: 6px; }
+.hf-input {
+  width: 80px; background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(155,89,182,0.4); border-radius: 10px;
+  padding: 8px 10px; font-size: 16px; color: #fff;
+  text-align: center; outline: none; font-family: inherit;
+}
+.hf-input:focus { border-color: #9B59B6; }
+.hf-unit { font-size: 12px; color: rgba(255,255,255,0.4); }
+.hf-textarea {
+  width: 100%; min-height: 80px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(155,89,182,0.3); border-radius: 14px;
+  padding: 12px; font-size: 15px; color: #fff;
+  resize: none; outline: none; font-family: inherit;
+  margin-top: 8px; margin-bottom: 16px;
+}
+.hf-textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+/* ══ 回忆相册 ══ */
+.album-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin: 16px 0;
+}
+.album-add-btn {
+  aspect-ratio: 1; border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px dashed rgba(255,255,255,0.2);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.album-thumb {
+  aspect-ratio: 1; border-radius: 12px;
+  overflow: hidden; position: relative; cursor: pointer;
+}
+.album-thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.album-thumb-del {
+  position: absolute; top: 4px; right: 4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(0,0,0,0.6); color: #fff;
+  font-size: 12px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+
+/* ══ 更多设置 ══ */
+.settings-list { margin: 16px 0; display: flex; flex-direction: column; gap: 4px; }
+.settings-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.settings-label { display: flex; align-items: center; gap: 12px; }
+.settings-icon { font-size: 22px; }
+.settings-name { font-size: 16px; color: #fff; font-weight: 600; }
+.settings-desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+.settings-slider {
+  -webkit-appearance: none; width: 100px; height: 4px;
+  border-radius: 2px; background: rgba(155,89,182,0.4); outline: none;
+}
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  border-radius: 50%; background: #9B59B6; cursor: pointer;
+}
+.settings-val { font-size: 13px; color: rgba(255,255,255,0.5); min-width: 36px; text-align: right; }
+.font-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(155,89,182,0.4);
+  background: transparent; color: rgba(255,255,255,0.6); font-size: 14px; cursor: pointer;
+}
+.font-btn.active { background: rgba(155,89,182,0.4); color: #fff; border-color: #9B59B6; }
+.toggle-switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; border-radius: 13px;
+  background: rgba(255,255,255,0.15); cursor: pointer; transition: 0.2s;
+}
+.toggle-track::after {
+  content: ''; position: absolute; width: 20px; height: 20px;
+  border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: 0.2s;
+}
+.toggle-switch input:checked + .toggle-track { background: #9B59B6; }
+.toggle-switch input:checked + .toggle-track::after { left: 23px; }
+
+/* 大头像悬停 */
+#ppBigAvatarWrap:hover #ppUploadHint { opacity: 1 !important; }
+
+/* 数字人大图区 */
+.pp-avatar-zone {
+  position: relative;
+  background: linear-gradient(180deg, #2D1B4E 0%, #1A0A2E 100%);
+  display: flex; flex-direction: column; align-items: center;
+  padding-bottom: 0;
+  overflow: hidden;
+  min-height: 340px;
+}
+.pp-moon {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,240,200,0.15), transparent 60%);
+  border: 1px solid rgba(255,240,200,0.12);
+  pointer-events: none;
+}
+/* 星星装饰 */
+.pp-avatar-zone::before {
+  content: '✦';
+  position: absolute; top: 20px; left: 24px;
+  color: rgba(255,255,255,0.4); font-size: 10px;
+  animation: twinkle 2s ease-in-out infinite;
+}
+.pp-avatar-zone::after {
+  content: '✧';
+  position: absolute; top: 40px; right: 30px;
+  color: rgba(255,255,255,0.3); font-size: 14px;
+  animation: twinkle 2.5s ease-in-out infinite 0.5s;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.pp-figure-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; width: 100%;
+  padding-top: 20px;
+}
+.pp-figure-placeholder { position: relative; z-index: 1; }
+.pp-greet-bubble {
+  position: absolute;
+  top: 30px; right: 20px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px 16px 4px 16px;
+  padding: 12px 16px;
+  max-width: 160px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.pp-greet-name { font-size: 14px; font-weight: 800; color: #E8B4FF; margin-bottom: 4px; }
+.pp-greet-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; }
+
+/* 快捷按钮行 */
+.pp-quick-row {
+  display: flex; gap: 12px;
+  padding: 16px 20px;
+  width: 100%;
+}
+.pp-quick-btn {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  padding: 12px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.pp-quick-btn:active { transform: scale(0.95); background: rgba(155,89,182,0.25); }
+.pp-quick-icon { font-size: 24px; margin-bottom: 4px; }
+.pp-quick-label { font-size: 11px; color: var(--text-sub); font-weight: 600; }
+
+/* 关注项 */
+.pp-section { padding: 0 20px 12px; }
+.pp-section-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.pp-section-title { font-size: 16px; font-weight: 800; color: #fff; }
+.pp-section-badge {
+  font-size: 11px; color: #E8B4FF;
+  background: rgba(155,89,182,0.25);
+  border-radius: 8px; padding: 2px 8px;
+}
+.pp-attention-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.pp-attention-item { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.5; }
+
+/* 功能卡片 */
+.pp-cards-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; padding: 0 20px 12px;
+}
+.pp-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 18px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.pp-card:active { transform: scale(0.97); background: rgba(155,89,182,0.2); }
+.pp-card-icon { font-size: 28px; margin-bottom: 8px; }
+.pp-card-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 3px; }
+.pp-card-sub { font-size: 12px; color: var(--text-sub); }
 </style>
 </head>
 <body>
@@ -699,45 +1258,207 @@ body {
   </div>
 </div>
 
-<!-- ══ 子女主页 ══ -->
+<!-- ══ 子女主页（新版）══ -->
 <div id="child-home-page" class="page">
-  <div class="home-top">
-    <div class="home-top-title">亲语</div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="home-top-user" id="childHomeName"></div>
-      <button onclick="doLogout()" style="
-        background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);
-        border-radius:20px;padding:5px 12px;font-size:13px;color:#fff;cursor:pointer;
-      ">退出</button>
+  <!-- 顶部栏 -->
+  <div class="ch-top">
+    <div>
+      <div class="ch-greeting" id="childHomeName">Hi，小悦</div>
+      <div class="ch-sub">已与父母建立了情感链接 💜</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button class="ch-icon-btn" title="通知">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="ch-icon-btn" onclick="doLogout()" title="退出">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
     </div>
   </div>
-  <div class="home-section">
-    <div class="home-section-title">邀请父母绑定</div>
-    <div class="invite-box">
-      <div class="invite-code-row">
-        <div class="invite-code-num" id="inviteCodeDisplay">——</div>
-        <button class="copy-btn" onclick="copyInviteCode()">复制</button>
+
+  <!-- 家庭岛屿地图 -->
+  <div class="ch-island-wrap">
+    <div class="ch-island">
+      <!-- 岛屿背景 SVG -->
+      <svg class="island-svg" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- 海面 -->
+        <ellipse cx="170" cy="165" rx="160" ry="40" fill="rgba(120,80,220,0.15)"/>
+        <!-- 岛屿主体 -->
+        <ellipse cx="170" cy="130" rx="120" ry="55" fill="url(#islandGrad)"/>
+        <defs>
+          <radialGradient id="islandGrad" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#C8A8FF"/>
+            <stop offset="60%" stop-color="#9B70E0"/>
+            <stop offset="100%" stop-color="#6B3FA0"/>
+          </radialGradient>
+          <radialGradient id="waterGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(155,112,224,0.4)"/>
+            <stop offset="100%" stop-color="rgba(100,60,180,0.1)"/>
+          </radialGradient>
+        </defs>
+        <!-- 岛屿绿化 -->
+        <ellipse cx="170" cy="108" rx="80" ry="35" fill="rgba(180,220,180,0.3)"/>
+        <!-- 小树 -->
+        <circle cx="140" cy="98" r="12" fill="rgba(150,200,150,0.5)"/>
+        <circle cx="200" cy="95" r="10" fill="rgba(150,200,150,0.4)"/>
+        <circle cx="160" cy="90" r="8" fill="rgba(150,200,150,0.6)"/>
+        <!-- 城堡 -->
+        <rect x="155" y="72" width="30" height="35" rx="4" fill="rgba(200,170,255,0.7)"/>
+        <rect x="153" y="65" width="8" height="14" rx="2" fill="rgba(200,170,255,0.8)"/>
+        <rect x="169" y="62" width="8" height="17" rx="2" fill="rgba(200,170,255,0.8)"/>
+        <rect x="179" y="65" width="8" height="14" rx="2" fill="rgba(200,170,255,0.8)"/>
+        <!-- 鲸鱼 -->
+        <ellipse cx="90" cy="155" rx="32" ry="14" fill="rgba(155,112,224,0.5)"/>
+        <ellipse cx="120" cy="155" rx="6" ry="5" fill="rgba(155,112,224,0.4)"/>
+        <circle cx="82" cy="150" r="3" fill="rgba(255,255,255,0.6)"/>
+        <!-- 水波 -->
+        <path d="M30 160 Q60 155 90 160 Q120 165 150 160" stroke="rgba(155,112,224,0.3)" stroke-width="2" fill="none"/>
+        <path d="M190 158 Q220 153 250 158 Q280 163 310 158" stroke="rgba(155,112,224,0.3)" stroke-width="2" fill="none"/>
+      </svg>
+
+      <!-- 家庭成员头像（定位在岛上） -->
+      <div class="island-member" style="top:28%;left:42%">
+        <div class="member-avatar self">
+          <span style="font-size:20px">😊</span>
+        </div>
+        <div class="member-label">我</div>
       </div>
-      <div class="invite-hint">把这个6位数字告诉父母，让他们在「我是父母」里输入，完成绑定</div>
+      <div class="island-member" style="top:15%;left:22%">
+        <div class="member-avatar mom">
+          <span style="font-size:20px">👩</span>
+        </div>
+        <div class="member-label">妈妈</div>
+        <div class="member-status">心情还好</div>
+      </div>
+      <div class="island-member" style="top:20%;left:65%">
+        <div class="member-avatar small-sis">
+          <span style="font-size:18px">👧</span>
+        </div>
+        <div class="member-label">小悦</div>
+      </div>
+    </div>
+
+    <!-- 邀请码区（未绑定时显示） -->
+    <div class="invite-box" id="inviteBox" style="margin:0 20px;">
+      <div class="invite-code-row">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:4px;">邀请父母加入</div>
+          <div class="invite-code-num" id="inviteCodeDisplay">——</div>
+        </div>
+        <button class="copy-btn" onclick="copyInviteCode()">复制邀请码</button>
+      </div>
+      <div class="invite-hint">把这6位数字告诉父母，让他们输入完成绑定</div>
       <div id="boundBadge" style="display:none" class="bound-badge">✅ 已绑定，父母可以收到您的关怀</div>
     </div>
   </div>
+
+  <!-- 情绪预警 -->
   <div class="home-section" id="crisisSection" style="display:none;">
-    <div class="home-section-title" style="color:#C0392B;">⚠️ 父母情绪预警</div>
-    <div style="background:#FFF3CD;border:1px solid #F5C518;border-radius:16px;padding:16px;">
-      <div id="crisisMsg" style="font-size:16px;color:#856404;line-height:1.7;"></div>
-      <div style="font-size:13px;color:#B08070;margin-top:8px;">建议尽快联系父母或发一条关怀</div>
+    <div class="home-section-title" style="color:#FFB3D9;">⚠️ 父母情绪预警</div>
+    <div style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.35);border-radius:16px;padding:16px;">
+      <div id="crisisMsg" style="font-size:16px;color:#FFD54F;line-height:1.7;"></div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;">建议尽快联系父母或发一条关怀</div>
     </div>
   </div>
-  <button class="home-care-btn" onclick="showPage('child-page')">💌 给爸妈发今日关怀</button>
+
+  <!-- 父母今日状态卡（动态加载）-->
+  <div class="home-section" id="parentStatusSection" style="display:none">
+    <div class="home-section-title">爸妈今日状态</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <!-- 心情 -->
+      <div class="status-card" id="statusMood" style="display:none">
+        <div class="status-card-icon" id="statusMoodIcon">😊</div>
+        <div class="status-card-label">今日心情</div>
+        <div class="status-card-val" id="statusMoodVal">—</div>
+      </div>
+      <!-- 最近活跃 -->
+      <div class="status-card" id="statusActive" style="display:none">
+        <div class="status-card-icon">🕐</div>
+        <div class="status-card-label">最近在线</div>
+        <div class="status-card-val" id="statusActiveVal">—</div>
+      </div>
+    </div>
+    <!-- 健康报告 -->
+    <div id="healthReportCard" style="display:none;
+      margin-top:10px;background:rgba(52,211,153,0.08);
+      border:1px solid rgba(52,211,153,0.3);border-radius:16px;padding:14px;
+      font-size:14px;color:rgba(255,255,255,0.85);line-height:1.8;white-space:pre-line">
+      <div style="font-size:13px;color:rgba(52,211,153,0.8);margin-bottom:6px">
+        💊 健康报告 · <span id="healthReportTime"></span>
+      </div>
+      <div id="healthReportContent"></div>
+    </div>
+  </div>
+
+  <!-- 今日关怀任务 -->
+  <div class="ch-task-section">
+    <div class="ch-section-header">
+      <span class="ch-section-title">今日关怀任务</span>
+      <span class="ch-section-sub">完成后可获得积分 ❤️</span>
+    </div>
+    <div class="ch-task-list">
+      <div class="ch-task-item" onclick="showPage('child-page')">
+        <div class="ch-task-icon" style="background:rgba(155,89,182,0.2)">💌</div>
+        <div class="ch-task-info">
+          <div class="ch-task-name">发送今日关怀</div>
+          <div class="ch-task-desc">让爸妈知道你想着他们</div>
+        </div>
+        <div class="ch-task-score">+10</div>
+        <div class="ch-task-arrow">›</div>
+      </div>
+      <div class="ch-task-item">
+        <div class="ch-task-icon" style="background:rgba(233,30,140,0.15)">📞</div>
+        <div class="ch-task-info">
+          <div class="ch-task-name">陪妈妈聊聊天</div>
+          <div class="ch-task-desc">AI 每天陪伴，不让她孤单</div>
+        </div>
+        <div class="ch-task-score">+8</div>
+        <div class="ch-task-arrow">›</div>
+      </div>
+      <div class="ch-task-item" onclick="openChildAlbum()">
+        <div class="ch-task-icon" style="background:rgba(100,180,255,0.15)">🖼️</div>
+        <div class="ch-task-info">
+          <div class="ch-task-name">查看家庭相册</div>
+          <div class="ch-task-desc">爸妈上传的美好时光</div>
+        </div>
+        <div class="ch-task-score">+5</div>
+        <div class="ch-task-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部大按钮 -->
+  <div style="padding:0 20px 32px;">
+    <button class="home-care-btn" onclick="showPage('child-page')">💌 给爸妈发今日关怀</button>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="ch-nav">
+    <div class="ch-nav-item active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>关怀</span>
+    </div>
+    <div class="ch-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>心情</span>
+    </div>
+    <div class="ch-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <span>相册</span>
+    </div>
+    <div class="ch-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>我的</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══ 父母绑定页 ══ -->
 <div id="parent-bind-page" class="page">
   <div style="width:100%;padding:16px 20px 0;">
     <button onclick="doLogout()" style="
-      background:transparent;border:1px solid #D4BEB8;border-radius:20px;
-      padding:8px 16px;font-size:15px;color:#B08070;cursor:pointer;
+      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;
+      padding:8px 16px;font-size:15px;color:rgba(255,255,255,0.7);cursor:pointer;
     ">← 返回</button>
   </div>
   <div class="bind-card">
@@ -760,7 +1481,7 @@ body {
 <!-- ══ 子女发送页 ══ -->
 <div id="child-page" class="page">
   <div class="child-top">
-    <button class="back-btn" onclick="showPage('role-page')">←</button>
+    <button class="back-btn" onclick="showPage('child-home-page')">←</button>
     <div class="child-top-title">给爸妈发今日关怀 💌</div>
     <div style="width:38px"></div>
   </div>
@@ -813,12 +1534,12 @@ body {
 <div id="parent-card-page" class="page">
   <div style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:0 4px 8px;">
     <button onclick="showPage('role-page')" style="
-      background:#FFF0E6;border:1.5px solid #F5CBA7;border-radius:20px;
-      padding:8px 16px;font-size:15px;font-weight:700;color:#C0392B;cursor:pointer;
+      background:rgba(155,89,182,0.2);border:1.5px solid rgba(155,89,182,0.5);border-radius:20px;
+      padding:8px 16px;font-size:15px;font-weight:700;color:#E8B4FF;cursor:pointer;
     ">← 返回</button>
     <button onclick="doLogout()" style="
-      background:transparent;border:1px solid #D4BEB8;border-radius:20px;
-      padding:8px 14px;font-size:13px;color:#B08070;cursor:pointer;
+      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;
+      padding:8px 14px;font-size:13px;color:rgba(255,255,255,0.6);cursor:pointer;
     ">退出登录</button>
   </div>
   <div class="card-from" id="cardFrom">孩子给您发来了今日关怀 💌</div>
@@ -836,134 +1557,426 @@ body {
   <div class="card-ai-note">💡 以上内容由 AI 陪伴助手代为传达，不是真实的孩子发言</div>
 </div>
 
-<!-- ══ 角色选择页 ══ -->
+<!-- ══ 父母主页（角色选择 → 改为父母主界面）══ -->
 <div id="role-page" class="page active">
-  <div class="role-header" style="position:relative;">
-    <button onclick="doLogout()" style="
-      position:absolute;right:20px;top:52px;
-      background:transparent;border:1px solid #D4BEB8;border-radius:20px;
-      padding:6px 14px;font-size:13px;color:#B08070;cursor:pointer;
-    ">退出</button>
-    <div class="logo">亲语</div>
-    <div class="logo-sub">不在身边，也让您感受到孩子的爱</div>
+  <!-- 隐藏上传框 -->
+  <input type="file" id="avatarFileInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+
+  <!-- 顶部：数字人选择行 -->
+  <div class="pp-top">
+    <div class="pp-persona-row" id="ppPersonaRow">
+      <div class="pp-persona-item active" id="pitem-warmth" onclick="pickPersonaFromHome(this,'warmth','暖心宝贝')">
+        <div class="pp-p-avatar" style="background:linear-gradient(135deg,#c084fc,#818cf8)">
+          <!-- 人物剪影 SVG -->
+          <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="20" r="10" fill="rgba(255,255,255,0.9)"/><path d="M10 55 Q10 36 30 36 Q50 36 50 55Z" fill="rgba(255,255,255,0.9)"/></svg>
+        </div>
+        <div class="pp-p-name">暖心宝贝</div>
+      </div>
+      <div class="pp-persona-item" id="pitem-funny" onclick="pickPersonaFromHome(this,'funny','开心果')">
+        <div class="pp-p-avatar" style="background:linear-gradient(135deg,#f472b6,#fb7185)">
+          <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="20" r="10" fill="rgba(255,255,255,0.9)"/><path d="M10 55 Q10 36 30 36 Q50 36 50 55Z" fill="rgba(255,255,255,0.9)"/></svg>
+        </div>
+        <div class="pp-p-name">开心果</div>
+      </div>
+      <div class="pp-persona-item" id="pitem-steady" onclick="pickPersonaFromHome(this,'steady','靠谱大孩')">
+        <div class="pp-p-avatar" style="background:linear-gradient(135deg,#60a5fa,#34d399)">
+          <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="20" r="10" fill="rgba(255,255,255,0.9)"/><path d="M10 55 Q10 36 30 36 Q50 36 50 55Z" fill="rgba(255,255,255,0.9)"/></svg>
+        </div>
+        <div class="pp-p-name">靠谱大孩</div>
+      </div>
+      <div class="pp-persona-item" id="pitem-chatterbox" onclick="pickPersonaFromHome(this,'chatterbox','小话痨')">
+        <div class="pp-p-avatar" style="background:linear-gradient(135deg,#fbbf24,#f97316)">
+          <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="20" r="10" fill="rgba(255,255,255,0.9)"/><path d="M10 55 Q10 36 30 36 Q50 36 50 55Z" fill="rgba(255,255,255,0.9)"/></svg>
+        </div>
+        <div class="pp-p-name">小话痨</div>
+      </div>
+      <!-- 上传自定义头像 -->
+      <div class="pp-persona-item" id="pitem-custom" onclick="pickPersonaFromHome(this,'custom','我的专属')">
+        <div class="pp-p-avatar" id="customAvatarThumb"
+          style="background:linear-gradient(135deg,#6366f1,#ec4899);position:relative;overflow:hidden;cursor:pointer"
+          onclick="event.stopPropagation();triggerAvatarUpload()">
+          <img id="customAvatarImg" src="" alt=""
+            style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%">
+          <svg id="customUploadIcon" viewBox="0 0 60 60" width="44" height="44">
+            <circle cx="30" cy="22" r="1" fill="none"/>
+            <text x="30" y="28" text-anchor="middle" font-size="20" fill="rgba(255,255,255,0.95)">+</text>
+            <text x="30" y="42" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">上传</text>
+          </svg>
+        </div>
+        <div class="pp-p-name">我的专属</div>
+      </div>
+    </div>
+    <button class="ch-icon-btn" onclick="doLogout()" title="退出" style="flex-shrink:0;margin-left:8px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
   </div>
 
-  <div class="role-tagline">
-    选一个最像您孩子的性格<br>让 AI 每天陪您聊聊天 💛
-  </div>
+  <!-- 数字人大图区 -->
+  <div class="pp-avatar-zone">
+    <div class="pp-moon"></div>
+    <div class="pp-figure-wrap">
+      <div class="pp-figure-placeholder" id="ppFigure">
+        <!-- 大头像：纯色渐变背景 + 人物剪影，可被上传图替换 -->
+        <div id="ppBigAvatarWrap" onclick="triggerAvatarUpload()"
+          style="width:190px;height:190px;border-radius:50%;position:relative;
+            cursor:pointer;overflow:hidden;
+            background:linear-gradient(145deg,#c084fc 0%,#818cf8 50%,#6366f1 100%);
+            box-shadow:0 0 0 3px rgba(192,132,252,0.5), 0 12px 40px rgba(139,92,246,0.5);
+            transition:box-shadow 0.3s;">
+          <!-- 内置剪影（无上传时显示） -->
+          <svg id="ppBigSilhouette" viewBox="0 0 200 200" width="190" height="190"
+            style="position:absolute;inset:0;display:block">
+            <defs>
+              <radialGradient id="faceGlow" cx="50%" cy="40%" r="50%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+            <rect width="200" height="200" fill="url(#faceGlow)"/>
+            <!-- 头 -->
+            <ellipse cx="100" cy="72" rx="32" ry="36" fill="rgba(255,255,255,0.88)"/>
+            <!-- 发型 -->
+            <ellipse cx="100" cy="50" rx="34" ry="22" fill="rgba(80,20,100,0.75)"/>
+            <ellipse cx="70" cy="72" rx="10" ry="18" fill="rgba(80,20,100,0.75)"/>
+            <ellipse cx="130" cy="72" rx="10" ry="18" fill="rgba(80,20,100,0.75)"/>
+            <!-- 腮红 -->
+            <ellipse cx="78" cy="80" rx="8" ry="5" fill="rgba(255,160,200,0.45)"/>
+            <ellipse cx="122" cy="80" rx="8" ry="5" fill="rgba(255,160,200,0.45)"/>
+            <!-- 眼睛 -->
+            <ellipse cx="88" cy="74" rx="5" ry="6" fill="rgba(60,20,80,0.9)"/>
+            <ellipse cx="112" cy="74" rx="5" ry="6" fill="rgba(60,20,80,0.9)"/>
+            <circle cx="90" cy="72" r="2" fill="rgba(255,255,255,0.9)"/>
+            <circle cx="114" cy="72" r="2" fill="rgba(255,255,255,0.9)"/>
+            <!-- 嘴 -->
+            <path d="M93 88 Q100 94 107 88" stroke="rgba(220,100,140,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- 身体 -->
+            <path d="M55 200 Q55 130 100 128 Q145 130 145 200Z" fill="rgba(160,100,255,0.6)"/>
+            <!-- 领口装饰 -->
+            <ellipse cx="100" cy="132" rx="18" ry="5" fill="rgba(255,255,255,0.2)"/>
+          </svg>
+          <!-- 上传后的图片（默认隐藏） -->
+          <img id="ppBigPhoto" src="" alt=""
+            style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <!-- 悬停提示 -->
+          <div id="ppUploadHint"
+            style="position:absolute;inset:0;background:rgba(0,0,0,0.4);
+              display:flex;flex-direction:column;align-items:center;justify-content:center;
+              opacity:0;transition:opacity 0.2s;border-radius:50%">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span style="color:white;font-size:12px;margin-top:4px">点击换头像</span>
+          </div>
+        </div>
+        <!-- 相机角标 -->
+        <div onclick="triggerAvatarUpload()"
+          style="position:absolute;bottom:4px;right:4px;width:32px;height:32px;
+            border-radius:50%;background:rgba(139,92,246,0.9);
+            border:2px solid rgba(255,255,255,0.4);
+            display:flex;align-items:center;justify-content:center;cursor:pointer;
+            box-shadow:0 2px 8px rgba(0,0,0,0.3);z-index:10;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+      </div>
+      <!-- AI 打招呼气泡 -->
+      <div class="pp-greet-bubble" id="ppGreetBubble">
+        <div class="pp-greet-name" id="ppGreetName">妈妈～</div>
+        <div class="pp-greet-text" id="ppGreetText">今天怎么样？有没有想我？<br>我来陪您聊聊天 💜</div>
+      </div>
+    </div>
 
-  <div class="role-label">点一下您喜欢的性格</div>
-
-  <div class="role-grid">
-    <div class="role-card" onclick="pick(this,'warmth','暖心宝贝','warmth')">
-      <div class="role-avatar warmth-av">
-        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
-          <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
-          <ellipse cx="30" cy="26" rx="13" ry="14" fill="#FDDBB4"/>
-          <path d="M 8 28 Q 10 8 30 6 Q 50 8 52 28 Q 44 16 30 16 Q 16 16 8 28Z" fill="#4A2C0A"/>
-          <ellipse cx="22" cy="32" rx="4" ry="4.5" fill="#fff"/>
-          <ellipse cx="38" cy="32" rx="4" ry="4.5" fill="#fff"/>
-          <circle cx="23" cy="33" r="2.5" fill="#3D1A00"/>
-          <circle cx="39" cy="33" r="2.5" fill="#3D1A00"/>
-          <ellipse cx="18" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
-          <ellipse cx="42" cy="36" rx="4" ry="2.5" fill="#F4A0A0" opacity="0.55"/>
-          <path d="M 24 42 Q 30 46 36 42" stroke="#D44B2A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-          <path d="M 12 28 Q 14 18 30 16 Q 46 18 48 28 Q 44 20 30 20 Q 16 20 12 28Z" fill="#4A2C0A"/>
-          <ellipse cx="44" cy="20" rx="3" ry="2.5" fill="#FF6B9D" transform="rotate(-15,44,20)"/>
-        </svg>
+    <!-- 快捷功能按钮行 -->
+    <div class="pp-quick-row">
+      <div class="pp-quick-btn" onclick="sendQuickMsg('sleep')">
+        <div class="pp-quick-icon">🌙</div>
+        <div class="pp-quick-label">睡眠</div>
       </div>
-      <div class="name">暖心宝贝</div>
-      <div class="tag">体贴入微</div>
-      <div class="desc">说话轻柔，最懂您心里想什么</div>
-    </div>
-    <div class="role-card" onclick="pick(this,'funny','开心果','funny')">
-      <div class="role-avatar funny-av">
-        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
-          <circle cx="30" cy="30" r="30" fill="#FDCF9A"/>
-          <!-- 头发 -->
-          <path d="M 10 32 Q 10 8 30 6 Q 50 8 50 32 Q 46 18 30 18 Q 14 18 10 32Z" fill="#3D1A00"/>
-          <!-- 刘海 -->
-          <path d="M 10 32 Q 14 20 30 20 Q 46 20 50 32 Q 44 24 30 24 Q 16 24 10 32Z" fill="#3D1A00"/>
-          <!-- 耳朵旁碎发 -->
-          <ellipse cx="11" cy="36" rx="4" ry="6" fill="#3D1A00"/>
-          <ellipse cx="49" cy="36" rx="4" ry="6" fill="#3D1A00"/>
-          <!-- 脸 -->
-          <ellipse cx="30" cy="36" rx="18" ry="19" fill="#FDCF9A"/>
-          <!-- 腮红 -->
-          <ellipse cx="17" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
-          <ellipse cx="43" cy="40" rx="5" ry="3" fill="#F48A8A" opacity="0.5"/>
-          <!-- 眉毛 -->
-          <path d="M 20 29 Q 25 26 30 29" stroke="#3D1A00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-          <path d="M 30 29 Q 35 26 40 29" stroke="#3D1A00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-          <!-- 眼睛 -->
-          <ellipse cx="22" cy="35" rx="4.5" ry="5" fill="#fff"/>
-          <ellipse cx="38" cy="35" rx="4.5" ry="5" fill="#fff"/>
-          <circle cx="23" cy="36" r="3" fill="#1A0A00"/>
-          <circle cx="39" cy="36" r="3" fill="#1A0A00"/>
-          <circle cx="24.5" cy="34.5" r="1.2" fill="#fff"/>
-          <circle cx="40.5" cy="34.5" r="1.2" fill="#fff"/>
-          <!-- 嘴巴（大笑） -->
-          <path d="M 22 45 Q 30 52 38 45" stroke="#D44B2A" stroke-width="2" fill="#FF9999" stroke-linecap="round"/>
-          <path d="M 24 45 Q 30 50 36 45" fill="#fff"/>
-          <!-- 发夹 -->
-          <ellipse cx="44" cy="22" rx="3.5" ry="2.5" fill="#FF6B9D" transform="rotate(-20,44,22)"/>
-        </svg>
+      <div class="pp-quick-btn" onclick="sendQuickMsg('meal')">
+        <div class="pp-quick-icon">🍚</div>
+        <div class="pp-quick-label">饮食</div>
       </div>
-      <div class="name">开心果</div>
-      <div class="tag">爱开玩笑</div>
-      <div class="desc">总有趣事，每天都能让您笑</div>
-    </div>
-    <div class="role-card" onclick="pick(this,'steady','靠谱大孩','steady')">
-      <div class="role-avatar steady-av">
-        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
-          <circle cx="30" cy="30" r="30" fill="#F0C490"/>
-          <rect x="14" y="14" width="32" height="28" rx="10" fill="#1A0F00"/>
-          <ellipse cx="30" cy="34" rx="14" ry="15" fill="#F0C490"/>
-          <rect x="22" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
-          <rect x="31" y="27" width="7" height="2.5" rx="1.2" fill="#1A0F00"/>
-          <ellipse cx="23" cy="33" rx="3.8" ry="3.5" fill="#fff"/>
-          <ellipse cx="37" cy="33" rx="3.8" ry="3.5" fill="#fff"/>
-          <circle cx="24" cy="33.5" r="2.2" fill="#1A0A00"/>
-          <circle cx="38" cy="33.5" r="2.2" fill="#1A0A00"/>
-          <ellipse cx="17" cy="37" rx="3.5" ry="2.5" fill="#E8A070" opacity="0.3"/>
-          <ellipse cx="43" cy="37" rx="3.5" ry="2.5" fill="#E8A070" opacity="0.3"/>
-          <path d="M 24 43 Q 30 47 36 43" stroke="#B85030" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        </svg>
+      <div class="pp-quick-btn" onclick="sendQuickMsg('mood')">
+        <div class="pp-quick-icon">😊</div>
+        <div class="pp-quick-label">心情</div>
       </div>
-      <div class="name">靠谱大孩</div>
-      <div class="tag">稳重踏实</div>
-      <div class="desc">说话让人放心，有事能商量</div>
-    </div>
-    <div class="role-card" onclick="pick(this,'chatterbox','小话痨','chatterbox')">
-      <div class="role-avatar chatterbox-av">
-        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="54" height="54">
-          <circle cx="30" cy="30" r="30" fill="#FDDBB4"/>
-          <path d="M 10 30 Q 10 10 30 8 Q 50 10 50 30 Q 46 18 30 18 Q 14 18 10 30Z" fill="#3D1A00"/>
-          <path d="M 10 30 Q 5 40 9 48 Q 12 52 14 46 Q 11 38 14 30Z" fill="#3D1A00"/>
-          <ellipse cx="8" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(-20,8,47)"/>
-          <path d="M 50 30 Q 55 40 51 48 Q 48 52 46 46 Q 49 38 46 30Z" fill="#3D1A00"/>
-          <ellipse cx="52" cy="47" rx="3" ry="2" fill="#FF6B9D" transform="rotate(20,52,47)"/>
-          <ellipse cx="22" cy="33" rx="4.5" ry="5.5" fill="#fff"/>
-          <ellipse cx="38" cy="33" rx="4.5" ry="5.5" fill="#fff"/>
-          <circle cx="23" cy="34" r="3" fill="#2C0A00"/>
-          <circle cx="39" cy="34" r="3" fill="#2C0A00"/>
-          <circle cx="24.5" cy="32" r="1.3" fill="#fff"/>
-          <circle cx="40.5" cy="32" r="1.3" fill="#fff"/>
-          <ellipse cx="16" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
-          <ellipse cx="44" cy="38" rx="5" ry="3" fill="#F4A0A0" opacity="0.5"/>
-          <path d="M 23 43 Q 30 48 37 43" stroke="#D44B2A" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </svg>
+      <div class="pp-quick-btn" onclick="sendQuickMsg('health')">
+        <div class="pp-quick-icon">💊</div>
+        <div class="pp-quick-label">身体状态</div>
       </div>
-      <div class="name">小话痨</div>
-      <div class="tag">停不下来</div>
-      <div class="desc">天天有话说，热热闹闹不孤单</div>
     </div>
   </div>
 
-  <button class="start-btn" id="startBtn" onclick="startChat()" disabled>
-    请先选一个性格 ↑
-  </button>
+  <!-- 功能图标网格 -->
+  <div class="fn-grid-wrap">
+    <div class="fn-grid">
+      <!-- 情绪聊天 -->
+      <div class="fn-item" onclick="openEmotionChat()">
+        <div class="fn-icon-wrap" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">
+          <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+            <circle cx="20" cy="20" r="14" fill="rgba(255,255,255,0.25)"/>
+            <circle cx="15" cy="18" r="2.5" fill="white"/>
+            <circle cx="25" cy="18" r="2.5" fill="white"/>
+            <path d="M13 25 Q20 31 27 25" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <circle cx="30" cy="10" r="5" fill="rgba(255,255,255,0.3)"/>
+            <path d="M28 10h4M30 8v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="fn-label">情绪聊天</div>
+      </div>
 
+      <!-- 关怀提醒 -->
+      <div class="fn-item" onclick="openCareRemind()">
+        <div class="fn-icon-wrap" style="background:linear-gradient(135deg,#fb923c,#e11d48)">
+          <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+            <path d="M20 32 Q8 24 8 15 C8 10 13 7 20 13 C27 7 32 10 32 15 Q32 24 20 32Z" fill="rgba(255,255,255,0.9)"/>
+            <path d="M20 32 Q8 24 8 15 C8 10 13 7 20 13" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="30" cy="11" r="6" fill="#fbbf24"/>
+            <text x="30" y="15" text-anchor="middle" font-size="8" fill="white" font-weight="bold">!</text>
+          </svg>
+        </div>
+        <div class="fn-label">关怀提醒</div>
+      </div>
+
+      <!-- 健康报告 -->
+      <div class="fn-item" onclick="openHealthReport()">
+        <div class="fn-icon-wrap" style="background:linear-gradient(135deg,#34d399,#0891b2)">
+          <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+            <rect x="8" y="10" width="24" height="22" rx="4" fill="rgba(255,255,255,0.2)"/>
+            <rect x="8" y="10" width="24" height="5" rx="4" fill="rgba(255,255,255,0.3)"/>
+            <rect x="13" y="21" width="4" height="7" rx="1" fill="white" opacity="0.6"/>
+            <rect x="19" y="18" width="4" height="10" rx="1" fill="white" opacity="0.8"/>
+            <rect x="25" y="15" width="4" height="13" rx="1" fill="white"/>
+          </svg>
+        </div>
+        <div class="fn-label">健康报告</div>
+      </div>
+
+      <!-- 回忆相册 -->
+      <div class="fn-item" onclick="openAlbum()">
+        <div class="fn-icon-wrap" style="background:linear-gradient(135deg,#60a5fa,#a78bfa)">
+          <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+            <rect x="7" y="10" width="22" height="18" rx="3" fill="rgba(255,255,255,0.25)"/>
+            <rect x="11" y="14" width="22" height="18" rx="3" fill="rgba(255,255,255,0.35)"/>
+            <rect x="9" y="12" width="22" height="18" rx="3" fill="rgba(255,255,255,0.2)"/>
+            <circle cx="20" cy="21" r="5" fill="rgba(255,255,255,0.85)"/>
+            <circle cx="20" cy="21" r="2.5" fill="rgba(96,165,250,0.7)"/>
+            <circle cx="27" cy="15" r="2" fill="rgba(255,220,100,0.9)"/>
+          </svg>
+        </div>
+        <div class="fn-label">回忆相册</div>
+      </div>
+
+      <!-- 更多设置 -->
+      <div class="fn-item" onclick="openSettings()">
+        <div class="fn-icon-wrap" style="background:linear-gradient(135deg,#94a3b8,#475569)">
+          <svg viewBox="0 0 40 40" width="28" height="28" fill="none">
+            <circle cx="20" cy="20" r="5" fill="rgba(255,255,255,0.9)"/>
+            <circle cx="20" cy="20" r="12" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-dasharray="4 3"/>
+            <circle cx="20" cy="9" r="2.5" fill="white"/>
+            <circle cx="20" cy="31" r="2.5" fill="white"/>
+            <circle cx="9" cy="20" r="2.5" fill="white"/>
+            <circle cx="31" cy="20" r="2.5" fill="white"/>
+          </svg>
+        </div>
+        <div class="fn-label">更多设置</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 进入聊天的大按钮 -->
+  <div style="padding:12px 20px 28px;">
+    <button class="start-btn" id="startBtn" onclick="startChatFromHome()">
+      💬 开始和孩子聊天
+    </button>
+  </div>
+
+  <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.25);padding-bottom:16px;">
+    💡 AI 陪伴助手 · 不是真实的子女
+  </div>
+</div>
+
+<!-- ══ 情绪聊天弹层 ══ -->
+<div id="modal-emotion" class="modal-overlay" onclick="closeModal('modal-emotion')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">情绪聊天</div>
+    <div class="modal-sub">选一个今天的心情，和 AI 孩子聊聊</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0">
+      <div class="mood-card" onclick="startMoodChat('happy')">
+        <div style="font-size:36px">😊</div>
+        <div class="mood-label">开心</div>
+      </div>
+      <div class="mood-card" onclick="startMoodChat('calm')">
+        <div style="font-size:36px">😌</div>
+        <div class="mood-label">平静</div>
+      </div>
+      <div class="mood-card" onclick="startMoodChat('tired')">
+        <div style="font-size:36px">😴</div>
+        <div class="mood-label">有点累</div>
+      </div>
+      <div class="mood-card" onclick="startMoodChat('lonely')">
+        <div style="font-size:36px">🥺</div>
+        <div class="mood-label">有点孤独</div>
+      </div>
+    </div>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-emotion')">取消</button>
+  </div>
+</div>
+
+<!-- ══ 关怀提醒弹层 ══ -->
+<div id="modal-care" class="modal-overlay" onclick="closeModal('modal-care')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">今日关怀</div>
+    <div id="careQuoteBox" style="
+      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+      border-radius:18px;padding:20px;margin:16px 0;min-height:120px;
+      font-size:17px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:center">
+      <div id="careQuoteText" style="margin-bottom:12px">正在为您准备今日鸡汤…</div>
+      <div id="careQuoteLoading" style="display:flex;justify-content:center;gap:6px">
+        <span class="tl-dot"></span><span class="tl-dot"></span><span class="tl-dot"></span>
+      </div>
+    </div>
+    <button class="modal-action-btn" onclick="refreshCareQuote()">🔄 换一条</button>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-care')">关闭</button>
+  </div>
+</div>
+
+<!-- ══ 健康报告弹层 ══ -->
+<div id="modal-health" class="modal-overlay" onclick="closeModal('modal-health')">
+  <div class="modal-sheet" onclick="event.stopPropagation()" style="max-height:85vh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div class="modal-title">健康报告</div>
+    <div class="modal-sub">填写今天的健康数据，自动同步给孩子</div>
+    <div class="health-form">
+      <div class="hf-row">
+        <div class="hf-label">血压（收缩压）</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-sbp" type="number" placeholder="120" min="70" max="200"> <span class="hf-unit">mmHg</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">血压（舒张压）</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-dbp" type="number" placeholder="80" min="40" max="130"> <span class="hf-unit">mmHg</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">心率</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-hr" type="number" placeholder="72" min="40" max="180"> <span class="hf-unit">次/分</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">血糖</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-bs" type="number" placeholder="5.6" step="0.1"> <span class="hf-unit">mmol/L</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">今日步数</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-steps" type="number" placeholder="3000"> <span class="hf-unit">步</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">睡眠时长</div>
+        <div class="hf-input-wrap">
+          <input class="hf-input" id="hf-sleep" type="number" placeholder="7.5" step="0.5"> <span class="hf-unit">小时</span>
+        </div>
+      </div>
+      <div class="hf-row">
+        <div class="hf-label">今日感受</div>
+      </div>
+      <textarea class="hf-textarea" id="hf-note" placeholder="今天感觉怎么样？有没有不舒服的地方…"></textarea>
+    </div>
+    <button class="modal-action-btn" onclick="submitHealthReport()">📤 同步给孩子</button>
+    <div id="health-submit-tip" style="text-align:center;font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;min-height:20px"></div>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-health')">关闭</button>
+  </div>
+</div>
+
+<!-- ══ 回忆相册弹层 ══ -->
+<div id="modal-album" class="modal-overlay" onclick="closeModal('modal-album')">
+  <div class="modal-sheet" onclick="event.stopPropagation()" style="max-height:90vh;overflow-y:auto">
+    <div class="modal-handle"></div>
+    <div class="modal-title">回忆相册</div>
+    <div class="modal-sub">家人的美好时光 · 点击添加照片</div>
+    <input type="file" id="albumFileInput" accept="image/*" multiple style="display:none" onchange="handleAlbumUpload(event)">
+    <div id="albumGrid" class="album-grid">
+      <!-- 上传按钮 -->
+      <div class="album-add-btn" onclick="document.getElementById('albumFileInput').click()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">添加照片</span>
+      </div>
+    </div>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-album')" style="margin-top:16px">关闭</button>
+  </div>
+</div>
+
+<!-- ══ 更多设置弹层 ══ -->
+<div id="modal-settings" class="modal-overlay" onclick="closeModal('modal-settings')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">更多设置</div>
+    <div class="settings-list">
+      <div class="settings-item">
+        <div class="settings-label">
+          <span class="settings-icon">🔊</span>
+          <div><div class="settings-name">语音音量</div><div class="settings-desc">AI 说话的音量大小</div></div>
+        </div>
+        <input type="range" class="settings-slider" id="vol-slider" min="0" max="100" value="80" oninput="updateVolume(this.value)">
+        <span class="settings-val" id="vol-val">80%</span>
+      </div>
+      <div class="settings-item">
+        <div class="settings-label">
+          <span class="settings-icon">🔤</span>
+          <div><div class="settings-name">字体大小</div><div class="settings-desc">聊天界面文字大小</div></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="font-btn" onclick="setFontSize('small')">小</button>
+          <button class="font-btn active" onclick="setFontSize('medium')">中</button>
+          <button class="font-btn" onclick="setFontSize('large')">大</button>
+        </div>
+      </div>
+      <div class="settings-item">
+        <div class="settings-label">
+          <span class="settings-icon">🌙</span>
+          <div><div class="settings-name">自动朗读</div><div class="settings-desc">AI 回复后自动播放语音</div></div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoread-toggle" checked onchange="saveSettings()">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+      <div class="settings-item">
+        <div class="settings-label">
+          <span class="settings-icon">💬</span>
+          <div><div class="settings-name">消息提醒</div><div class="settings-desc">子女发来关怀时通知我</div></div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="notify-toggle" checked onchange="saveSettings()">
+          <span class="toggle-track"></span>
+        </label>
+      </div>
+      <div class="settings-item" onclick="doLogout()" style="cursor:pointer">
+        <div class="settings-label">
+          <span class="settings-icon">🚪</span>
+          <div><div class="settings-name" style="color:#ff6b6b">退出登录</div><div class="settings-desc">返回登录页面</div></div>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 相册大图预览 ══ -->
+<div id="modal-photo-view" class="modal-overlay" onclick="closeModal('modal-photo-view')" style="align-items:center;justify-content:center">
+  <img id="photoViewImg" src="" style="max-width:95vw;max-height:90vh;border-radius:12px;object-fit:contain">
+</div>
 </div>
 
 <!-- ══ 聊天页 ══ -->
@@ -974,15 +1987,14 @@ body {
       <div class="chat-name" id="chatName">暖心宝贝</div>
       <div class="chat-status">✦ 在线 · 随时陪您</div>
     </div>
-    <div class="chat-emo" id="chatEmo">🤗</div>
-    <!-- 朗读开关 -->
+    <div class="chat-emo" id="chatEmo" style="overflow:hidden;padding:0"></div>
     <label class="tts-toggle" id="ttsToggle" onclick="toggleTTS()">
-      <span id="ttsLabel">🔊 朗读</span>
+      <span id="ttsLabel">🔊</span>
       <div class="tts-dot" id="ttsDot"></div>
     </label>
   </div>
 
-  <!-- ══ Live2D 虚拟形象舞台 ══ -->
+  <!-- Live2D 舞台 -->
   <div class="avatar-stage" id="avatarStage">
     <div class="avatar-loading" id="avatarLoading">
       <div class="avatar-loading-dot"></div>少女正在赶来…
@@ -1004,7 +2016,7 @@ body {
   <div class="no-speech" id="noSpeechTip" style="display:none;">
     您的浏览器不支持语音，请用 Chrome 打开
   </div>
-  <div style="text-align:center;font-size:12px;color:#C4A899;padding:4px 16px 12px;line-height:1.5;">
+  <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.35);padding:4px 16px 12px;line-height:1.5;background:rgba(20,10,40,0.9);">
     💡 这是 AI 陪伴助手，不是真实的子女
   </div>
 </div>
@@ -1280,45 +2292,520 @@ async function speak(text) {
   }
 }
 
-// ── 角色选择 ──
+// ── 角色选择（旧版保留兼容） ──
 function pick(el, key, name, avatarKey) {
-  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
   persona = key;
   personaName = name;
   personaAvatarKey = avatarKey;
   personaEmoji = { warmth:'🤗', funny:'😄', steady:'💪', chatterbox:'🗣️' }[key] || '😊';
-  const btn = document.getElementById('startBtn');
-  btn.disabled = false;
-  btn.textContent = `就选「${name}」陪我聊 ➜`;
 }
 
-// ── 进入聊天 ──
-function startChat() {
+// 各角色配色（用于小头像边框高亮 + 大图光晕）
+const PERSONA_COLORS = {
+  warmth:     { glow: 'rgba(192,132,252,0.6)', bg: 'linear-gradient(145deg,#c084fc,#818cf8,#6366f1)' },
+  funny:      { glow: 'rgba(244,114,182,0.6)', bg: 'linear-gradient(145deg,#f472b6,#fb7185,#e11d48)' },
+  steady:     { glow: 'rgba(96,165,250,0.6)',  bg: 'linear-gradient(145deg,#60a5fa,#34d399,#059669)' },
+  chatterbox: { glow: 'rgba(251,191,36,0.6)',  bg: 'linear-gradient(145deg,#fbbf24,#f97316,#ea580c)' },
+  custom:     { glow: 'rgba(99,102,241,0.6)',  bg: 'linear-gradient(145deg,#6366f1,#ec4899)' },
+};
+
+// 上传的自定义头像（base64），持久化到 localStorage
+let customAvatarDataUrl = localStorage.getItem('qinyu_custom_avatar') || '';
+
+// 初始化自定义头像显示
+function initCustomAvatar() {
+  if (!customAvatarDataUrl) return;
+  const img = document.getElementById('customAvatarImg');
+  const icon = document.getElementById('customUploadIcon');
+  if (img) { img.src = customAvatarDataUrl; img.style.display = 'block'; }
+  if (icon) icon.style.display = 'none';
+}
+
+// 触发文件选择
+function triggerAvatarUpload() {
+  document.getElementById('avatarFileInput').click();
+}
+
+// ── 上传头像处理 ──
+function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // 用 Canvas 裁剪成正方形再压缩，避免大图卡顿
+  const img = new Image();
+  const objectUrl = URL.createObjectURL(file);
+  img.onload = () => {
+    const size = Math.min(img.width, img.height);
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+    // 圆形裁剪
+    ctx.beginPath();
+    ctx.arc(200, 200, 200, 0, Math.PI * 2);
+    ctx.clip();
+    // 居中裁剪
+    const sx = (img.width - size) / 2;
+    const sy = (img.height - size) / 2;
+    ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
+    URL.revokeObjectURL(objectUrl);
+
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    customAvatarDataUrl = dataUrl;
+    localStorage.setItem('qinyu_custom_avatar', dataUrl);
+
+    // 更新小头像
+    const thumbImg = document.getElementById('customAvatarImg');
+    const thumbIcon = document.getElementById('customUploadIcon');
+    if (thumbImg) { thumbImg.src = dataUrl; thumbImg.style.display = 'block'; }
+    if (thumbIcon) thumbIcon.style.display = 'none';
+
+    // 更新大图
+    const bigPhoto = document.getElementById('ppBigPhoto');
+    const bigSil = document.getElementById('ppBigSilhouette');
+    if (bigPhoto) { bigPhoto.src = dataUrl; bigPhoto.style.display = 'block'; }
+    if (bigSil) bigSil.style.display = 'none';
+
+    // 自动切换到「我的专属」
+    const customItem = document.getElementById('pitem-custom');
+    if (customItem) pickPersonaFromHome(customItem, 'custom', '我的专属');
+  };
+  img.src = objectUrl;
+  event.target.value = '';
+}
+
+// 获取当前角色头像用于消息气泡（返回 CSS background 或 img src）
+function getAvatarSrc(key) {
+  if (key === 'custom' && customAvatarDataUrl) return customAvatarDataUrl;
+  return '';  // 无图片时用颜色渐变
+}
+
+// ── 父母主页：切换数字人 ──
+function pickPersonaFromHome(el, key, name) {
+  document.querySelectorAll('.pp-persona-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  persona = key;
+  personaName = name;
+  personaAvatarKey = key;
+
+  const cfg = PERSONA_COLORS[key] || PERSONA_COLORS.warmth;
+
+  // 更新大图背景色 + 光晕
+  const wrap = document.getElementById('ppBigAvatarWrap');
+  if (wrap) {
+    wrap.style.background = cfg.bg;
+    wrap.style.boxShadow = `0 0 0 3px ${cfg.glow}, 0 12px 40px ${cfg.glow}`;
+  }
+
+  // 如果切换到「我的专属」且已上传，显示照片；否则显示剪影
+  const bigPhoto = document.getElementById('ppBigPhoto');
+  const bigSil = document.getElementById('ppBigSilhouette');
+  if (key === 'custom' && customAvatarDataUrl) {
+    if (bigPhoto) { bigPhoto.src = customAvatarDataUrl; bigPhoto.style.display = 'block'; }
+    if (bigSil) bigSil.style.display = 'none';
+  } else {
+    if (bigPhoto) bigPhoto.style.display = 'none';
+    if (bigSil) bigSil.style.display = 'block';
+  }
+
+  // 更新打招呼气泡
+  const greetings = {
+    warmth:     '今天怎么样？有没有想我？\n我来陪您聊聊天 💜',
+    funny:      '哈哈，今天有什么开心的事？\n快告诉我吧！😄',
+    steady:     '有什么需要帮忙的吗？\n我就在这里陪着您。',
+    chatterbox: '你猜我今天遇到什么了！\n快来聊聊嘛～🗣️',
+    custom:     customAvatarDataUrl ? '换上我的专属头像啦！今天来聊聊？ ✨' : '点下面相机上传我的照片 📷',
+  };
+  const nameEl = document.getElementById('ppGreetName');
+  const textEl = document.getElementById('ppGreetText');
+  if (nameEl) nameEl.textContent = (currentUser?.name || '妈妈') + '～';
+  if (textEl) textEl.textContent = greetings[key] || greetings.warmth;
+}
+
+// ── 父母主页快捷消息 ──
+const QUICK_MSGS = {
+  sleep: '我最近睡眠怎么样，你来帮我分析一下？',
+  meal: '今天吃了什么，跟你说说。',
+  mood: '今天心情不太好，想跟你说说话。',
+  health: '最近身体状态你帮我看看？'
+};
+
+function sendQuickMsg(type) {
+  if (!persona) { persona = 'warmth'; personaName = '暖心宝贝'; personaAvatarKey = 'warmth'; }
+  startChatFromHome();
+  setTimeout(() => {
+    const input = document.getElementById('msgInput');
+    if (input) {
+      input.value = QUICK_MSGS[type] || '';
+      send();
+    }
+  }, 600);
+}
+
+// ── 父母主页：进入聊天 ──
+function startChatFromHome() {
+  if (!persona) { persona = 'warmth'; personaName = '暖心宝贝'; personaAvatarKey = 'warmth'; }
   document.getElementById('chatName').textContent = personaName;
-  // 顶部头像换成对应 SVG
   const emoEl = document.getElementById('chatEmo');
-  emoEl.innerHTML = AVATAR_SVGS[personaAvatarKey] || personaEmoji;
+  emoEl.innerHTML = avatarImgTag(persona, 46);
+  emoEl.style.padding = '0';
   emoEl.style.overflow = 'hidden';
-  document.getElementById('role-page').classList.remove('active');
-  document.getElementById('chat-page').classList.add('active');
+  emoEl.style.border = 'none';
+  emoEl.style.background = 'none';
 
+  showPage('chat-page');
   history = [];
-  const msgs = document.getElementById('messages');
-  msgs.innerHTML = '';
-
+  document.getElementById('messages').innerHTML = '';
   addTime();
   initSpeech();
   initLive2D(persona);
-
   document.getElementById('ttsToggle').classList.add('tts-on');
+  setTimeout(() => document.getElementById('msgInput').focus(), 300);
+}
 
-  setTimeout(() => {
-    document.getElementById('msgInput').focus();
-  }, 300);
+// ── 进入聊天（旧版兼容）──
+function startChat() { startChatFromHome(); }
+
+// 生成头像 HTML（消息气泡、顶部栏用）
+// 有上传照片时显示照片，否则显示渐变色人物剪影
+function avatarImgTag(key, size = 36) {
+  const src = getAvatarSrc(key);
+  const cfg = PERSONA_COLORS[key] || PERSONA_COLORS.warmth;
+  if (src) {
+    return `<img src="${src}" style="border-radius:50%;display:block;width:100%;height:100%;object-fit:cover">`;
+  }
+  // 渐变色 + 迷你剪影
+  return `<div style="width:100%;height:100%;border-radius:50%;background:${cfg.bg};
+    display:flex;align-items:center;justify-content:center;overflow:hidden">
+    <svg viewBox="0 0 40 40" width="${size}" height="${size}">
+      <ellipse cx="20" cy="13" rx="8" ry="9" fill="rgba(255,255,255,0.9)"/>
+      <path d="M4 40 Q4 26 20 26 Q36 26 36 40Z" fill="rgba(255,255,255,0.9)"/>
+    </svg>
+  </div>`;
 }
 
 // ── 退出登录 ──
+// ══════════════════════════════════════
+// 弹层通用控制
+// ══════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════
+// 情绪聊天
+// ══════════════════════════════════════
+function openEmotionChat() { openModal('modal-emotion'); }
+
+const MOOD_OPENERS = {
+  happy:  '孩子！今天我心情特别好，想和你分享！',
+  calm:   '孩子，今天挺平静的，就是想和你说说话。',
+  tired:  '孩子，我今天有点累，能陪我聊聊天吗？',
+  lonely: '孩子，今天有点想你，感觉有点孤独…',
+};
+async function startMoodChat(mood) {
+  closeModal('modal-emotion');
+  // 保存心情到服务器（供子女端查看）
+  const familyId = currentUser?.family_id;
+  const userId   = currentUser?.user_id;
+  if (familyId && userId) {
+    const moodNotes = { happy:'今天心情不错😊', calm:'心情平静😌', tired:'有点累了😴', lonely:'感觉有点孤独🥺' };
+    fetch('/api/save_mood', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId, user_id: userId, mood, note: moodNotes[mood] || '' })
+    }).catch(() => {});
+  }
+  if (!persona) { persona = 'warmth'; personaName = '暖心宝贝'; personaAvatarKey = 'warmth'; }
+  startChatFromHome();
+  setTimeout(() => {
+    const input = document.getElementById('msgInput');
+    if (input) { input.value = MOOD_OPENERS[mood] || ''; send(); }
+  }, 700);
+}
+
+// ══════════════════════════════════════
+// 关怀提醒 —— AI 生成心灵鸡汤
+// ══════════════════════════════════════
+const CARE_QUOTES_FALLBACK = [
+  '岁月如流水，带走了青春，却带不走您心中的温柔与智慧。您的每一天都是独一无二的礼物，愿您好好珍惜，享受属于自己的宁静与美好。孩子们虽不在身边，但心始终与您相连。',
+  '生命中最美的事，不是拥有多少，而是感受多少。今天的一杯热茶、窗外的阳光、邻居的一声问好，都是生活赠给您的礼物。慢下来，感受这些小小的温暖吧。',
+  '您走过了风雨，见过了彩虹。如今，最重要的事就是照顾好自己。按时吃饭、好好睡觉，健康是给孩子们最大的礼物，也是您给自己最温柔的交代。',
+  '人生不必事事完美，但每一天都值得认真对待。您的笑容，是家人心里最亮的灯。今天，请对自己好一点，做一件让自己开心的小事吧。',
+  '思念是一种甜蜜的负担。孩子们在远方牵挂着您，您也在这里挂念着他们。这份爱跨越距离，从未减少半分。愿您今天平安喜乐，一切安好。',
+];
+let quoteTimer = null;
+
+async function openCareRemind() {
+  openModal('modal-care');
+  document.getElementById('careQuoteText').textContent = '';
+  document.getElementById('careQuoteLoading').style.display = 'flex';
+  await fetchCareQuote();
+}
+
+async function refreshCareQuote() {
+  document.getElementById('careQuoteText').textContent = '';
+  document.getElementById('careQuoteLoading').style.display = 'flex';
+  await fetchCareQuote();
+}
+
+async function fetchCareQuote() {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        persona: 'warmth',
+        messages: [{ role: 'user', content: '请你用温暖的语气，为一位退休的父母长辈写一段今日心灵鸡汤，要贴近老年人生活，充满正能量，不超过100字，不要标题，直接写正文。' }],
+        family_id: ''
+      })
+    });
+    const data = await res.json();
+    const text = data.reply?.replace('【请联系真实家人或专业人员】','').trim() || pickRandom(CARE_QUOTES_FALLBACK);
+    showQuote(text);
+  } catch(e) {
+    showQuote(pickRandom(CARE_QUOTES_FALLBACK));
+  }
+}
+
+function showQuote(text) {
+  document.getElementById('careQuoteLoading').style.display = 'none';
+  const el = document.getElementById('careQuoteText');
+  el.textContent = '';
+  let i = 0;
+  clearInterval(quoteTimer);
+  quoteTimer = setInterval(() => {
+    if (i < text.length) { el.textContent += text[i++]; }
+    else clearInterval(quoteTimer);
+  }, 40);
+}
+
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+// ══════════════════════════════════════
+// 健康报告
+// ══════════════════════════════════════
+function openHealthReport() { openModal('modal-health'); }
+
+async function submitHealthReport() {
+  const sbp   = document.getElementById('hf-sbp').value;
+  const dbp   = document.getElementById('hf-dbp').value;
+  const hr    = document.getElementById('hf-hr').value;
+  const bs    = document.getElementById('hf-bs').value;
+  const steps = document.getElementById('hf-steps').value;
+  const sleep = document.getElementById('hf-sleep').value;
+  const note  = document.getElementById('hf-note').value.trim();
+  const tip   = document.getElementById('health-submit-tip');
+
+  if (!sbp && !dbp && !hr && !steps && !sleep) {
+    tip.style.color = '#ff6b6b';
+    tip.textContent = '请至少填写一项数据再提交';
+    return;
+  }
+
+  const lines = [];
+  if (sbp || dbp) lines.push(`血压：${sbp||'?'}/${dbp||'?'} mmHg`);
+  if (hr)    lines.push(`心率：${hr} 次/分`);
+  if (bs)    lines.push(`血糖：${bs} mmol/L`);
+  if (steps) lines.push(`步数：${steps} 步`);
+  if (sleep) lines.push(`睡眠：${sleep} 小时`);
+  if (note)  lines.push(`感受：${note}`);
+
+  const content = `【健康报告】\n${lines.join('\n')}`;
+  const familyId = currentUser?.family_id;
+  if (familyId) {
+    try {
+      await fetch('/api/send_care', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          family_id: familyId,
+          child_id: currentUser.user_id,
+          template: 'health',
+          content,
+        })
+      });
+    } catch(e) {}
+  }
+
+  tip.style.color = '#a5d6a7';
+  tip.textContent = '✅ 已同步给孩子，他们会看到您的健康数据';
+  setTimeout(() => { tip.textContent = ''; }, 3000);
+}
+
+// ══════════════════════════════════════
+// 回忆相册
+// ══════════════════════════════════════
+// 相册：服务器数据 [{id, image_data, created_at, user_id}, ...]
+let albumPhotos = [];
+
+// 子女端也可以查看相册（只读）
+async function openChildAlbum() {
+  openModal('modal-album');
+  document.getElementById('albumGrid').innerHTML =
+    `<div style="grid-column:span 3;text-align:center;color:rgba(255,255,255,0.4);padding:24px">加载中…</div>`;
+  await loadAlbumFromServer();
+}
+
+async function openAlbum() {
+  openModal('modal-album');
+  document.getElementById('albumGrid').innerHTML =
+    `<div style="grid-column:span 3;text-align:center;color:rgba(255,255,255,0.4);padding:24px">加载中…</div>`;
+  await loadAlbumFromServer();
+}
+
+async function loadAlbumFromServer() {
+  const familyId = currentUser?.family_id;
+  if (!familyId) { renderAlbum(); return; }
+  try {
+    const res = await fetch('/api/get_album', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId })
+    });
+    const data = await res.json();
+    albumPhotos = data.photos || [];
+  } catch(e) { albumPhotos = []; }
+  renderAlbum();
+}
+
+function renderAlbum() {
+  const grid = document.getElementById('albumGrid');
+  const canAdd = currentUser?.role === 'parent';  // 只有父母能上传
+  grid.innerHTML = `
+    ${canAdd ? `<div class="album-add-btn" onclick="document.getElementById('albumFileInput').click()">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      <span style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">添加照片</span>
+    </div>` : ''}
+    ${albumPhotos.length === 0 && !canAdd
+      ? `<div style="grid-column:span 3;text-align:center;color:rgba(255,255,255,0.35);padding:32px 0">暂无照片，等父母来上传吧 🌸</div>`
+      : albumPhotos.map((p, i) => `
+      <div class="album-thumb" onclick="viewAlbumPhoto(${i})">
+        <img src="${p.image_data}" loading="lazy">
+        ${currentUser?.user_id === p.user_id
+          ? `<div class="album-thumb-del" onclick="event.stopPropagation();deleteAlbumPhoto('${p.id}',${i})">×</div>` : ''}
+      </div>`).join('')}`;
+}
+
+function handleAlbumUpload(event) {
+  const files = Array.from(event.target.files);
+  if (!files.length) return;
+  const newImages = [];
+  let loaded = 0;
+
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 800;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        newImages.push(canvas.toDataURL('image/jpeg', 0.75));
+        if (++loaded === files.length) uploadAlbumToServer(newImages);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value = '';
+}
+
+async function uploadAlbumToServer(images) {
+  const familyId = currentUser?.family_id;
+  const userId   = currentUser?.user_id;
+  if (!familyId) return;
+  try {
+    await fetch('/api/save_album', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId, user_id: userId, images })
+    });
+    await loadAlbumFromServer();
+  } catch(e) { console.warn('上传相册失败', e); }
+}
+
+function viewAlbumPhoto(idx) {
+  const img = document.getElementById('photoViewImg');
+  img.src = albumPhotos[idx].image_data;
+  openModal('modal-photo-view');
+}
+
+async function deleteAlbumPhoto(photoId, idx) {
+  try {
+    await fetch('/api/delete_photo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ photo_id: photoId, user_id: currentUser?.user_id })
+    });
+    albumPhotos.splice(idx, 1);
+    renderAlbum();
+  } catch(e) {}
+}
+
+// ══════════════════════════════════════
+// 更多设置
+// ══════════════════════════════════════
+function openSettings() {
+  loadSettings();
+  openModal('modal-settings');
+}
+
+function loadSettings() {
+  const s = JSON.parse(localStorage.getItem('qinyu_settings') || '{}');
+  const vol = s.volume ?? 80;
+  document.getElementById('vol-slider').value = vol;
+  document.getElementById('vol-val').textContent = vol + '%';
+  document.getElementById('autoread-toggle').checked = s.autoread ?? true;
+  document.getElementById('notify-toggle').checked = s.notify ?? true;
+  const fontSize = s.fontSize || 'medium';
+  document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.font-btn[onclick="setFontSize('${fontSize}')"]`)?.classList.add('active');
+  applyFontSize(fontSize);
+}
+
+function saveSettings() {
+  const s = {
+    volume: parseInt(document.getElementById('vol-slider').value),
+    autoread: document.getElementById('autoread-toggle').checked,
+    notify: document.getElementById('notify-toggle').checked,
+    fontSize: localStorage.getItem('qinyu_fontsize') || 'medium',
+  };
+  localStorage.setItem('qinyu_settings', JSON.stringify(s));
+  // 同步 TTS 开关
+  ttsEnabled = s.autoread;
+}
+
+function updateVolume(val) {
+  document.getElementById('vol-val').textContent = val + '%';
+  if (currentAudio) currentAudio.volume = val / 100;
+  saveSettings();
+}
+
+function setFontSize(size) {
+  document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.font-btn[onclick="setFontSize('${size}')"]`)?.classList.add('active');
+  localStorage.setItem('qinyu_fontsize', size);
+  applyFontSize(size);
+  saveSettings();
+}
+
+function applyFontSize(size) {
+  const map = { small: '16px', medium: '19px', large: '22px' };
+  document.querySelectorAll('.bubble, .msg-input').forEach(el => {
+    el.style.fontSize = map[size] || '19px';
+  });
+}
+
 function doLogout() {
   currentUser = null;
   localStorage.removeItem('qinyu_user');
@@ -1333,9 +2820,13 @@ function doLogout() {
 
 // ── 返回（聊天页） ──
 function goBack() {
-  document.getElementById('chat-page').classList.remove('active');
-  document.getElementById('role-page').classList.add('active');
   history = [];
+  // 子女角色从聊天返回子女主页，父母角色返回父母主页
+  if (currentUser?.role === 'child') {
+    showPage('child-home-page');
+  } else {
+    showPage('role-page');
+  }
 }
 
 // ── 发送 ──
@@ -1409,11 +2900,13 @@ function appendMsg(from, text) {
   const msgs = document.getElementById('messages');
   const row = document.createElement('div');
   row.className = 'msg-row' + (from === 'me' ? ' me' : '');
+  // 父母用当前选中的头像，AI也用同一头像（父母视角下AI=孩子形象）
+  const selfSrc = getAvatarSrc(personaAvatarKey);
   const avaHtml = from === 'me'
-    ? '👴'
-    : (AVATAR_SVGS[personaAvatarKey] || personaEmoji);
+    ? `<img src="${selfSrc}" width="36" height="36" style="border-radius:50%;display:block;width:100%;height:100%;object-fit:cover;opacity:0.7">`
+    : avatarImgTag(personaAvatarKey);
   row.innerHTML = `
-    <div class="msg-ava" style="overflow:hidden">${avaHtml}</div>
+    <div class="msg-ava" style="overflow:hidden;padding:0">${avaHtml}</div>
     <div class="bubble">${escHtml(text)}</div>`;
   msgs.appendChild(row);
   scrollBottom();
@@ -1435,7 +2928,7 @@ function showTyping() {
   row.id = id;
   row.className = 'msg-row';
   row.innerHTML = `
-    <div class="msg-ava" style="overflow:hidden">${AVATAR_SVGS[personaAvatarKey] || personaEmoji}</div>
+    <div class="msg-ava" style="overflow:hidden;padding:0">${avatarImgTag(personaAvatarKey)}</div>
     <div class="typing-bubble">
       <span></span><span></span><span></span>
     </div>`;
@@ -1572,12 +3065,64 @@ async function doLogin() {
 // 子女主页
 // ══════════════════════════════════
 function enterChildHome() {
-  document.getElementById('childHomeName').textContent = currentUser.name;
+  document.getElementById('childHomeName').textContent = 'Hi，' + currentUser.name;
   document.getElementById('inviteCodeDisplay').textContent = currentUser.invite_code || '……';
   const badge = document.getElementById('boundBadge');
   badge.style.display = currentUser.bound ? 'inline-flex' : 'none';
   showPage('child-home-page');
   loadCrisisAlerts();
+  loadFamilyStatus();
+}
+
+async function loadFamilyStatus() {
+  const familyId = currentUser?.family_id;
+  const childId  = currentUser?.user_id;
+  if (!familyId || !childId) return;
+  try {
+    const res  = await fetch('/api/family_status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ family_id: familyId, child_id: childId })
+    });
+    const data = await res.json();
+    const hasAny = data.mood || data.health || data.parent;
+    if (!hasAny) return;
+
+    document.getElementById('parentStatusSection').style.display = 'block';
+
+    // 心情
+    const moodMap = {
+      happy:  { icon:'😊', label:'开心' },
+      calm:   { icon:'😌', label:'平静' },
+      tired:  { icon:'😴', label:'有点累' },
+      lonely: { icon:'🥺', label:'有些孤独' },
+    };
+    if (data.mood) {
+      const m = moodMap[data.mood.mood] || { icon:'💜', label: data.mood.mood };
+      document.getElementById('statusMood').style.display = 'block';
+      document.getElementById('statusMoodIcon').textContent = m.icon;
+      document.getElementById('statusMoodVal').textContent = m.label;
+    }
+
+    // 最近活跃
+    if (data.parent?.last_active_at) {
+      const mins = Math.floor((Date.now() - new Date(data.parent.last_active_at)) / 60000);
+      const label = mins < 2 ? '刚刚' : mins < 60 ? `${mins}分钟前` : `${Math.floor(mins/60)}小时前`;
+      document.getElementById('statusActive').style.display = 'block';
+      document.getElementById('statusActiveVal').textContent = label;
+    }
+
+    // 健康报告
+    if (data.health) {
+      const time = new Date(data.health.created_at).toLocaleString('zh-CN', {
+        month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      document.getElementById('healthReportCard').style.display = 'block';
+      document.getElementById('healthReportTime').textContent = time;
+      document.getElementById('healthReportContent').textContent =
+        data.health.content.replace('【健康报告】\n', '');
+    }
+  } catch(e) {}
 }
 
 async function loadCrisisAlerts() {
@@ -1605,7 +3150,7 @@ function copyInviteCode() {
   navigator.clipboard?.writeText(code).catch(() => {});
   const btn = document.querySelector('.copy-btn');
   btn.textContent = '已复制 ✓';
-  setTimeout(() => btn.textContent = '复制', 1500);
+  setTimeout(() => btn.textContent = '复制邀请码', 1500);
 }
 
 // ══════════════════════════════════
@@ -1615,7 +3160,9 @@ function enterParentHome() {
   if (!currentUser.bound) {
     showPage('parent-bind-page');
   } else {
-    // 已绑定 → 拉最新关怀，然后进角色选择
+    // 已绑定 → 更新父母主页的问候语，再拉关怀
+    const nameEl = document.getElementById('ppGreetName');
+    if (nameEl) nameEl.textContent = (currentUser.name || '妈妈') + '～';
     loadLatestCare();
   }
 }
@@ -1738,6 +3285,8 @@ function updateChildSendBtn() {
 document.addEventListener('DOMContentLoaded', () => {
   const ta = document.getElementById('careText');
   if (ta) ta.addEventListener('input', updateChildSendBtn);
+  // 恢复已上传的自定义头像
+  initCustomAvatar();
 });
 
 async function genCare() {
@@ -1878,8 +3427,9 @@ function goToChatFromCard() {
   }
   document.getElementById('chatName').textContent = personaName;
   const emoEl = document.getElementById('chatEmo');
-  emoEl.innerHTML = AVATAR_SVGS[personaAvatarKey] || personaEmoji;
+  emoEl.innerHTML = avatarImgTag(personaAvatarKey, 46);
   emoEl.style.overflow = 'hidden';
+  emoEl.style.padding = '0';
 
   showPage('chat-page');
   history = [];

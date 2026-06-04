@@ -152,6 +152,12 @@ class Handler(BaseHTTPRequestHandler):
                 ".css":  "text/css; charset=utf-8",
                 ".js":   "application/javascript; charset=utf-8",
                 ".json": "application/json; charset=utf-8",
+                ".svg":  "image/svg+xml",
+                ".png":  "image/png",
+                ".jpg":  "image/jpeg",
+                ".jpeg": "image/jpeg",
+                ".gif":  "image/gif",
+                ".webp": "image/webp",
             }
             ct = content_types.get(suffix, "text/plain; charset=utf-8")
             content = file_path.read_bytes()
@@ -284,6 +290,127 @@ class Handler(BaseHTTPRequestHandler):
             # 标记已读
             sb_patch("care_cards", {"is_read": True}, f"id=eq.{card['id']}")
             self._json(200, {"card": card})
+
+        # ── 子女拉取父母健康报告 ────────────────────────────────
+        elif self.path == "/api/parent_reports":
+            family_id  = body.get("family_id", "")
+            child_id   = body.get("child_id", "")   # 子女自己的 user_id，用来排除自己发的
+            if not family_id:
+                self._json(400, {"error": "缺少 family_id"}); return
+
+            # 拉 template=health 且 child_id != 子女自己（即父母发的）
+            reports = sb_get("care_cards",
+                f"family_id=eq.{family_id}&template=eq.health&child_id=neq.{child_id}&order=created_at.desc&limit=5&select=id,content,created_at")
+            self._json(200, {"reports": reports or []})
+
+        # ── 父母保存今日心情 ────────────────────────────────────
+        elif self.path == "/api/save_mood":
+            family_id = body.get("family_id", "")
+            user_id   = body.get("user_id", "")
+            mood      = body.get("mood", "")        # happy/calm/tired/lonely
+            note      = body.get("note", "")
+            if not family_id or not mood:
+                self._json(400, {"error": "参数不完整"}); return
+            try:
+                from datetime import datetime, timezone, date
+                today = date.today().isoformat()
+                # 先删今天的旧记录再写入（每天只保留最新一条）
+                try:
+                    sb_req("DELETE", "mood_logs",
+                           params=f"family_id=eq.{family_id}&user_id=eq.{user_id}&log_date=eq.{today}")
+                except Exception:
+                    pass
+                sb_post("mood_logs", {
+                    "family_id": family_id,
+                    "user_id":   user_id,
+                    "mood":      mood,
+                    "note":      note,
+                    "log_date":  today,
+                })
+                self._json(200, {"ok": True})
+            except Exception as e:
+                print(f"[save_mood error] {e}")
+                self._json(500, {"error": str(e)})
+            return
+
+        # ── 子女拉取父母全部状态 ────────────────────────────────
+        elif self.path == "/api/family_status":
+            family_id = body.get("family_id", "")
+            child_id  = body.get("child_id", "")
+            if not family_id:
+                self._json(400, {"error": "缺少 family_id"}); return
+            try:
+                from datetime import date
+                today = date.today().isoformat()
+                # 1. 今日心情
+                moods = sb_get("mood_logs",
+                    f"family_id=eq.{family_id}&log_date=eq.{today}&order=created_at.desc&limit=1")
+                # 2. 最新健康报告（父母发的，排除子女自己）
+                reports = sb_get("care_cards",
+                    f"family_id=eq.{family_id}&template=eq.health&child_id=neq.{child_id}&order=created_at.desc&limit=1&select=content,created_at")
+                # 3. 父母最近活跃时间（从 users 表拉）
+                parent_users = sb_get("users",
+                    f"family_id=eq.{family_id}&role=eq.parent&select=name,last_active_at")
+                self._json(200, {
+                    "mood":   moods[0] if moods else None,
+                    "health": reports[0] if reports else None,
+                    "parent": parent_users[0] if parent_users else None,
+                })
+            except Exception as e:
+                print(f"[family_status error] {e}")
+                self._json(200, {"mood": None, "health": None, "parent": None})
+            return
+
+        # ── 相册：父母上传图片 ──────────────────────────────────
+        elif self.path == "/api/save_album":
+            family_id = body.get("family_id", "")
+            user_id   = body.get("user_id", "")
+            images    = body.get("images", [])   # list of base64 data URLs
+            if not family_id or not images:
+                self._json(400, {"error": "参数不完整"}); return
+            try:
+                saved = []
+                for img_data in images[:9]:   # 最多一次传9张
+                    row = sb_post("album_photos", {
+                        "family_id": family_id,
+                        "user_id":   user_id,
+                        "image_data": img_data,  # 存 base64
+                    })
+                    if row:
+                        saved.append(row[0]["id"])
+                self._json(200, {"saved": len(saved)})
+            except Exception as e:
+                print(f"[save_album error] {e}")
+                self._json(500, {"error": str(e)})
+            return
+
+        # ── 相册：拉取家庭相册 ──────────────────────────────────
+        elif self.path == "/api/get_album":
+            family_id = body.get("family_id", "")
+            if not family_id:
+                self._json(400, {"error": "缺少 family_id"}); return
+            try:
+                photos = sb_get("album_photos",
+                    f"family_id=eq.{family_id}&order=created_at.desc&limit=30&select=id,image_data,created_at,user_id")
+                self._json(200, {"photos": photos or []})
+            except Exception as e:
+                print(f"[get_album error] {e}")
+                self._json(200, {"photos": []})
+            return
+
+        # ── 相册：删除单张 ──────────────────────────────────────
+        elif self.path == "/api/delete_photo":
+            photo_id = body.get("photo_id", "")
+            user_id  = body.get("user_id", "")
+            if not photo_id:
+                self._json(400, {"error": "缺少 photo_id"}); return
+            try:
+                sb_req("DELETE", "album_photos",
+                       params=f"id=eq.{photo_id}&user_id=eq.{user_id}")
+                self._json(200, {"ok": True})
+            except Exception as e:
+                self._json(500, {"error": str(e)})
+            return
 
         # ── 危机记录 ───────────────────────────────────────────
         if self.path == "/api/crisis":
