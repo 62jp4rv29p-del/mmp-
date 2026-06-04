@@ -2389,7 +2389,7 @@ body {
   <!-- Live2D 舞台 -->
   <div class="avatar-stage" id="avatarStage">
     <div class="avatar-loading" id="avatarLoading">
-      <div class="avatar-loading-dot"></div>少女正在赶来…
+      <div class="avatar-loading-dot"></div><span id="avatarLoadingText">正在赶来…</span>
     </div>
     <canvas id="live2d-canvas"></canvas>
     <div class="avatar-bubble" id="avatarBubble">在听呢～</div>
@@ -2435,6 +2435,8 @@ async function initLive2D(personaKey) {
   const stageEl = document.getElementById('avatarStage');
   const W = stageEl.clientWidth || 360;
   const H = 320;
+  const loadingTextEl = document.getElementById('avatarLoadingText');
+  if (loadingTextEl) loadingTextEl.textContent = (personaName || '孩子') + '正在赶来…';
   canvas.width  = W;
   canvas.height = H;
 
