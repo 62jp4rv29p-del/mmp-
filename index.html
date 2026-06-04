@@ -40,6 +40,32 @@ body {
 
 /* ── 页面切换 ── */
 .page { display: none; min-height: 100vh; flex-direction: column; }
+/* 登录页以外，所有正文文字跟随字体设置 */
+.page:not(#login-page) .bubble,
+.page:not(#login-page) .msg-input,
+.page:not(#login-page) .pp-greet-text,
+.page:not(#login-page) .bind-hint,
+.page:not(#login-page) .modal-sub,
+.page:not(#login-page) .ch-task-desc,
+.page:not(#login-page) .ch-task-name,
+.page:not(#login-page) .invite-hint,
+.page:not(#login-page) .role-tagline,
+.page:not(#login-page) .mood-label,
+.page:not(#login-page) .hf-label,
+.page:not(#login-page) .fn-label,
+.page:not(#login-page) .settings-name,
+.page:not(#login-page) .pp-quick-label,
+.page:not(#login-page) .card-text,
+.page:not(#login-page) .qf-chip,
+.page:not(#login-page) .qf-textarea,
+.modal-overlay .bubble,
+.modal-overlay .modal-sub,
+.modal-overlay .mood-label,
+.modal-overlay .hf-label,
+.modal-overlay .fn-label,
+.modal-overlay .qf-chip {
+  font-size: var(--app-font-size, 19px) !important;
+}
 .page.active { display: flex; }
 
 /* ══════════════════════
@@ -545,7 +571,7 @@ body {
   max-width: 74%;
   padding: 12px 16px;
   border-radius: 20px;
-  font-size: var(--bubble-font-size, 19px); line-height: 1.65;
+  font-size: var(--app-font-size, 19px); line-height: 1.65;
 }
 .msg-row:not(.me) .bubble {
   background: rgba(255,255,255,0.12);
@@ -3317,14 +3343,17 @@ function setFontSize(size) {
 }
 
 function applyFontSize(size) {
-  const map = { small: '16px', medium: '19px', large: '22px' };
+  const map = { small: '14px', medium: '19px', large: '26px' };
   const px = map[size] || '19px';
-  // CSS 变量让新气泡也自动继承
-  document.documentElement.style.setProperty('--bubble-font-size', px);
-  // 同时更新已有气泡
-  document.querySelectorAll('.bubble, .msg-input').forEach(el => {
-    el.style.fontSize = px;
-  });
+  // CSS 变量全局生效，覆盖所有非登录页正文
+  document.documentElement.style.setProperty('--app-font-size', px);
+  // 同时强制刷新已渲染元素（覆盖 inline style）
+  document.querySelectorAll(
+    '.bubble, .msg-input, .pp-greet-text, .bind-hint, .modal-sub, ' +
+    '.ch-task-desc, .ch-task-name, .invite-hint, .role-tagline, ' +
+    '.mood-label, .hf-label, .fn-label, .settings-name, ' +
+    '.pp-quick-label, .qf-chip, .qf-textarea'
+  ).forEach(el => { el.style.fontSize = px; });
 }
 
 function doLogout() {
