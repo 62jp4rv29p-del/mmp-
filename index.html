@@ -2469,29 +2469,33 @@ let l2dModel = null;
 let l2dTalkTimer = null;
 
 async function initLive2D(personaKey) {
-  const canvas = document.getElementById('live2d-canvas');
   const stageEl = document.getElementById('avatarStage');
   const W = stageEl.clientWidth || 360;
   const H = 320;
+
+  // 更新 loading 文案
   const loadingTextEl = document.getElementById('avatarLoadingText');
   if (loadingTextEl) loadingTextEl.textContent = (personaName || '孩子') + '正在赶来…';
-  canvas.width  = W;
-  canvas.height = H;
-
-  if (l2dApp) {
-    l2dApp.destroy(false);  // false = 不销毁 canvas DOM 元素
-    l2dApp = null; l2dModel = null;
-    // 重置 canvas，避免上次渲染残留
-    const ctx = canvas.getContext('2d');
-    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  // 重新显示 loading 提示
   const loadingEl = document.getElementById('avatarLoading');
   if (loadingEl) loadingEl.style.display = 'flex';
 
+  // 销毁旧实例
+  if (l2dApp) {
+    try { l2dApp.destroy(true); } catch(e) {}
+    l2dApp = null; l2dModel = null;
+  }
+
+  // 每次重建一个全新的 canvas，彻底避免 WebGL context 残留
+  const oldCanvas = document.getElementById('live2d-canvas');
+  const newCanvas = document.createElement('canvas');
+  newCanvas.id = 'live2d-canvas';
+  newCanvas.width  = W;
+  newCanvas.height = H;
+  if (oldCanvas) oldCanvas.replaceWith(newCanvas);
+  else stageEl.appendChild(newCanvas);
+
   l2dApp = new PIXI.Application({
-    view: canvas,
+    view: newCanvas,
     width: W, height: H,
     transparent: true,
     antialias: true,
