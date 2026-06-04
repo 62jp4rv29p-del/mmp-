@@ -1267,23 +1267,23 @@ body {
   50% { opacity: 1; transform: scale(1.2); }
 }
 .pp-figure-wrap {
-  display: flex; flex-direction: column; align-items: center;
-  position: relative; width: 100%;
-  padding-top: 20px;
+  display: flex; flex-direction: row; align-items: center;
+  justify-content: center;
+  width: 100%; padding: 16px 16px 0;
+  gap: 14px;
 }
-.pp-figure-placeholder { position: relative; z-index: 1; }
+.pp-figure-placeholder { flex-shrink: 0; position: relative; z-index: 1; }
 .pp-greet-bubble {
-  position: absolute;
-  top: 24px; right: 12px;
+  flex: 1;
   background: rgba(40,20,70,0.85);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(155,89,182,0.4);
-  border-radius: 16px 16px 4px 16px;
-  padding: 12px 16px;
-  max-width: 48%;
-  min-width: 130px;
+  border-radius: 4px 16px 16px 16px;
+  padding: 12px 14px;
+  max-width: 180px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.35);
   z-index: 10;
+  align-self: center;
 }
 .pp-greet-name { font-size: 14px; font-weight: 800; color: #E8B4FF; margin-bottom: 4px; }
 .pp-greet-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; }
@@ -2828,7 +2828,7 @@ function pickPersonaFromHome(el, key, name) {
   };
   const nameEl = document.getElementById('ppGreetName');
   const textEl = document.getElementById('ppGreetText');
-  if (nameEl) nameEl.textContent = (currentUser?.name || '妈妈') + '～';
+  if (nameEl) nameEl.textContent = (currentUser?.child_name ? currentUser.child_name : '孩子') + ' 说';
   if (textEl) textEl.textContent = greetings[key] || greetings.warmth;
 }
 
@@ -3252,9 +3252,11 @@ function openSettings() {
 function loadSettings() {
   const s = JSON.parse(localStorage.getItem('qinyu_settings') || '{}');
   const vol = s.volume ?? 80;
+  ttsVolume  = vol / 100;
+  ttsEnabled = s.autoread ?? true;
   document.getElementById('vol-slider').value = vol;
   document.getElementById('vol-val').textContent = vol + '%';
-  document.getElementById('autoread-toggle').checked = s.autoread ?? true;
+  document.getElementById('autoread-toggle').checked = ttsEnabled;
   document.getElementById('notify-toggle').checked = s.notify ?? true;
   const fontSize = s.fontSize || 'medium';
   document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
@@ -3262,13 +3264,15 @@ function loadSettings() {
   applyFontSize(fontSize);
 }
 
-function saveSettings() {
-  const s = {
-    volume: parseInt(document.getElementById('vol-slider').value),
-    autoread: document.getElementById('autoread-toggle').checked,
-    notify: document.getElementById('notify-toggle').checked,
-    fontSize: localStorage.getItem('qinyu_fontsize') || 'medium',
-  };
+function saveSettings(patch) {
+  const s = JSON.parse(localStorage.getItem('qinyu_settings') || '{}');
+  // 合并传入的补丁字段，避免覆盖其他字段
+  Object.assign(s, patch);
+  // 确保每次存全量
+  s.volume   = s.volume   ?? parseInt(document.getElementById('vol-slider').value);
+  s.autoread = s.autoread ?? document.getElementById('autoread-toggle').checked;
+  s.notify   = s.notify   ?? document.getElementById('notify-toggle').checked;
+  s.fontSize = s.fontSize ?? 'medium';
   localStorage.setItem('qinyu_settings', JSON.stringify(s));
   // 同步运行时变量
   ttsEnabled = s.autoread;
@@ -3276,18 +3280,18 @@ function saveSettings() {
 }
 
 function updateVolume(val) {
-  ttsVolume = val / 100;
-  document.getElementById('vol-val').textContent = val + '%';
+  const v = parseInt(val);
+  ttsVolume = v / 100;
+  document.getElementById('vol-val').textContent = v + '%';
   if (currentAudio) currentAudio.volume = ttsVolume;
-  saveSettings();
+  saveSettings({ volume: v });
 }
 
 function setFontSize(size) {
   document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.font-btn[onclick="setFontSize('${size}')"]`)?.classList.add('active');
-  localStorage.setItem('qinyu_fontsize', size);
   applyFontSize(size);
-  saveSettings();
+  saveSettings({ fontSize: size });
 }
 
 function applyFontSize(size) {
@@ -3797,8 +3801,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ta) ta.addEventListener('input', updateChildSendBtn);
   // 恢复已上传的自定义头像
   initCustomAvatar();
-  // 恢复字体大小设置
-  const _fs = localStorage.getItem('qinyu_fontsize') || 'medium';
+  // 恢复字体大小设置（从统一的 qinyu_settings 读）
+  const _fs = (JSON.parse(localStorage.getItem('qinyu_settings') || '{}').fontSize) || 'medium';
   applyFontSize(_fs);
 });
 
