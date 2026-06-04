@@ -3291,15 +3291,12 @@ function loadSettings() {
 
 function saveSettings(patch) {
   const s = JSON.parse(localStorage.getItem('qinyu_settings') || '{}');
-  // 合并传入的补丁字段，避免覆盖其他字段
-  Object.assign(s, patch);
-  // 确保每次存全量
-  s.volume   = s.volume   ?? parseInt(document.getElementById('vol-slider').value);
-  s.autoread = s.autoread ?? document.getElementById('autoread-toggle').checked;
-  s.notify   = s.notify   ?? document.getElementById('notify-toggle').checked;
-  s.fontSize = s.fontSize ?? 'medium';
+  // patch 优先；无 patch 时直接从 DOM 读当前值（确保开关状态实时保存）
+  s.volume   = patch?.volume   !== undefined ? patch.volume   : parseInt(document.getElementById('vol-slider').value);
+  s.autoread = patch?.autoread !== undefined ? patch.autoread : document.getElementById('autoread-toggle').checked;
+  s.notify   = patch?.notify   !== undefined ? patch.notify   : document.getElementById('notify-toggle').checked;
+  s.fontSize = patch?.fontSize !== undefined ? patch.fontSize : (s.fontSize ?? 'medium');
   localStorage.setItem('qinyu_settings', JSON.stringify(s));
-  // 同步运行时变量
   ttsEnabled = s.autoread;
   ttsVolume  = s.volume / 100;
 }
