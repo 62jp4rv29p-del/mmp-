@@ -2478,7 +2478,17 @@ async function initLive2D(personaKey) {
   canvas.width  = W;
   canvas.height = H;
 
-  if (l2dApp) { l2dApp.destroy(true); l2dApp = null; l2dModel = null; }
+  if (l2dApp) {
+    l2dApp.destroy(false);  // false = 不销毁 canvas DOM 元素
+    l2dApp = null; l2dModel = null;
+    // 重置 canvas，避免上次渲染残留
+    const ctx = canvas.getContext('2d');
+    if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // 重新显示 loading 提示
+  const loadingEl = document.getElementById('avatarLoading');
+  if (loadingEl) loadingEl.style.display = 'flex';
 
   l2dApp = new PIXI.Application({
     view: canvas,
