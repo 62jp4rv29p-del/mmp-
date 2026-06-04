@@ -21,7 +21,7 @@ if _env.exists():
     for _line in _env.read_text().splitlines():
         if "=" in _line and not _line.startswith("#"):
             _k, _v = _line.split("=", 1)
-            os.environ.setdefault(_k.strip(), _v.strip())
+            os.environ[_k.strip()] = _v.strip()  # 强制覆盖，确保 .env 优先
 
 DEEPSEEK_API_KEY  = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_URL      = "https://api.deepseek.com/chat/completions"
@@ -504,9 +504,11 @@ class Handler(BaseHTTPRequestHandler):
                     data = json.loads(resp.read())
                 reply = data["choices"][0]["message"]["content"].strip()
                 # 聊天说明父母在活跃，更新时间（从 family_id 反查 parent_id）
-                parent_info = sb_get("families", f"id=eq.{body.get('family_id','')}&select=parent_id")
-                if parent_info and parent_info[0].get("parent_id"):
-                    touch_active(parent_info[0]["parent_id"])
+                _fid = body.get("family_id", "").strip()
+                if _fid:
+                    parent_info = sb_get("families", f"id=eq.{_fid}&select=parent_id")
+                    if parent_info and parent_info[0].get("parent_id"):
+                        touch_active(parent_info[0]["parent_id"])
                 self._json(200, {"reply": reply})
             except urllib.error.HTTPError as e:
                 print(f"[DeepSeek error] {e.code}: {e.read().decode()}")
