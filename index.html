@@ -1087,6 +1087,33 @@ body {
   border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; cursor: pointer;
 }
 
+/* ══ 快捷表单组件 ══ */
+.qf-select {
+  width: 100%; background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.18); border-radius: 14px;
+  padding: 12px 14px; font-size: 16px; color: #fff;
+  outline: none; font-family: inherit; appearance: none;
+}
+.qf-select option { background: #2D1B4E; color: #fff; }
+.qf-textarea {
+  width: 100%; background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.18); border-radius: 14px;
+  padding: 12px 14px; font-size: 15px; color: #fff;
+  outline: none; font-family: inherit; resize: none;
+}
+.qf-textarea::placeholder { color: rgba(255,255,255,0.35); }
+.qf-chip {
+  padding: 10px 16px; border-radius: 50px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.07);
+  font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.75);
+  cursor: pointer; transition: all 0.18s; white-space: nowrap;
+}
+.qf-chip.selected {
+  border-color: #9B59B6; background: rgba(155,89,182,0.35);
+  color: #fff;
+}
+
 /* ══ 情绪聊天 ══ */
 .mood-card {
   background: rgba(255,255,255,0.08);
@@ -2067,19 +2094,19 @@ body {
 
     <!-- 快捷功能按钮行 -->
     <div class="pp-quick-row">
-      <div class="pp-quick-btn" onclick="sendQuickMsg('sleep')">
+      <div class="pp-quick-btn" onclick="openModal('modal-sleep')">
         <div class="pp-quick-icon">🌙</div>
         <div class="pp-quick-label">睡眠</div>
       </div>
-      <div class="pp-quick-btn" onclick="sendQuickMsg('meal')">
+      <div class="pp-quick-btn" onclick="openModal('modal-meal')">
         <div class="pp-quick-icon">🍚</div>
         <div class="pp-quick-label">饮食</div>
       </div>
-      <div class="pp-quick-btn" onclick="sendQuickMsg('mood')">
+      <div class="pp-quick-btn" onclick="openModal('modal-mood')">
         <div class="pp-quick-icon">😊</div>
         <div class="pp-quick-label">心情</div>
       </div>
-      <div class="pp-quick-btn" onclick="sendQuickMsg('health')">
+      <div class="pp-quick-btn" onclick="openModal('modal-body')">
         <div class="pp-quick-icon">💊</div>
         <div class="pp-quick-label">身体状态</div>
       </div>
@@ -2172,6 +2199,123 @@ body {
 
   <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.25);padding-bottom:16px;">
     💡 AI 陪伴助手 · 不是真实的子女
+  </div>
+</div>
+
+<!-- ══ 睡眠记录弹层 ══ -->
+<div id="modal-sleep" class="modal-overlay" onclick="closeModal('modal-sleep')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🌙 睡眠记录</div>
+    <div class="modal-sub">记录昨晚睡眠，和孩子聊聊</div>
+    <div style="margin:18px 0 10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:6px">几点睡的</div>
+          <select id="sleep-time" class="qf-select">
+            <option value="">选一下</option>
+            <option>21:00前</option><option>21:00</option><option>22:00</option>
+            <option>23:00</option><option>0:00</option><option>1:00后</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:6px">几点醒的</div>
+          <select id="wake-time" class="qf-select">
+            <option value="">选一下</option>
+            <option>5:00前</option><option>5:00</option><option>6:00</option>
+            <option>7:00</option><option>8:00</option><option>9:00后</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:10px">睡眠质量</div>
+      <div style="display:flex;gap:10px">
+        <div class="qf-chip" onclick="selectChip(this,'sleep-q')" data-val="睡得很好">😴 很好</div>
+        <div class="qf-chip" onclick="selectChip(this,'sleep-q')" data-val="睡得还行">😐 还行</div>
+        <div class="qf-chip" onclick="selectChip(this,'sleep-q')" data-val="没睡好">😩 没睡好</div>
+      </div>
+    </div>
+    <button class="modal-action-btn" onclick="submitQuickForm('sleep')">💬 和孩子说说</button>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-sleep')">取消</button>
+  </div>
+</div>
+
+<!-- ══ 饮食记录弹层 ══ -->
+<div id="modal-meal" class="modal-overlay" onclick="closeModal('modal-meal')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🍚 饮食记录</div>
+    <div class="modal-sub">今天吃得怎么样？</div>
+    <div style="margin:18px 0 10px">
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:10px">三餐情况</div>
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="早餐吃了">🌅 吃了早餐</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="午餐吃了">☀️ 吃了午餐</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="晚餐吃了">🌙 吃了晚餐</div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">今天吃了什么（可选填）</div>
+      <textarea id="meal-note" class="qf-textarea" placeholder="比如：中午吃了饺子，晚上煮了粥…" rows="2"></textarea>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);margin:12px 0 8px">胃口怎么样</div>
+      <div style="display:flex;gap:10px">
+        <div class="qf-chip" onclick="selectChip(this,'meal-q')" data-val="胃口很好">😋 很好</div>
+        <div class="qf-chip" onclick="selectChip(this,'meal-q')" data-val="胃口一般">😐 一般</div>
+        <div class="qf-chip" onclick="selectChip(this,'meal-q')" data-val="没什么胃口">😔 没胃口</div>
+      </div>
+    </div>
+    <button class="modal-action-btn" onclick="submitQuickForm('meal')">💬 和孩子说说</button>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-meal')">取消</button>
+  </div>
+</div>
+
+<!-- ══ 心情弹层 ══ -->
+<div id="modal-mood" class="modal-overlay" onclick="closeModal('modal-mood')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">😊 今天心情</div>
+    <div class="modal-sub">点一下，和孩子聊聊今天</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0">
+      <div class="mood-card" onclick="submitMoodDirect('开心，今天过得不错')">
+        <div style="font-size:38px">😊</div>
+        <div class="mood-label">开心</div>
+      </div>
+      <div class="mood-card" onclick="submitMoodDirect('平静，今天挺平淡的')">
+        <div style="font-size:38px">😌</div>
+        <div class="mood-label">平静</div>
+      </div>
+      <div class="mood-card" onclick="submitMoodDirect('有点累，身体有些疲惫')">
+        <div style="font-size:38px">😴</div>
+        <div class="mood-label">有点累</div>
+      </div>
+      <div class="mood-card" onclick="submitMoodDirect('有些孤独，想跟你聊聊')">
+        <div style="font-size:38px">🥺</div>
+        <div class="mood-label">有些孤独</div>
+      </div>
+    </div>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-mood')">取消</button>
+  </div>
+</div>
+
+<!-- ══ 身体状态弹层 ══ -->
+<div id="modal-body" class="modal-overlay" onclick="closeModal('modal-body')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">💊 身体状态</div>
+    <div class="modal-sub">今天身体怎么样？可以多选</div>
+    <div style="margin:18px 0 10px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="感觉不错">💪 感觉不错</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="有些疲惫">😩 有些疲惫</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="头有点疼">🤕 头有点疼</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="肩颈酸">💆 肩颈酸</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="腰背不舒服">🪑 腰背不适</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="肠胃不舒服">🤢 肠胃不适</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="有点感冒">🤧 有点感冒</div>
+        <div class="qf-chip" onclick="toggleChip(this)" data-val="腿脚酸">🦵 腿脚酸</div>
+      </div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:8px">还有什么想说的（可选）</div>
+      <textarea id="body-note" class="qf-textarea" placeholder="比如：今天走了很多路，脚有点酸…" rows="2"></textarea>
+    </div>
+    <button class="modal-action-btn" onclick="submitQuickForm('body')">💬 和孩子说说</button>
+    <button class="modal-cancel-btn" onclick="closeModal('modal-body')">取消</button>
   </div>
 </div>
 
@@ -2812,6 +2956,84 @@ function pickPersonaFromHome(el, key, name) {
 }
 
 // ── 父母主页快捷消息 ──
+// ── 快捷表单：chip 选择 ──
+function selectChip(el, group) {
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
+  el.setAttribute('data-group', group);
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
+  // 简单方式：给同组里所有 selected 的取消，再给自己加
+  el.closest('.modal-sheet').querySelectorAll('.qf-chip').forEach(c => {
+    if (c.dataset.group === group) c.classList.remove('selected');
+  });
+  el.dataset.group = group;
+  el.classList.add('selected');
+}
+
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+// ── 提交快捷表单 → 组装文字 → 进聊天 ──
+function submitQuickForm(type) {
+  let msg = '';
+
+  if (type === 'sleep') {
+    const sleepT = document.getElementById('sleep-time').value;
+    const wakeT  = document.getElementById('wake-time').value;
+    const qualEl = document.querySelector('#modal-sleep .qf-chip.selected');
+    const qual   = qualEl ? qualEl.dataset.val : '';
+    const parts  = [];
+    if (sleepT) parts.push(`昨晚${sleepT}睡的`);
+    if (wakeT)  parts.push(`${wakeT}醒的`);
+    if (qual)   parts.push(qual);
+    msg = parts.length ? `我跟你说说我的睡眠情况：${parts.join('，')}。你觉得怎么样？` : '我想跟你聊聊我的睡眠情况。';
+    closeModal('modal-sleep');
+  }
+
+  if (type === 'meal') {
+    const meals   = [...document.querySelectorAll('#modal-meal .qf-chip.selected')].map(c => c.dataset.val);
+    const note    = document.getElementById('meal-note').value.trim();
+    const qualEl  = document.querySelector('#modal-meal .qf-chip[data-group="meal-q"].selected') ||
+                    document.querySelector('#modal-meal .qf-chip.selected[data-val*="胃口"]');
+    const parts   = [];
+    if (meals.length) parts.push(meals.filter(v => v.includes('餐')).join('、'));
+    if (note) parts.push(`吃了${note}`);
+    const qualPart = [...document.querySelectorAll('#modal-meal .qf-chip.selected')]
+      .map(c=>c.dataset.val).find(v => v.includes('胃口'));
+    if (qualPart) parts.push(qualPart);
+    msg = parts.length ? `跟你说说今天饮食：${parts.join('，')}。` : '我想跟你说说今天吃饭的情况。';
+    closeModal('modal-meal');
+  }
+
+  if (type === 'body') {
+    const symptoms = [...document.querySelectorAll('#modal-body .qf-chip.selected')].map(c => c.dataset.val);
+    const note     = document.getElementById('body-note').value.trim();
+    const parts    = [...symptoms];
+    if (note) parts.push(note);
+    msg = parts.length ? `今天身体状态：${parts.join('、')}。你帮我关注一下？` : '我想跟你聊聊今天的身体状态。';
+    closeModal('modal-body');
+  }
+
+  if (!msg) return;
+  enterChatWithMsg(msg);
+}
+
+// ── 心情直接选完进聊天 ──
+function submitMoodDirect(moodText) {
+  closeModal('modal-mood');
+  enterChatWithMsg(`今天心情：${moodText}。`);
+}
+
+// ── 进入聊天并发送消息 ──
+function enterChatWithMsg(msg) {
+  if (!persona) { persona = 'warmth'; personaName = '暖心宝贝'; personaAvatarKey = 'warmth'; }
+  startChatFromHome();
+  setTimeout(() => {
+    const input = document.getElementById('msgInput');
+    if (input) { input.value = msg; send(); }
+  }, 600);
+}
+
 const QUICK_MSGS = {
   sleep: '我最近睡眠怎么样，你来帮我分析一下？',
   meal: '今天吃了什么，跟你说说。',
@@ -3261,8 +3483,8 @@ async function send() {
       }
 
       // 历史超过20条就裁剪，省token（保留最近16条）
-      if (history.length > 20) {
-        history = history.slice(history.length - 16);
+      if (history.length > 60) {
+        history = history.slice(history.length - 50);
       }
     } else {
       appendMsg('ai', '（网络有点慢，再说一遍试试？）');
