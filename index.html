@@ -531,7 +531,7 @@ body {
   max-width: 74%;
   padding: 12px 16px;
   border-radius: 20px;
-  font-size: 18px; line-height: 1.65;
+  font-size: var(--bubble-font-size, 19px); line-height: 1.65;
 }
 .msg-row:not(.me) .bubble {
   background: rgba(255,255,255,0.12);
@@ -1274,14 +1274,16 @@ body {
 .pp-figure-placeholder { position: relative; z-index: 1; }
 .pp-greet-bubble {
   position: absolute;
-  top: 30px; right: 20px;
-  background: rgba(255,255,255,0.12);
+  top: 24px; right: 12px;
+  background: rgba(40,20,70,0.85);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(155,89,182,0.4);
   border-radius: 16px 16px 4px 16px;
   padding: 12px 16px;
-  max-width: 160px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  max-width: 48%;
+  min-width: 130px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  z-index: 10;
 }
 .pp-greet-name { font-size: 14px; font-weight: 800; color: #E8B4FF; margin-bottom: 4px; }
 .pp-greet-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; }
@@ -2645,7 +2647,10 @@ function stopMic() {
 }
 
 // ── 语音朗读（TTS · Edge-TTS 后端） ──
-let ttsEnabled = true;
+// 从 localStorage 恢复设置
+const _savedSettings = JSON.parse(localStorage.getItem('qinyu_settings') || '{}');
+let ttsEnabled = _savedSettings.autoread ?? true;
+let ttsVolume  = (_savedSettings.volume ?? 80) / 100;
 let currentAudio = null;
 
 function toggleTTS() {
@@ -2676,6 +2681,7 @@ async function speak(text) {
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     currentAudio = new Audio(url);
+    currentAudio.volume  = ttsVolume;
     currentAudio.onplay  = () => setAvatarTalking(true);
     currentAudio.onended = () => { setAvatarTalking(false); URL.revokeObjectURL(url); currentAudio = null; };
     currentAudio.onerror = () => { setAvatarTalking(false); currentAudio = null; };
@@ -3264,13 +3270,15 @@ function saveSettings() {
     fontSize: localStorage.getItem('qinyu_fontsize') || 'medium',
   };
   localStorage.setItem('qinyu_settings', JSON.stringify(s));
-  // 同步 TTS 开关
+  // 同步运行时变量
   ttsEnabled = s.autoread;
+  ttsVolume  = s.volume / 100;
 }
 
 function updateVolume(val) {
+  ttsVolume = val / 100;
   document.getElementById('vol-val').textContent = val + '%';
-  if (currentAudio) currentAudio.volume = val / 100;
+  if (currentAudio) currentAudio.volume = ttsVolume;
   saveSettings();
 }
 
@@ -3284,8 +3292,12 @@ function setFontSize(size) {
 
 function applyFontSize(size) {
   const map = { small: '16px', medium: '19px', large: '22px' };
+  const px = map[size] || '19px';
+  // CSS 变量让新气泡也自动继承
+  document.documentElement.style.setProperty('--bubble-font-size', px);
+  // 同时更新已有气泡
   document.querySelectorAll('.bubble, .msg-input').forEach(el => {
-    el.style.fontSize = map[size] || '19px';
+    el.style.fontSize = px;
   });
 }
 
@@ -3723,6 +3735,12 @@ async function loadLatestCare() {
     });
     const data = await res.json();
     if (data.card) {
+      // 已看过的卡片不重复弹
+      const seenKey = 'qinyu_seen_card_' + currentUser.user_id;
+      const seenId  = localStorage.getItem(seenKey);
+      if (seenId === data.card.id) {
+        showPage('role-page'); return;
+      }
       const tplIcons = { busy:'💼', weather:'🌤️', miss:'🤍', meal:'🍚', health:'🌿', happy:'🎉' };
       document.getElementById('cardIcon').textContent = tplIcons[data.card.template] || '💌';
       document.getElementById('cardText').textContent = data.card.content;
@@ -3730,6 +3748,8 @@ async function loadLatestCare() {
         `${currentUser.child_name || '孩子'} 给您发来了今日关怀 💌`;
       window._careCardText = data.card.content;
       window._careCardAudio = null;
+      // 记录已看过
+      localStorage.setItem(seenKey, data.card.id);
       showPage('parent-card-page');
     } else {
       showPage('role-page');
@@ -3777,6 +3797,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (ta) ta.addEventListener('input', updateChildSendBtn);
   // 恢复已上传的自定义头像
   initCustomAvatar();
+  // 恢复字体大小设置
+  const _fs = localStorage.getItem('qinyu_fontsize') || 'medium';
+  applyFontSize(_fs);
 });
 
 async function genCare() {
