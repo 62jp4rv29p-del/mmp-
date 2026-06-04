@@ -46,27 +46,113 @@ body {
    登录 / 注册页
 ══════════════════════ */
 #login-page {
-  background: linear-gradient(160deg, #1A0A2E 0%, #2D1B4E 50%, #1A0A2E 100%);
+  background:
+    /* 月亮光晕 */
+    radial-gradient(ellipse 180px 160px at 28% 18%, rgba(255,240,180,0.22) 0%, transparent 70%),
+    /* 灯塔光晕 */
+    radial-gradient(ellipse 80px 120px at 88% 42%, rgba(255,220,120,0.13) 0%, transparent 60%),
+    /* 左下花朵光晕 */
+    radial-gradient(ellipse 140px 100px at 5% 90%, rgba(180,100,220,0.25) 0%, transparent 65%),
+    /* 右下花朵光晕 */
+    radial-gradient(ellipse 100px 80px at 95% 85%, rgba(200,120,240,0.2) 0%, transparent 60%),
+    /* 海面反光 */
+    radial-gradient(ellipse 100% 40px at 50% 68%, rgba(160,120,220,0.18) 0%, transparent 80%),
+    /* 主背景：天空到海面 */
+    linear-gradient(180deg,
+      #1a0535 0%,
+      #2d1060 18%,
+      #4a1e8a 35%,
+      #6b3aaa 50%,
+      #8b52c0 58%,
+      #a06dd0 65%,
+      #b48ee0 72%,
+      #c8aae8 78%,
+      #d4b8ee 83%,
+      #c8aae0 87%,
+      #9e7ac8 92%,
+      #7a52b0 96%,
+      #5a3490 100%
+    );
   align-items: center;
-  justify-content: center;
-  padding: 40px 28px 60px;
+  justify-content: flex-end;
+  padding: 0 28px 48px;
   gap: 0;
   position: relative;
   overflow: hidden;
 }
-#login-page::before {
-  content: '';
-  position: absolute; top: -80px; left: -80px;
-  width: 260px; height: 260px;
-  background: radial-gradient(circle, rgba(155,89,182,0.3) 0%, transparent 70%);
-  pointer-events: none;
+
+/* ── 月亮 ── */
+#login-page .lbg-moon {
+  position: absolute; top: 4%; left: 8%;
+  width: 110px; height: 110px;
+  pointer-events: none; z-index: 1;
 }
-#login-page::after {
-  content: '';
-  position: absolute; bottom: -60px; right: -60px;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(233,30,140,0.2) 0%, transparent 70%);
-  pointer-events: none;
+
+/* ── 星光粒子 ── */
+#login-page .lbg-stars {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── 灯塔 ── */
+#login-page .lbg-lighthouse {
+  position: absolute; right: 8%; top: 28%;
+  width: 44px; height: 90px;
+  pointer-events: none; z-index: 1;
+}
+
+/* ── 海面 ── */
+#login-page .lbg-sea {
+  position: absolute; bottom: 34%; left: 0; right: 0;
+  height: 120px;
+  pointer-events: none; z-index: 1;
+}
+
+/* ── 蝴蝶 ── */
+#login-page .lbg-butterfly {
+  position: absolute;
+  pointer-events: none; z-index: 2;
+}
+
+/* ── 左侧花草 ── */
+#login-page .lbg-flowers-left {
+  position: absolute; left: -10px; bottom: 28%;
+  width: 110px; height: 130px;
+  pointer-events: none; z-index: 2;
+}
+
+/* ── 右侧花草 ── */
+#login-page .lbg-flowers-right {
+  position: absolute; right: -10px; bottom: 28%;
+  width: 100px; height: 120px;
+  pointer-events: none; z-index: 2;
+}
+
+/* ── 少女（紫衣插画风） ── */
+#login-page .lbg-girl {
+  position: absolute; top: 2%; left: 50%;
+  transform: translateX(-50%);
+  width: 240px; height: 280px;
+  pointer-events: none; z-index: 3;
+}
+
+/* ── 底部光晕平台 ── */
+#login-page .lbg-glow-base {
+  position: absolute; top: calc(2% + 250px);
+  left: 50%; transform: translateX(-50%);
+  width: 280px; height: 40px;
+  background: radial-gradient(ellipse, rgba(200,160,255,0.55) 0%, transparent 70%);
+  pointer-events: none; z-index: 2;
+}
+
+/* ── 登录表单浮在前景 ── */
+#login-page .login-logo,
+#login-page .login-sub,
+#login-page .login-card { position: relative; z-index: 10; }
+
+/* ── 顶部 padding 让表单区域沉到下半部分 ── */
+#login-page {
+  padding-top: 300px;
 }
 .login-logo { font-size: 38px; font-weight: 900; color: #fff; letter-spacing: 4px; margin-bottom: 6px; text-align: center; text-shadow: 0 0 20px rgba(155,89,182,0.8); }
 .login-sub  { font-size: 14px; color: var(--text-sub); letter-spacing: 1px; margin-bottom: 36px; text-align: center; }
@@ -1237,6 +1323,300 @@ body {
 
 <!-- ══ 登录/注册页 ══ -->
 <div id="login-page" class="page active">
+
+  <!-- ── 背景装饰层 ── -->
+
+  <!-- 月亮 -->
+  <svg class="lbg-moon" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(255,245,180,0.9)"/>
+        <stop offset="60%" stop-color="rgba(255,230,120,0.6)"/>
+        <stop offset="100%" stop-color="rgba(255,200,80,0)"/>
+      </radialGradient>
+      <filter id="moonBlur"><feGaussianBlur stdDeviation="3"/></filter>
+    </defs>
+    <!-- 月晕 -->
+    <circle cx="45" cy="45" r="44" fill="url(#moonGlow)" opacity="0.35" filter="url(#moonBlur)"/>
+    <!-- 月牙主体 -->
+    <path d="M 45 10 A 35 35 0 1 1 45 80 A 22 22 0 1 0 45 10 Z" fill="rgba(255,245,190,0.92)"/>
+  </svg>
+
+  <!-- 星光粒子 -->
+  <svg class="lbg-stars" viewBox="0 0 480 800" xmlns="http://www.w3.org/2000/svg">
+    <g fill="white">
+      <circle cx="72" cy="55" r="1.2" opacity="0.9"/>
+      <circle cx="140" cy="30" r="0.8" opacity="0.7"/>
+      <circle cx="200" cy="70" r="1.0" opacity="0.8"/>
+      <circle cx="310" cy="25" r="1.3" opacity="0.85"/>
+      <circle cx="380" cy="60" r="0.9" opacity="0.6"/>
+      <circle cx="420" cy="40" r="1.1" opacity="0.75"/>
+      <circle cx="55" cy="110" r="0.7" opacity="0.6"/>
+      <circle cx="170" cy="95" r="1.0" opacity="0.7"/>
+      <circle cx="260" cy="115" r="0.8" opacity="0.65"/>
+      <circle cx="350" cy="100" r="1.2" opacity="0.8"/>
+      <circle cx="450" cy="90" r="0.9" opacity="0.7"/>
+    </g>
+    <!-- 星光闪烁十字 -->
+    <g stroke="rgba(255,245,200,0.8)" stroke-width="0.8" fill="none">
+      <line x1="310" y1="22" x2="310" y2="28"/><line x1="307" y1="25" x2="313" y2="25"/>
+      <line x1="72" y1="52" x2="72" y2="58"/><line x1="69" y1="55" x2="75" y2="55"/>
+      <line x1="420" y1="37" x2="420" y2="43"/><line x1="417" y1="40" x2="423" y2="40"/>
+    </g>
+  </svg>
+
+  <!-- 灯塔 -->
+  <svg class="lbg-lighthouse" viewBox="0 0 44 90" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="ltGlow" cx="50%" cy="20%" r="50%">
+        <stop offset="0%" stop-color="rgba(255,220,100,0.8)"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <!-- 光晕 -->
+    <ellipse cx="22" cy="16" rx="20" ry="14" fill="url(#ltGlow)" opacity="0.6"/>
+    <!-- 灯塔顶 -->
+    <rect x="14" y="10" width="16" height="12" rx="2" fill="rgba(255,235,150,0.9)"/>
+    <rect x="12" y="8" width="20" height="4" rx="1" fill="rgba(200,160,80,0.9)"/>
+    <!-- 塔身 -->
+    <path d="M 16 22 L 12 80 L 32 80 L 28 22 Z" fill="rgba(180,140,200,0.7)"/>
+    <!-- 条纹 -->
+    <path d="M 15.5 35 L 28.5 35 L 28 40 L 16 40 Z" fill="rgba(255,255,255,0.25)"/>
+    <path d="M 14.5 52 L 29.5 52 L 29 57 L 15 57 Z" fill="rgba(255,255,255,0.2)"/>
+    <!-- 底座 -->
+    <rect x="10" y="78" width="24" height="6" rx="2" fill="rgba(160,120,190,0.8)"/>
+    <!-- 岛屿 -->
+    <ellipse cx="22" cy="84" rx="22" ry="6" fill="rgba(100,160,100,0.6)"/>
+  </svg>
+
+  <!-- 海面 -->
+  <svg class="lbg-sea" viewBox="0 0 480 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(140,100,200,0.45)"/>
+        <stop offset="100%" stop-color="rgba(80,50,140,0.2)"/>
+      </linearGradient>
+    </defs>
+    <path d="M0 30 Q60 10 120 30 Q180 50 240 30 Q300 10 360 30 Q420 50 480 30 L480 120 L0 120 Z"
+          fill="url(#seaGrad)"/>
+    <!-- 波光 -->
+    <path d="M40 38 Q80 30 120 38" stroke="rgba(220,190,255,0.4)" stroke-width="1.5" fill="none"/>
+    <path d="M200 34 Q240 26 280 34" stroke="rgba(220,190,255,0.35)" stroke-width="1.2" fill="none"/>
+    <path d="M350 40 Q390 32 430 40" stroke="rgba(220,190,255,0.3)" stroke-width="1" fill="none"/>
+  </svg>
+
+  <!-- 蝴蝶 ×3 -->
+  <svg class="lbg-butterfly" style="top:20%;right:18%;width:28px;height:22px;transform:rotate(-15deg)" viewBox="0 0 28 22" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="7" cy="8" rx="7" ry="5" fill="rgba(220,170,255,0.75)" transform="rotate(-20,7,8)"/>
+    <ellipse cx="21" cy="8" rx="7" ry="5" fill="rgba(220,170,255,0.75)" transform="rotate(20,21,8)"/>
+    <ellipse cx="6" cy="14" rx="5" ry="3.5" fill="rgba(190,130,240,0.65)" transform="rotate(15,6,14)"/>
+    <ellipse cx="22" cy="14" rx="5" ry="3.5" fill="rgba(190,130,240,0.65)" transform="rotate(-15,22,14)"/>
+    <line x1="14" y1="4" x2="14" y2="18" stroke="rgba(160,100,210,0.8)" stroke-width="1"/>
+  </svg>
+  <svg class="lbg-butterfly" style="top:30%;left:12%;width:20px;height:16px;transform:rotate(10deg)" viewBox="0 0 28 22" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="7" cy="8" rx="7" ry="5" fill="rgba(240,200,255,0.7)" transform="rotate(-20,7,8)"/>
+    <ellipse cx="21" cy="8" rx="7" ry="5" fill="rgba(240,200,255,0.7)" transform="rotate(20,21,8)"/>
+    <ellipse cx="6" cy="14" rx="5" ry="3.5" fill="rgba(210,160,250,0.6)" transform="rotate(15,6,14)"/>
+    <ellipse cx="22" cy="14" rx="5" ry="3.5" fill="rgba(210,160,250,0.6)" transform="rotate(-15,22,14)"/>
+    <line x1="14" y1="4" x2="14" y2="18" stroke="rgba(170,110,220,0.7)" stroke-width="1"/>
+  </svg>
+  <svg class="lbg-butterfly" style="top:14%;right:32%;width:16px;height:13px;opacity:0.7" viewBox="0 0 28 22" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="7" cy="8" rx="7" ry="5" fill="rgba(230,180,255,0.8)" transform="rotate(-20,7,8)"/>
+    <ellipse cx="21" cy="8" rx="7" ry="5" fill="rgba(230,180,255,0.8)" transform="rotate(20,21,8)"/>
+    <ellipse cx="6" cy="14" rx="5" ry="3.5" fill="rgba(200,140,245,0.7)" transform="rotate(15,6,14)"/>
+    <ellipse cx="22" cy="14" rx="5" ry="3.5" fill="rgba(200,140,245,0.7)" transform="rotate(-15,22,14)"/>
+    <line x1="14" y1="4" x2="14" y2="18" stroke="rgba(160,100,210,0.7)" stroke-width="1"/>
+  </svg>
+
+  <!-- 左侧花草 -->
+  <svg class="lbg-flowers-left" viewBox="0 0 110 130" xmlns="http://www.w3.org/2000/svg">
+    <!-- 茎 -->
+    <path d="M 30 130 Q 28 100 35 80 Q 40 65 38 50" stroke="rgba(120,180,80,0.8)" stroke-width="2" fill="none"/>
+    <path d="M 60 130 Q 58 105 65 85 Q 70 70 68 55" stroke="rgba(120,180,80,0.7)" stroke-width="1.8" fill="none"/>
+    <path d="M 15 130 Q 14 108 20 90 Q 25 78 22 65" stroke="rgba(100,160,70,0.7)" stroke-width="1.5" fill="none"/>
+    <!-- 叶子 -->
+    <ellipse cx="42" cy="70" rx="14" ry="7" fill="rgba(100,180,80,0.6)" transform="rotate(-30,42,70)"/>
+    <ellipse cx="26" cy="80" rx="12" ry="6" fill="rgba(120,190,90,0.5)" transform="rotate(25,26,80)"/>
+    <!-- 花朵 -->
+    <circle cx="38" cy="48" r="8" fill="rgba(220,130,200,0.75)"/>
+    <circle cx="38" cy="40" r="5" fill="rgba(240,160,220,0.8)"/>
+    <circle cx="31" cy="46" r="5" fill="rgba(230,140,210,0.8)"/>
+    <circle cx="45" cy="46" r="5" fill="rgba(230,140,210,0.8)"/>
+    <circle cx="38" cy="48" r="4" fill="rgba(255,220,100,0.9)"/>
+    <!-- 第2朵 -->
+    <circle cx="68" cy="53" r="7" fill="rgba(200,120,190,0.7)"/>
+    <circle cx="68" cy="46" r="4.5" fill="rgba(220,150,210,0.8)"/>
+    <circle cx="62" cy="51" r="4.5" fill="rgba(215,140,200,0.75)"/>
+    <circle cx="74" cy="51" r="4.5" fill="rgba(215,140,200,0.75)"/>
+    <circle cx="68" cy="53" r="3.5" fill="rgba(255,210,80,0.9)"/>
+    <!-- 小花 -->
+    <circle cx="22" cy="63" r="5" fill="rgba(240,160,230,0.65)"/>
+    <circle cx="22" cy="58" r="3.5" fill="rgba(250,180,240,0.7)"/>
+    <circle cx="22" cy="63" r="2.5" fill="rgba(255,220,100,0.9)"/>
+  </svg>
+
+  <!-- 右侧花草 -->
+  <svg class="lbg-flowers-right" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 70 120 Q 72 95 65 75 Q 60 60 62 45" stroke="rgba(120,180,80,0.8)" stroke-width="2" fill="none"/>
+    <path d="M 45 120 Q 47 100 40 82 Q 35 68 38 54" stroke="rgba(100,170,70,0.7)" stroke-width="1.8" fill="none"/>
+    <path d="M 85 120 Q 86 102 80 85 Q 76 74 78 62" stroke="rgba(110,175,75,0.65)" stroke-width="1.5" fill="none"/>
+    <ellipse cx="57" cy="66" rx="14" ry="7" fill="rgba(100,180,80,0.6)" transform="rotate(30,57,66)"/>
+    <ellipse cx="74" cy="74" rx="12" ry="6" fill="rgba(120,190,90,0.5)" transform="rotate(-25,74,74)"/>
+    <circle cx="62" cy="43" r="8" fill="rgba(210,120,195,0.75)"/>
+    <circle cx="62" cy="35" r="5" fill="rgba(230,150,215,0.8)"/>
+    <circle cx="55" cy="41" r="5" fill="rgba(225,135,205,0.8)"/>
+    <circle cx="69" cy="41" r="5" fill="rgba(225,135,205,0.8)"/>
+    <circle cx="62" cy="43" r="4" fill="rgba(255,215,90,0.9)"/>
+    <circle cx="38" cy="52" r="7" fill="rgba(200,115,185,0.7)"/>
+    <circle cx="38" cy="45" r="4.5" fill="rgba(220,145,205,0.8)"/>
+    <circle cx="32" cy="50" r="4.5" fill="rgba(215,135,195,0.75)"/>
+    <circle cx="44" cy="50" r="4.5" fill="rgba(215,135,195,0.75)"/>
+    <circle cx="38" cy="52" r="3.5" fill="rgba(255,205,75,0.9)"/>
+    <circle cx="78" cy="60" r="5.5" fill="rgba(235,155,225,0.65)"/>
+    <circle cx="78" cy="54.5" r="3.5" fill="rgba(245,175,235,0.7)"/>
+    <circle cx="78" cy="60" r="2.5" fill="rgba(255,215,90,0.9)"/>
+  </svg>
+
+  <!-- 少女插画（紫色大衣、长发、招手） -->
+  <svg class="lbg-girl" viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="skinGrad" cx="50%" cy="35%" r="55%">
+        <stop offset="0%" stop-color="#ffeedd"/>
+        <stop offset="70%" stop-color="#f8d5b8"/>
+        <stop offset="100%" stop-color="#f0c0a0"/>
+      </radialGradient>
+      <linearGradient id="hairGrad" x1="0.3" y1="0" x2="0.7" y2="1">
+        <stop offset="0%" stop-color="#5a2080"/>
+        <stop offset="40%" stop-color="#3a1060"/>
+        <stop offset="100%" stop-color="#200840"/>
+      </linearGradient>
+      <radialGradient id="coatGrad" cx="45%" cy="35%" r="60%">
+        <stop offset="0%" stop-color="#d498f0"/>
+        <stop offset="60%" stop-color="#a855d8"/>
+        <stop offset="100%" stop-color="#7b2fb8"/>
+      </radialGradient>
+      <radialGradient id="hairShine" cx="40%" cy="20%" r="40%">
+        <stop offset="0%" stop-color="rgba(180,120,240,0.4)"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+
+    <!-- ── 后发（垂下来的长发，在身体后面） ── -->
+    <path d="M 78 72 Q 62 100 64 145 Q 66 170 72 195 Q 78 215 82 240 L 76 240 Q 70 215 64 193 Q 56 166 56 138 Q 54 105 74 65 Z"
+          fill="url(#hairGrad)" opacity="0.95"/>
+    <path d="M 142 72 Q 158 100 156 145 Q 154 170 148 195 Q 142 215 138 240 L 144 240 Q 150 215 156 193 Q 164 166 164 138 Q 166 105 146 65 Z"
+          fill="url(#hairGrad)" opacity="0.95"/>
+
+    <!-- ── 身体/大衣 ── -->
+    <path d="M 62 148 Q 52 185 50 260 L 170 260 Q 168 185 158 148 Q 138 132 110 132 Q 82 132 62 148 Z"
+          fill="url(#coatGrad)"/>
+    <!-- 大衣高光 -->
+    <path d="M 62 148 Q 68 158 72 185 Q 74 200 72 220" stroke="rgba(220,170,255,0.35)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M 100 135 Q 100 155 102 175" stroke="rgba(230,185,255,0.25)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- 内搭白衣 V领 -->
+    <path d="M 90 133 L 110 155 L 130 133 Q 122 128 110 127 Q 98 128 90 133 Z" fill="rgba(255,255,255,0.65)"/>
+    <path d="M 90 133 Q 95 130 110 128 Q 125 130 130 133" stroke="rgba(255,255,255,0.5)" stroke-width="0.8" fill="none"/>
+
+    <!-- ── 左臂（伸出招手） ── -->
+    <path d="M 62 152 Q 44 145 26 132 Q 18 125 22 118 Q 27 110 36 116 Q 44 122 54 132 Q 58 138 62 152"
+          fill="url(#coatGrad)"/>
+    <!-- 袖口 -->
+    <path d="M 26 130 Q 30 120 36 116" stroke="rgba(220,170,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- 手掌 -->
+    <ellipse cx="24" cy="120" rx="10" ry="12" fill="url(#skinGrad)"/>
+    <!-- 四根手指 -->
+    <path d="M 17 113 Q 14 105 16 100" stroke="#f8d5b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 21 110 Q 18 102 20 97" stroke="#f8d5b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 26 110 Q 24 102 26 97" stroke="#f8d5b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 30 113 Q 29 106 31 101" stroke="#f8d5b8" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- 大拇指 -->
+    <path d="M 14 120 Q 10 117 12 113 Q 14 110 17 113" stroke="#f8d5b8" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- 手掌高光 -->
+    <ellipse cx="23" cy="119" rx="5" ry="6" fill="rgba(255,245,235,0.3)"/>
+
+    <!-- ── 右臂（自然垂放） ── -->
+    <path d="M 158 152 Q 172 158 182 172 Q 188 180 182 186 Q 175 192 166 182 Q 158 172 156 158 Q 155 153 158 152"
+          fill="url(#coatGrad)"/>
+
+    <!-- ── 颈部 ── -->
+    <rect x="103" y="110" width="14" height="24" rx="7" fill="url(#skinGrad)"/>
+    <!-- 锁骨 -->
+    <path d="M 96 128 Q 103 124 110 126 Q 117 124 124 128" stroke="rgba(240,200,180,0.5)" stroke-width="1" fill="none"/>
+    <!-- 项链 -->
+    <path d="M 99 122 Q 110 129 121 122" stroke="rgba(230,200,120,0.85)" stroke-width="1.2" fill="none"/>
+    <circle cx="110" cy="129" r="2.2" fill="rgba(230,200,120,0.9)"/>
+
+    <!-- ── 脸 ── -->
+    <ellipse cx="110" cy="85" rx="27" ry="29" fill="url(#skinGrad)"/>
+    <!-- 脸部高光 -->
+    <ellipse cx="103" cy="78" rx="8" ry="10" fill="rgba(255,248,240,0.18)"/>
+    <!-- 腮红 -->
+    <ellipse cx="90" cy="93" rx="9" ry="6" fill="rgba(255,160,140,0.22)"/>
+    <ellipse cx="130" cy="93" rx="9" ry="6" fill="rgba(255,160,140,0.22)"/>
+
+    <!-- 眼白 -->
+    <ellipse cx="100" cy="86" rx="7.5" ry="8.5" fill="white"/>
+    <ellipse cx="120" cy="86" rx="7.5" ry="8.5" fill="white"/>
+    <!-- 虹膜 -->
+    <ellipse cx="100" cy="87" rx="5.5" ry="6.5" fill="rgba(55,20,80,0.95)"/>
+    <ellipse cx="120" cy="87" rx="5.5" ry="6.5" fill="rgba(55,20,80,0.95)"/>
+    <!-- 瞳孔 -->
+    <ellipse cx="100" cy="88" rx="3" ry="3.5" fill="rgba(20,5,35,0.98)"/>
+    <ellipse cx="120" cy="88" rx="3" ry="3.5" fill="rgba(20,5,35,0.98)"/>
+    <!-- 眼睛高光 -->
+    <circle cx="102" cy="85" r="2" fill="rgba(255,255,255,0.9)"/>
+    <circle cx="122" cy="85" r="2" fill="rgba(255,255,255,0.9)"/>
+    <circle cx="98" cy="89" r="1" fill="rgba(255,255,255,0.5)"/>
+    <circle cx="118" cy="89" r="1" fill="rgba(255,255,255,0.5)"/>
+    <!-- 上睫毛 -->
+    <path d="M 93 80 Q 100 75 107 80" stroke="rgba(30,5,50,0.9)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M 113 80 Q 120 75 127 80" stroke="rgba(30,5,50,0.9)" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- 眼睫毛小翘 -->
+    <path d="M 93 80 Q 90 77 92 75" stroke="rgba(30,5,50,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M 127 80 Q 130 77 128 75" stroke="rgba(30,5,50,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- 下眼线 -->
+    <path d="M 94 91 Q 100 94 106 91" stroke="rgba(200,160,150,0.3)" stroke-width="1" fill="none"/>
+    <path d="M 114 91 Q 120 94 126 91" stroke="rgba(200,160,150,0.3)" stroke-width="1" fill="none"/>
+
+    <!-- 鼻子（小巧） -->
+    <ellipse cx="110" cy="96" rx="2.5" ry="1.5" fill="rgba(220,170,140,0.35)"/>
+    <path d="M 107 97 Q 110 100 113 97" stroke="rgba(200,140,110,0.4)" stroke-width="1.2" fill="none"/>
+
+    <!-- 嘴巴 -->
+    <path d="M 104 105 Q 110 112 116 105" stroke="rgba(220,90,100,0.75)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M 106 106 Q 110 109 114 106" fill="rgba(235,110,120,0.35)"/>
+    <!-- 嘴角微扬 -->
+    <path d="M 104 105 Q 102 104 103 102" stroke="rgba(220,90,100,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M 116 105 Q 118 104 117 102" stroke="rgba(220,90,100,0.5)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+    <!-- ── 头发（前，盖在脸上边缘） ── -->
+    <!-- 发顶 -->
+    <path d="M 83 72 Q 86 45 110 38 Q 134 45 137 72 Q 128 58 110 56 Q 92 58 83 72 Z"
+          fill="url(#hairGrad)"/>
+    <!-- 刘海左 -->
+    <path d="M 83 72 Q 80 82 84 90 Q 86 68 96 62 Q 88 65 83 72 Z" fill="url(#hairGrad)"/>
+    <!-- 刘海右 -->
+    <path d="M 137 72 Q 140 82 136 90 Q 134 68 124 62 Q 132 65 137 72 Z" fill="url(#hairGrad)"/>
+    <!-- 发丝高光 -->
+    <path d="M 90 55 Q 105 44 122 50" stroke="url(#hairShine)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 88 62 Q 100 54 114 57" stroke="rgba(160,90,220,0.2)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- 耳朵 -->
+    <ellipse cx="83" cy="90" rx="5" ry="7" fill="url(#skinGrad)"/>
+    <ellipse cx="137" cy="90" rx="5" ry="7" fill="url(#skinGrad)"/>
+    <!-- 耳环（紫色水滴） -->
+    <circle cx="83" cy="96" r="3.5" fill="rgba(195,140,235,0.9)"/>
+    <ellipse cx="83" cy="103" rx="2.5" ry="4.5" fill="rgba(170,110,220,0.85)"/>
+    <circle cx="137" cy="96" r="3.5" fill="rgba(195,140,235,0.9)"/>
+    <ellipse cx="137" cy="103" rx="2.5" ry="4.5" fill="rgba(170,110,220,0.85)"/>
+  </svg>
+
+  <!-- 底部光晕平台 -->
+  <div class="lbg-glow-base"></div>
+
+  <!-- 登录内容 -->
   <div class="login-logo">亲语</div>
   <div class="login-sub">不在身边，也让父母感受到你的爱</div>
   <div class="login-card">
@@ -2005,7 +2385,6 @@ body {
   <div class="messages" id="messages"></div>
 
   <div class="input-area">
-    <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="按住说话">🎤</button>
     <input class="msg-input" id="msgInput"
       placeholder="跟孩子说说话…"
       onkeydown="handleKey(event)"
