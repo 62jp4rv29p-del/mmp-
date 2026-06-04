@@ -182,6 +182,20 @@ body {
   background: rgba(155,89,182,0.3);
   color: #fff;
 }
+.gender-tabs {
+  display: flex; gap: 10px;
+}
+.gender-tab {
+  flex: 1; padding: 11px 8px; border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.07);
+  font-size: 16px; font-weight: 700; color: var(--text-sub);
+  cursor: pointer; text-align: center; transition: all 0.2s;
+}
+.gender-tab.active {
+  border-color: #E91E8C;
+  background: rgba(233,30,140,0.2);
+  color: #fff;
+}
 .form-field { margin-bottom: 14px; }
 .form-field label { font-size: 14px; color: var(--text-sub); display: block; margin-bottom: 6px; }
 .form-input {
@@ -1531,6 +1545,14 @@ body {
       <label>您的称呼</label>
       <input class="form-input" id="loginName" type="text" placeholder="比如：小明、爸爸" oninput="checkLoginForm()">
     </div>
+    <!-- 父母专属：性别选择，决定气泡称呼 -->
+    <div class="form-field" id="genderField" style="display:none">
+      <label>我是</label>
+      <div class="gender-tabs">
+        <div class="gender-tab active" id="gender-mom" onclick="switchGender('mom')">👩 妈妈</div>
+        <div class="gender-tab" id="gender-dad" onclick="switchGender('dad')">👨 爸爸</div>
+      </div>
+    </div>
     <button class="login-btn" id="loginBtn" onclick="doLogin()" disabled>进入亲语</button>
     <div class="login-err" id="loginErr"></div>
   </div>
@@ -2828,7 +2850,10 @@ function pickPersonaFromHome(el, key, name) {
   };
   const nameEl = document.getElementById('ppGreetName');
   const textEl = document.getElementById('ppGreetText');
-  if (nameEl) nameEl.textContent = (currentUser?.child_name ? currentUser.child_name : '孩子') + ' 说';
+  if (nameEl) {
+    const title = currentUser?.gender === 'dad' ? '爸爸' : '妈妈';
+    nameEl.textContent = title + '～';
+  }
   if (textEl) textEl.textContent = greetings[key] || greetings.warmth;
 }
 
@@ -3512,13 +3537,22 @@ function showPage(pageId) {
 // ══════════════════════════════════
 // 登录/注册
 // ══════════════════════════════════
-let loginRole = 'child';
+let loginRole   = 'child';
+let loginGender = 'mom';  // mom | dad
 
 function switchRole(role) {
   loginRole = role;
   document.getElementById('tab-child').classList.toggle('active', role === 'child');
   document.getElementById('tab-parent').classList.toggle('active', role === 'parent');
+  // 父母身份才显示性别选择
+  document.getElementById('genderField').style.display = role === 'parent' ? 'block' : 'none';
   checkLoginForm();
+}
+
+function switchGender(gender) {
+  loginGender = gender;
+  document.getElementById('gender-mom').classList.toggle('active', gender === 'mom');
+  document.getElementById('gender-dad').classList.toggle('active', gender === 'dad');
 }
 
 function checkLoginForm() {
@@ -3546,6 +3580,10 @@ async function doLogin() {
     if (!res.ok) { err.textContent = data.error || '登录失败'; btn.disabled = false; btn.textContent = '进入亲语'; return; }
 
     currentUser = data;
+    // 父母登录时记录性别（妈妈/爸爸）
+    if (loginRole === 'parent') {
+      currentUser.gender = loginGender;
+    }
     localStorage.setItem('qinyu_user', JSON.stringify(currentUser));
 
     if (loginRole === 'child') {
@@ -3661,7 +3699,10 @@ function enterParentHome() {
   } else {
     // 已绑定 → 更新父母主页的问候语，初始化默认头像，再拉关怀
     const nameEl = document.getElementById('ppGreetName');
-    if (nameEl) nameEl.textContent = (currentUser.name || '妈妈') + '～';
+    if (nameEl) {
+      const title = currentUser.gender === 'dad' ? '爸爸' : '妈妈';
+      nameEl.textContent = title + '～';
+    }
     // 显示默认角色（暖心宝贝）的真实头像
     const defaultKey = persona || 'warmth';
     const bigPhoto = document.getElementById('ppBigPhoto');
